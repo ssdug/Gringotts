@@ -1,14 +1,32 @@
 # Gringotts Financial [![Build status](https://ci.appveyor.com/api/projects/status/r26bfloq6gl2b7r8?svg=true)](https://ci.appveyor.com/project/NotMyself/gringotts)
 
-![Gringotts](/docs/images/gringotts.jpg?raw=true "Gringotts")
+![Gringotts](/docs/images/gringotts_wide.jpg?raw=true "Gringotts")
 
 ## TOC
 
- - [About](#about)
+ - [Contract for Magical Financial Management](#contract-for-magical-financial-management)
  - [Getting Started](#getting-started)
  - [External Dependencies](#external-dependencies)
 
-### About
+
+### Contract for Magical Financial Management
+
+The Ministry of Magic hereby agrees to engage Gringotts Wizarding Bank of England for 
+their unapparelled services in managing funds for all of its branches that provide 
+services to the Magical Community.
+
+The Ministry shall entrust the skilled Goblins of Gringotts to care for the wizarding
+gold for it’s educational institution, Hogwarts School of Witchcraft and Wizardry, to
+see that student accounts are safe and secure. 
+
+In addition, Gringotts will manage the funds used for the running of Azkaban Wizard
+Prison to ensure that individuals who’ve broken magical law are kept safely away from
+the Magical Community and are property cared for during their incarceration. 
+
+Gringotts shall also manage the gold used for all magical health and welfare serves
+provided by the Ministry including St. Mungo’s Hospital for Magical Maladies and
+Injuries, the Ariana Dumbledore Mental Health Institution, the Argus Flitch Home for
+Squibs and the Tom Riddle Memorial Orphanage. 
 
 
 
@@ -28,3 +46,12 @@
 ### External Dependencies
 
 1. [Autofac](https://autofac.org/) - Dependency Intection framework used for service and plugin registration
+1. [ImageResizer](https://imageresizing.net/)
+1. [MediatR](https://github.com/jbogard/MediatR)
+1. [NLog](http://nlog-project.org/)
+1. [Glimpse](http://getglimpse.com/)
+1. [jQuery](https://jquery.com/)
+1. [lodash](https://lodash.com/)
+1. [mustache.js](https://mustache.github.io/)
+1. [Bootstrap](http://getbootstrap.com/)
+1. [FontAwesome](http://fontawesome.io/)
