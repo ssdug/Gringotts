@@ -7,6 +7,7 @@
  - [Contract for Magical Financial Management](#contract-for-magical-financial-management)
  - [Getting Started](#getting-started)
  - [External Dependencies](#external-dependencies)
+ - [Platform Dependencies](#platform-dependencies)
 
 
 ### Contract for Magical Financial Management
@@ -52,3 +53,9 @@ Squibs and the Tom Riddle Memorial Orphanage.
 1. [mustache.js](https://mustache.github.io/) - Logic-less client side templates
 1. [Bootstrap](http://getbootstrap.com/) - Bootstrap is the most popular HTML, CSS, and JS framework
 1. [FontAwesome](http://fontawesome.io/) - Font Awesome gives you scalable vector icons that can instantly be customized
+
+### Platform Dependencies
+
+1. [ASP.NET MVC](https://www.asp.net/mvc)
+1. [Entity Framework](https://msdn.com/data/ef)
+1. [MS Test](https://www.visualstudio.com/en-us/docs/test/developer-testing/index)
