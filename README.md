@@ -1,4 +1,4 @@
-# Gringotts Financial 
+# Gringotts Financial [![Build status](https://ci.appveyor.com/api/projects/status/r26bfloq6gl2b7r8?svg=true)](https://ci.appveyor.com/project/NotMyself/gringotts)
 
 ![Gringotts](/docs/images/gringotts.jpg?raw=true "Gringotts")
 
