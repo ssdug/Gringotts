@@ -1,0 +1,94 @@
+﻿@model Wiz.Gringotts.UIWeb.Models.Restitution.RestitutionOrderEditorForm
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new {name = "restitutionOrderEditor", id = "restitutionOrderEditor"}))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m => m.ClientId)
+    @Html.HiddenFor(m => m.OrderId)
+
+    <fieldset>
+        <legend>Details</legend>
+        <div class="form-group">
+            <label class="control-label" for="OrderNumber">Court/Cause or Prop <u>D</u>amage #</label>
+            @Html.EditorFor(m => m.OrderNumber, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.OrderNumber, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.CheckBoxFor(model => model.IsPropertyDamage, new { @class = "toggle pull-right", data_size = "mini", data_on_text = "Yes", data_off_text = "No" })
+            <u>F</u>acility Property Damage
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="Amount">Total <u>A</u>mount of Restitution</label>
+            <div class="input-group">
+                <div class="input-group-addon"><span class="fa fa-dollar"></span></div>
+                @Html.EditorFor(m => m.Amount, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+        </div>
+        @if (Model.OrderId.HasValue)
+        {
+            <div class="form-group">
+                <label class="control-label" for="Ballance">Total <u>B</u>allance of Restitution</label>
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="fa fa-dollar"></span></div>
+                    @Html.EditorFor(m => m.Ballance, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                @Html.ValidationMessageFor(model => model.Ballance, "", new { @class = "text-danger" })
+            </div>
+
+        }
+        <div class="form-group">
+            <label class="control-label" for="Withholding">Payroll <u>W</u>ithholding %</label>
+            @Html.EditorFor(m => m.Withholding, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Withholding, "", new { @class = "text-danger" })
+        </div>
+        <div id="payeeEditor" data-remote-url="@Url.Action("Index", "Payees", new {type = "court,facility", fields = "id,name,displayaddress,types", search = "%QUERY"})">
+            <div class="form-group has-feedback">
+                <label class="control-label" for="PayeeName"><u>P</u>ayee</label>
+                <div class="">
+                    @Html.HiddenFor(model => model.PayeeId)
+                    <input class="form-control text-box single-line"
+                           data-val="true"
+                           data-val-payee="Invalid Selection"
+                           data-val-required="The Payee field is required."
+                           id="PayeeName" name="PayeeName" type="text" value="@Model.PayeeName">
+                    <i class="form-control-feedback text-muted glyphicon glyphicon-cog spin hidden"></i>
+                    @Html.ValidationMessageFor(model => model.PayeeId, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.PayeeName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="Comments"><u>C</u>omments</label>
+            @Html.TextAreaFor(model => model.Comments, new {@class = "form-control", rows = 5})
+            @Html.ValidationMessageFor(model => model.Comments, "", new {@class = "text-danger"})
+        </div>
+    </fieldset>
+    if (Model.OrderId.HasValue)
+    {
+
+
+         <fieldset>
+             <legend>Resolution</legend>
+             <div class="form-group">
+                 <label class="control-label" for="Comments">Satisfied <u>R</u>eason</label>
+                 @Html.TextAreaFor(model => model.SatisfiedReason, new {@class = "form-control", rows = 5})
+                 @Html.ValidationMessageFor(model => model.SatisfiedReason, "", new {@class = "text-danger"})
+             </div>
+             <label class="checkbox-inline">
+                 @Html.CheckBoxFor(model => model.IsSatisfied, new {@class = "toggle pull-right", data_size = "mini", data_on_text = "Yes", data_off_text = "No"})
+                 Res<u>t</u>itution Satisfied
+             </label>
+         </fieldset>
+     }
+    <hr />
+    <div class="form-group">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <button type="submit" class="btn btn-primary" id="save"><span class="fa fa-save"></span> <u>S</u>ave</button>
+                <button type="button" class="btn btn-default" id="cancel"><span class="fa fa-trash"></span> <u>C</u>ancel</button>
+            </div>
+        </div>
+    </div>
+}

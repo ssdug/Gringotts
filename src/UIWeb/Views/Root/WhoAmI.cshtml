@@ -1,0 +1,162 @@
+﻿@using System.DirectoryServices.AccountManagement
+@using System.Security.Principal
+@using Wiz.Gringotts.UIWeb.Infrastructure.Extensions
+@using Glimpse.Core.Extensions
+@model string
+
+@{
+    var context = new PrincipalContext(ContextType.Domain);
+    var user = UserPrincipal.FindByIdentity(context, Model);
+}
+
+
+<div class="row">
+    <h3 class="sub-header">
+        @if (user == null)
+        {
+            @Html.Raw("User Not Found")
+        }
+        else
+        {
+            @user.DisplayName
+        }
+
+
+        @using (Html.BeginForm("WhoAmI", "Root", FormMethod.Get, new { id = "user-search", role = "form", @class = "form-inline pull-right" }))
+        {
+            <div class="form-group">
+                <div class="input-group">
+                    <label class="sr-only" for="username">User</label>
+                    <div class="input-group-addon"><span class="fa fa-user"></span></div>
+                    <input class="form-control input-sm" type="text" id="username" name="username" placeholder="alt-s to Search for User"
+                           data-val="true" data-val-regex="Invalid Username" data-val-regex-pattern="^[a-zA-Z]+$"
+                           data-val-required="The username is required." />
+                </div>
+            </div>
+            <button type="submit" class="btn btn-sm btn-primary"><span class="fa fa-search"></span></button>
+        }
+    </h3>
+    @if (user == null)
+    {
+        <div class="alert alert-info" role="alert">
+            <p>
+                The user "@Model" was not found in Active Directory.
+            </p>
+        </div>
+    }
+    else
+    {
+        <div role="tabpanel">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#user-info" aria-controls="user-info" role="tab" data-toggle="tab"><u>U</u>ser Info</a></li>
+                <li role="presentation"><a href="#ad-groups" aria-controls="ad-groups" role="tab" data-toggle="tab">AD <u>G</u>roups</a></li>
+                <li role="presentation"><a href="#ad-properties" aria-controls="ad-properties" role="tab" data-toggle="tab">AD <u>P</u>roperties</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="user-info">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">User Info</h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                @{
+                                    var properties = user.GetProperties();
+                                }
+                                <li class="list-group-item"><strong>First Name:</strong> @user.GivenName</li>
+                                <li class="list-group-item"><strong>Last Name:</strong> @user.Surname</li>
+                                <li class="list-group-item"><strong>Phone Number:</strong> @user.VoiceTelephoneNumber</li>
+                                <li class="list-group-item"><strong>Email Address:</strong> @user.EmailAddress</li>
+                                <li class="list-group-item"><strong>Company:</strong> @properties.GetValueOrDefault("company", string.Empty)</li>
+                                <li class="list-group-item"><strong>Title:</strong> @properties.GetValueOrDefault("title", string.Empty)</li>
+                                <li class="list-group-item"><strong>Department:</strong> @properties.GetValueOrDefault("department", string.Empty)</li>
+                                <li class="list-group-item"><strong>Street Address:</strong> @properties.GetValueOrDefault("streetAddress", string.Empty)</li>
+                                <li class="list-group-item"><strong>City:</strong> @properties.GetValueOrDefault("l", string.Empty)</li>
+                                <li class="list-group-item"><strong>State:</strong> @properties.GetValueOrDefault("st", string.Empty)</li>
+                                <li class="list-group-item"><strong>Physical Delivery Office Name:</strong> @properties.GetValueOrDefault("physicalDeliveryOfficeName", string.Empty)</li>
+
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="ad-groups">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">AD Groups</h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                @{
+                                    var wp = new WindowsPrincipal(new WindowsIdentity(user.SamAccountName));
+                                    var securityGroups = user.GetGroups()
+                                        .Where(g => wp.IsInRole(g.Name));
+                                }
+                                @foreach (var group in securityGroups)
+                                {
+                                    <li class="list-group-item">@group.Name</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="ad-properties">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">All Active Directory Properties</h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                @foreach (var prop in user.GetProperties())
+                                {
+                                    <li class="list-group-item"><strong>@prop.Key:</strong> @prop.Value</li>
+
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script language="javascript" type="text/javascript">
+        $.validator.setDefaults({
+            showErrors: function (errorMap, errorList) {
+                this.defaultShowErrors();
+
+                // destroy tooltips on valid elements                              
+                $("." + this.settings.validClass).tooltip("destroy");
+
+                // add/update tooltips 
+                for (var i = 0; i < errorList.length; i++) {
+                    var error = errorList[i];
+
+                    var id = '#' + error.element.id;
+                    $(id)
+                        .tooltip()
+                        .attr('data-tooltip', 'tooltip-danger')
+                        .attr('data-original-title', error.message);
+                }
+            }
+        });
+
+        $(function () {
+            $("[data-toggle=\"tooltip\"]").tooltip();
+
+            $(document)
+                .bind("keydown", "ctrl-s", function(e) {
+                    e.preventDefault();
+                    $('#user-search input:first').focus();
+                })
+                .bind("keyup", "u", function () { $('.nav-tabs a[href="#user-info"]').tab('show'); })
+                .bind("keyup", "g", function () { $('.nav-tabs a[href="#ad-groups"]').tab('show'); })
+                .bind("keyup", "p", function () { $('.nav-tabs a[href="#ad-properties"]').tab('show') });
+        });
+    </script>
+}

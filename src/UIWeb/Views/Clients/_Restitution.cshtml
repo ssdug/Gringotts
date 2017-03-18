@@ -1,0 +1,70 @@
+﻿@using Wiz.Gringotts.UIWeb.Models.Accounts
+@model Wiz.Gringotts.UIWeb.Models.Clients.ClientDetails
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Restitution Orders
+    </div>
+
+    <table id="restitution-orders-table" class="table table-condensed table-responsive table-striped table-hover">
+        <thead>
+        <tr>
+            <th class="col-md-2">Court/Cause #</th>
+            <th class="col-md-2">Type</th>
+            <th class="col-md-4">Owed To</th>
+            <th class="col-md-1">Total</th>
+            <th class="col-md-1">Balance</th>
+            <th class="col-md-2">Actions</th>
+
+        </tr>
+        </thead>
+        <tbody>
+            @if (Model.Orders.Any())
+            {
+                for (int i = 0; i < Model.Orders.Length; i++)
+                {
+                    var order = Model.Orders[i];
+                    <tr>
+                        <td>@order.OrderNumber</td>
+                        <td>@(order.IsPropertyDamage ? "Property Damage" : "Restitution Order" )</td>
+                        <td>@order.Payee.Name</td>
+                        <td>@Html.DisplayFor(m => m.Orders[i].Total)</td>
+                        <td>@Html.DisplayFor(m => m.Orders[i].Balance)</td>
+                        <td>
+                            <div class="text-center">
+                                <a class="btn btn-xs btn-primary" href="@Url.Action("Show", "Restitution", new {id = Model.Orders[i].Id})">Select</a>
+                                <a class="btn btn-xs btn-default" href="@Url.Action("Edit", "Restitution", new {id = Model.Orders[i].Id})">Edit</a>
+                                @{ var account = Model.Accounts.First(a => a.AccountType.Name == AccountType.Restitution);}
+                                <a class="btn btn-xs btn-default" href="@Url.Action("Create", "Expenses", new { id = account.Id, orderId = Model.Orders[i].Id})">Payment</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="alert alert-warning">
+                                    Client has no current restitution orders.
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="pull-right">
+                    <a class="btn btn-default" id="add" href="@Url.Action("Create", "Restitution", new {id = Model.Client.Id})"><span class="fa fa-plus"></span> <u>A</u>dd</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

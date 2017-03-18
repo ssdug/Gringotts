@@ -1,0 +1,217 @@
+﻿@using Wiz.Gringotts.UIWeb.Models.Features
+@using NExtensions
+@model Wiz.Gringotts.UIWeb.Models.Clients.ClientDetails
+
+@{
+    ViewBag.Title = "Clients - {0}".FormatWith(Model.DisplayName);
+}
+<div role="tabpanel">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#client-info" aria-controls="client-info" role="tab" data-toggle="tab"><span class=" fa fa-group"></span> <u>C</u>lient Info</a></li>
+        @if (Model.Residency.Attorneys.Any())
+        {
+            <li role="presentation"><a href="#attorneys" aria-controls="attorneys" role="tab" data-toggle="tab"><span class=" fa fa-truck"></span> A<u>t</u>torneys</a></li>
+        }
+        @if (Model.Residency.Guardians.Any())
+        {
+            <li role="presentation"><a href="#guardians" aria-controls="guardians" role="tab" data-toggle="tab"><span class=" fa fa-truck"></span> <u>G</u>uardians</a></li>
+        }
+        <li role="presentation"><a href="#identifiers" aria-controls="identifiers" role="tab" data-toggle="tab"><span class=" fa fa-key"></span> <u>I</u>dentifiers</a></li>
+        @if (ViewBag.Features.IsEnabled(Feature.Restitution))
+        {
+            <li role="presentation"><a href="#restitution" aria-controls="restitution" role="tab" data-toggle="tab"><span class=" fa fa-gavel"></span> <u>R</u>estitution</a></li>
+        }
+    </ul>
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="client-info">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Details for @Model.DisplayName</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            @if (Model.Client.ImageId.HasValue)
+                            {
+                                <img src="@Url.Action("Index", "Files", new {id = Model.Client.ImageId})" class="img-responsive img-thumbnail center-block" alt="@Model.DisplayName"/>
+                            }
+                            else
+                            {
+                                <img src="~/Content/Images/no-profile.jpg" class="img-responsive img-thumbnail center-block" alt="@Model.DisplayName"/>
+                            }
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <strong>Name:</strong> @Model.DisplayName
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>Living Unit:</strong> @(Model.Residency.LivingUnit != null ? Model.Residency.LivingUnit.Name : string.Empty ) 
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="comments">@Model.Client.Comments</div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div>
+                                        @if (Model.CreatedBy != null)
+                                        {
+                                            <strong>Created:</strong>
+                                            <a href="mailto:@Model.CreatedBy.EmailAddress">@Model.CreatedBy.LastName, @Model.CreatedBy.FirstName</a>
+                                            @Model.Client.Created.ToShortDateString()
+                                        }
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>
+                                        @if (Model.UpdatedBy != null)
+                                        {
+                                            <strong>Updated:</strong>
+                                            <a href="mailto:@Model.UpdatedBy.EmailAddress">@Model.UpdatedBy.LastName, @Model.UpdatedBy.FirstName</a>
+                                            @Model.Client.Updated.ToShortDateString()
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if (Model.Client.HasClientProperty)
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <br/>
+                                <div class="alert alert-info" role="alert">This client has property stored on site.</div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="pull-right">
+                                <a class="btn btn-default" id="transfer" href="@Url.Action("Client","Transfers", new {id = Model.Client.Id})"><span class="fa fa-exchange"></span> Transfer</a>
+                                <a class="btn btn-default" id="edit" href="@Url.Action("Edit", new {id = Model.Client.Id})"><span class="fa fa-pencil"></span> <u>E</u>dit</a>
+                                <a class="btn btn-danger" href="@Url.Action("Toggle", new {id = Model.Client.Id})"><span class="fa fa-warning"></span> @(Model.Client.Residencies.First(r => r.OrganizationId == ViewBag.Organization.Id).IsActive ? "Deactivate" : "Activate")</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <table id="client-accounts-table" class="table table-responsive table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th class="col-md-2">Name</th>
+                        <th class="col-md-2">Bank Account</th>
+                        <th class="col-md-2">Balance</th>
+                        <th class="col-md-2">Encumbered</th>
+                        <th class="col-md-1">Available</th>
+                        <th class="col-md-3 text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @if (Model.Accounts.Any())
+                {
+                    for (int i = 0; i < Model.Accounts.Count(); i++)
+                    {
+                        <tr>
+                            <td>@Model.Accounts[i].Name</td>
+                            <td>@Model.Accounts[i].BankNumber</td>
+                            <td>@Html.DisplayFor(m => m.Accounts[i].Total)</td>
+                            <td>@Html.DisplayFor(m => m.Accounts[i].Encumbered)</td>
+                            <td>@Html.DisplayFor(m => m.Accounts[i].Available)</td>
+                            <td>
+                                <div class="text-center">
+                                    <a class="btn btn-xs btn-primary" href="@Url.Action("Show", "Accounts", new {id = Model.Accounts[i].Id})">Select</a>
+                                    <a class="btn btn-xs btn-default" href="@Url.Action("Edit", "Accounts", new {id = Model.Accounts[i].Id})">Edit</a>
+                                    <a class="btn btn-xs btn-default" id="receipt" href="@Url.Action("Create", "Receipts", new {id = Model.Accounts[i].Id})">Receipt</a>
+                                    <a class="btn btn-xs btn-default" id="expense" href="@Url.Action("Create", "Expenses", new {id = Model.Accounts[i].Id})">Expense</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                </tbody>
+                @if (Model.Accounts.Any())
+                {
+                    <tfoot>
+                        <tr class="h4">
+                            <td>Totals</td>
+                            <td></td>
+                            <td>@Model.Accounts.Sum(a => a.Total).ToString("C")</td>
+                            <td>@Model.Accounts.Sum(a => a.Encumbered).ToString("C")</td>
+                            <td>@Model.Accounts.Sum(a => a.Available).ToString("C")</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                }
+            </table>
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="attorneys">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Attorneys</h3>
+                </div>
+                <div class="panel-body">
+                    @foreach (var item in Model.Residency.Attorneys)
+                    {
+                        <div class="list-group col-md-6">
+                            <a href="@Url.Action("Show", "Payees", new {id = item.Id})" class="list-group-item">
+                                <h4 class="list-group-item-heading">@item.Name <span class="fa fa-truck pull-right"></span></h4>
+                                <p class="list-group-item-text">@item.DisplayAddress</p>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="guardians">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Guardians</h3>
+                </div>
+                <div class="panel-body">
+                    @foreach (var item in Model.Residency.Guardians)
+                    {
+                    <div class="list-group col-md-6">
+                        <a href="@Url.Action("Show", "Payees", new {id = item.Id})" class="list-group-item">
+                            <h4 class="list-group-item-heading">@item.Name <span class="fa fa-truck pull-right"></span></h4>
+                            <p class="list-group-item-text">@item.DisplayAddress</p>
+                        </a>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="identifiers">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Identifiers</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        @foreach (var item in Model.Client.Identifiers)
+                        {
+                        <li class="list-group-item"><strong>@item.ClientIdentifierType.Name:</strong> @item.Display()</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="restitution">
+            @Html.Partial("_Restitution", Model)
+        </div>
+    </div>
+</div>
+   
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/Modules/client.detail.js")
+}

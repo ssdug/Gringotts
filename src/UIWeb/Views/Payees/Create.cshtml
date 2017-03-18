@@ -1,0 +1,20 @@
+﻿@model Wiz.Gringotts.UIWeb.Models.Payees.PayeeEditorForm
+
+@{
+    ViewBag.Title = "Add New Payee";
+}
+
+@Html.Partial("_ModelErrors")
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Add New Payee</h3>
+    </div>
+    <div class="panel-body">
+        @Html.EditorForModel()
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/Scripts/Modules/payee.editor.js")
+}

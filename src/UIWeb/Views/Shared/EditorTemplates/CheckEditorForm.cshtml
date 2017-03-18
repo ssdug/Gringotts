@@ -1,0 +1,94 @@
+﻿@model Wiz.Gringotts.UIWeb.Models.Checks.CheckEditorForm
+
+@if (Model.WasPrinted)
+{
+    <div class="alert alert-warning" role="alert">
+        <span class="fa fa-warning"> </span> <strong>The check has been printed.</strong> If you want to reprint the check, please enter a new check number.
+    </div>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <fieldset>
+            
+            @Html.HiddenFor(model => model.CheckId)
+            @Html.HiddenFor(model => model.PaidTo)
+            @Html.HiddenFor(model => model.Amount)
+            @Html.HiddenFor(model => model.Memo)
+            @Html.HiddenFor(model => model.PreparedBy)
+            @Html.HiddenFor(model => model.TransactionId)
+            @Html.HiddenFor(model => model.TransactionBatchId)
+            @Html.HiddenFor(model => model.AccountId)
+            @Html.HiddenFor(model => model.FundId)
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-3 text-right" for="PayTo">Pay to the order of</label>
+                        <div class="col-sm-3 text-left">
+                            @Html.DisplayFor(model => model.PaidTo)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-3 text-right" for="Amount">Amount</label>
+                        <div class="text-left col-sm-2">
+                            <span class="fa fa-dollar text-left"></span>
+                            @Html.DisplayFor(model => model.Amount)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="CheckNumber">Check Number</label>
+                        <div class="col-sm-3">
+                            @Html.EditorFor(model => model.CheckNumber, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.CheckNumber, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-3 text-right" for="PreparedBy">Memo</label>
+                        <div class="col-sm-5 text-left">
+                            @Html.DisplayFor(model => model.Memo)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-3 text-right" for="PreparedBy">Prepared By</label>
+                        <div class="col-sm-5 text-left">
+                            @Html.DisplayFor(model => model.PreparedBy)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>  
+     <hr />
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="pull-right">
+                    <button type="submit" value="Print" name="Action" class="btn btn-default" id="submit"><span class="fa fa-print"></span> <u>P</u>rint</button>
+                    @if (Model.WasPrinted)
+                    {
+                        <button type="submit" value="View" name="Action" class="btn btn-default" id="View"><span class="fa fa-print"></span> <u>V</u>iew</button>
+                    }
+                    <button type="submit" value="Cancel" name="Action" class="btn btn-default" id="cancel" onclick="window.close();"><span class="fa fa-trash"></span> <u>C</u>ancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}

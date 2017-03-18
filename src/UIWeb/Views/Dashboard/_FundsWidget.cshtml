@@ -1,0 +1,49 @@
+﻿@model Wiz.Gringotts.UIWeb.Models.Dashboard.FundsWidget
+
+@if (Model.Funds.Any())
+{
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Model.Title</h3>
+            </div>
+
+            <table class="table table-hover table-striped table-condensed">
+                <thead>
+                <tr>
+                    <th class="col-md-2">Code</th>
+                    <th class="col-md-4">Available</th>
+                    <th class="col-md-6">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var fund in Model.Funds)
+                {
+                    <tr>
+                        <td>@fund.Code</td>
+                        <td>@fund.Available.ToString("C")</td>
+                        <td>
+                            <a class="btn btn-xs btn-primary" href="@Url.Action("Show", "Funds", new {id = fund.Id})">Select</a>
+                            <div class="btn-group">
+                                <a class="btn btn-xs btn-default" href="@Url.Action("BatchCreate", "Expenses", new {id = fund.Id})">Batch</a>
+                                <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a href="@Url.Action("BatchCreate", "Expenses", new {id = fund.Id})">Expenses</a></li>
+                                    <li><a href="@Url.Action("BatchCreate", "Receipts", new {id = fund.Id})">Receipts</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+
+            <div class="panel-footer">
+                @Html.ActionLink("View All", "Index", "Funds",null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}

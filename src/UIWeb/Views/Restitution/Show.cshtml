@@ -1,0 +1,107 @@
+﻿@using Wiz.Gringotts.UIWeb.Models.Accounts
+@model Wiz.Gringotts.UIWeb.Models.Restitution.RestitutionOrderDetails
+
+@{
+    ViewBag.Title = "Restitution Order Details";
+}
+
+<div role="tabpanel">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#details" aria-controls="details" role="tab" data-toggle="tab"><span class="fa fa-gavel"></span> <u>D</u>etails</a></li>
+        <li role="presentation"><a href="#payments" aria-controls="payments" role="tab" data-toggle="tab"><u>P</u>ayments</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="details" role="tabpanel" class="tab-pane fade in active">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Restitution Order Details</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-group">
+                                <li class="list-group-item"><strong>Court/Cause #:</strong> @Model.Order.OrderNumber</li>
+                                <li class="list-group-item"><strong>Restitution Type:</strong> @(Model.Order.IsPropertyDamage ? "Property Damage" : "Restitution Order" )</li>
+                                <li class="list-group-item"><strong>Withholding %:</strong> @Model.Order.WithholdingPercent</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-group">
+                                <li class="list-group-item"><strong>Payee:</strong> @Model.Order.Payee.Name</li>
+                                <li class="list-group-item"><strong>Address:</strong> @Model.Order.Payee.DisplayAddress</li>
+                                <li class="list-group-item"><strong>Total:</strong> @Html.DisplayFor(m => m.Order.Total)</li>
+                                <li class="list-group-item"><strong>Balance:</strong> @Html.DisplayFor(m => m.Order.Balance)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12"><strong>Comments</strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="comments">@Model.Order.Comments</div>
+                        </div>
+                    </div>
+                    @if (Model.Order.IsSatified)
+                    {
+                        <div class="row">
+                            <div class="col-md-12"><strong>Satisfied Reason</strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="comments">@Model.Order.SatisfiedReason</div>
+                            </div>
+                        </div>
+                    }
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div>
+                                @if (Model.CreatedBy != null)
+                                {
+                                    <strong>Created:</strong>
+                                    <a href="mailto:@Model.CreatedBy.EmailAddress">@Model.CreatedBy.LastName, @Model.CreatedBy.FirstName</a>
+                                    @Model.Order.Created.ToShortDateString()
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div>
+                                @if (Model.UpdatedBy != null)
+                                {
+                                    <strong>Updated:</strong>
+                                    <a href="mailto:@Model.UpdatedBy.EmailAddress">@Model.UpdatedBy.LastName, @Model.UpdatedBy.FirstName</a>
+                                    @Model.Order.Updated.ToShortDateString()
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="pull-right">
+                                <a class="btn btn-default" id="edit" href="@Url.Action("Edit", new {id = Model.Order.Id})"><span class="fa fa-pencil"></span> <u>E</u>dit</a>
+                                @if (!Model.Order.IsSatified)
+                                {
+                                    var account = Model.Order.Residency.Accounts.First(a => a.AccountType.Name == AccountType.Restitution);
+                                    <a class="btn btn-default" id="payment" href="@Url.Action("Create", "Expenses", new { id = account.Id, orderId = Model.Order.Id})"> <u>M</u>ake Payment</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="payments" role="tabpanel" class="tab-pane fade in">
+            @Html.Partial("_Transactions", Model)
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/Modules/restitution.detail.js")
+}

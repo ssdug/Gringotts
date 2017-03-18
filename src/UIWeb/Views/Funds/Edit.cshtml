@@ -1,0 +1,26 @@
+﻿@using NExtensions
+@model Wiz.Gringotts.UIWeb.Models.Funds.FundEditorForm
+
+@{
+    ViewBag.Title = "Edit Fund";
+
+    if (Model.Fund != null)
+    {
+        ViewBag.Title += " to {0}".FormatWith(Model.Fund.Name);
+    }
+}
+
+@Html.Partial("_ModelErrors")
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Edit Fund</h3>
+    </div>
+    <div class="panel-body">
+        @Html.EditorForModel()
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/Scripts/Modules/fund.editor.js")
+}

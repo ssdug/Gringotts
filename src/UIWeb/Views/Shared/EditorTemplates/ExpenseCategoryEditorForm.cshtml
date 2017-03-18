@@ -1,0 +1,35 @@
+﻿@model Wiz.Gringotts.UIWeb.Models.ExpenseCategories.ExpenseCategoryEditorForm
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "expenseCategoryEditor", id = "expenseCategoryEditor" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("return_url")
+
+    <div class="form-horizontal">
+        <fieldset>
+            <legend>Details</legend>
+            @Html.HiddenFor(model => model.ExpenseCategoryId)
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="Name"><u>N</u>ame</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-primary" id="save"><span class="fa fa-save"></span> <u>S</u>ave</button>
+                    <button type="submit" class="btn btn-default" id="continue" data-url="@Request.Url.PathAndQuery"><span class="fa fa-save"></span> Save & Continue</button>
+                    <button type="button" class="btn btn-default" id="cancel"><span class="fa fa-trash"></span> <u>C</u>ancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

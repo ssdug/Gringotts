@@ -1,0 +1,35 @@
+﻿@using Wiz.Gringotts.UIWeb.Models.Accounts
+@model Wiz.Gringotts.UIWeb.Models.Accounts.AccountDetails
+
+
+@{
+    ViewBag.Title = "Accounts";
+}
+
+<div role="tabpanel">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#details" aria-controls="details" role="tab" data-toggle="tab"><span class=" fa fa-suitcase"></span> <u>D</u>etails</a></li>
+        <li role="presentation"><a href="#transactions" aria-controls="transactions" role="tab" data-toggle="tab"><span class=" fa fa-exchange"></span> <u>T</u>ransactions</a></li>
+
+    </ul>
+    <div class="tab-content">
+        <div id="details" class="tab-pane fade in active" role="tabpanel">
+            @if (Model.Account is ClientAccount)
+            {
+                @Html.Partial("_ClientAccountDetails", Model)
+            }
+            else
+            {
+                @Html.Partial("_AccountDetails", Model)
+            }
+        </div>
+        <div id="transactions" class="tab-pane fade in">
+            @Html.Partial("_Transactions", Model)
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/Modules/account.detail.js")
+}

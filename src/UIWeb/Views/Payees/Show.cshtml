@@ -1,0 +1,89 @@
+﻿@model Wiz.Gringotts.UIWeb.Models.Payees.PayeeDetails
+
+@{
+    ViewBag.Title = "Payee Details";
+}
+
+<div role="tabpanel">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#payee-info" aria-controls="payee-info" role="tab" data-toggle="tab"><span class=" fa fa-truck"></span> <u>P</u>ayee Info</a></li>
+        @if (Model.AttorneyClients.Any())
+        {
+            <li role="presentation"><a href="#attorneys" aria-controls="attorneys" role="tab" data-toggle="tab"><span class=" fa fa-group"></span> <u>A</u>ttorney Clients</a></li>
+        }
+        @if (Model.GuardianClients.Any())
+        {
+            <li role="presentation"><a href="#guardians" aria-controls="guardians" role="tab" data-toggle="tab"><span class=" fa fa-group"></span> <u>G</u>uardian Clients</a></li>
+        }
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="payee-info">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Payee Details</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="list-group">
+                                <li class="list-group-item"><strong>Name:</strong> @Model.Payee.Name</li>
+                                <li class="list-group-item"><strong>Phone:</strong> @Model.Payee.Phone</li>
+                                <li class="list-group-item"><strong>Address:</strong> @Model.DisplayAddress</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="attorneys">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Attorney Clients</h3>
+                </div>
+                <div class="panel-body">
+                    @foreach (var item in Model.AttorneyClients)
+                    {
+                        <div class="list-group col-md-6">
+                            <a href="@Url.Action("Show", "Clients", new {id = item.Id})" class="list-group-item">
+                                <h4 class="list-group-item-heading">@item.FirstName @item.LastName <span class="fa fa-group pull-right"></span></h4>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="guardians">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Guardian Clients</h3>
+                </div>
+                <div class="panel-body">
+                    @foreach (var item in Model.GuardianClients)
+                    {
+                        <div class="list-group col-md-6">
+                            <a href="@Url.Action("Show", "Clients", new {id = item.Id})" class="list-group-item">
+                                <h4 class="list-group-item-heading">@item.FirstName @item.LastName <span class="fa fa-group pull-right"></span></h4>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="pull-right">
+                    <a class="btn btn-default" href="@Url.Action("Edit", new {id = Model.Payee.Id})"><span class="fa fa-pencil"></span> <u>E</u>dit</a>
+                    <a class="btn btn-danger" href="@Url.Action("Toggle", new {id = Model.Payee.Id})"><span class="fa fa-warning"></span> @(Model.Payee.IsActive ? "Deactivate" : "Activate")</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/Modules/payee.detail.js")
+}

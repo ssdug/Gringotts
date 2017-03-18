@@ -1,0 +1,70 @@
+﻿@model Wiz.Gringotts.UIWeb.Models.Transactions.BatchExpenseEditorForm
+
+<fieldset>
+    <legend>
+        Batch Expense -
+        @(string.IsNullOrWhiteSpace(Model.ReferenceNumber) ? Html.Raw("New Batch") : Html.DisplayFor(model => model.ReferenceNumber))
+        <div class="pull-right text-muted">
+            <a id="hide-batch-header" class="btn btn-xs btn-default pull-right"><u>H</u>ide</a>
+            <div id="batch-header-tally">
+                <span class="tally-expected">Expected: $<span class="value">@Html.DisplayFor(m => m.ExpectedAmount)</span></span>
+                <span class="tally-total text-danger">Total: $<span class="value">@Html.DisplayFor(m => m.TotalAmount)</span></span>
+                <span class="">&nbsp;</span>
+                <a id="show-batch-header" class="btn btn-xs btn-default pull-right">Sho<u>w</u></a>
+            </div>
+        </div>
+    </legend>
+    <div id="batch-header">
+        @Html.HiddenFor(m => m.BatchId)
+        @Html.HiddenFor(m => m.ReferenceNumber)
+        <div class="form-group col-xs-2 col-md-2">
+            <label class="control-label" for="ExpenseTypeId"><u>T</u>ype</label>
+            @Html.DropDownListFor(m => m.ExpenseTypeId,
+                new SelectList(Model.AvailableTypes, "Id", "Name", Model.ExpenseTypeId), new { @class = "form-control first-input" })
+            @Html.ValidationMessageFor(model => model.ExpenseTypeId, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-xs-3 col-md-3" id="payeeEditor" data-remote-url="@Url.Action("Index", "Payees", new {fields = "id,name,displayaddress", search = "%QUERY"})">
+            <div class="form-group has-feedback">
+                <label class="control-label" for="PayeeName"><u>P</u>ayee</label>
+                @Html.HiddenFor(model => model.PayeeId)
+                <input class="form-control text-box single-line"
+                       data-val="true"
+                       data-val-payee="Invalid Selection"
+                       data-val-required="The Payee field is required."
+                       placeholder="Select Payee"
+                       id="PayeeName" name="PayeeName" type="text" value="@Model.PayeeName">
+                <i class="form-control-feedback text-muted glyphicon glyphicon-cog spin hidden"></i>
+                @Html.ValidationMessageFor(model => model.PayeeId, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.PayeeName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group col-xs-3 col-md-2">
+            <label class="control-label" for="ExpectedAmount">E<u>x</u>pected</label>
+            <div class="input-group">
+                <span id="amount-addon" class="input-group-addon"><span class="fa fa-dollar"></span></span>
+                @Html.EditorFor(model => model.ExpectedAmount, new { htmlAttributes = new { @class = "form-control expected-amount", aria_describedby = "amount-addon" } })
+            </div>
+            @Html.ValidationMessageFor(model => model.ExpectedAmount, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group col-xs-3 col-md-2">
+            <label class="control-label" for="TotalAmount">Total</label>
+            <div class="input-group">
+                <span id="amount-addon" class="input-group-addon"><span class="fa fa-dollar"></span></span>
+                @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @class = "form-control total-amount", aria_describedby = "amount-addon", @readonly = "readonly" } })
+            </div>
+        </div>
+        <div class="form-group col-xs-3 col-md-3">
+            <label class="control-label" for="EffectiveDate"><u>E</u>ffective</label>
+            <div class="input-group">
+                <span id="amount-addon" class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                @Html.EditorFor(model => model.EffectiveDate, new { htmlAttributes = new { @class = "form-control", aria_describedby = "amount-addon" } })
+            </div>
+            @Html.ValidationMessageFor(model => model.EffectiveDate, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group col-xs-12 col-md-12">
+            <label class="control-label" for="Memo"><u>M</u>emo</label>
+            @Html.EditorFor(model => model.Memo, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Memo, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</fieldset>

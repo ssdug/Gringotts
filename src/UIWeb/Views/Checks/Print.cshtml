@@ -1,0 +1,21 @@
+﻿@model Wiz.Gringotts.UIWeb.Models.Checks.CheckEditorForm
+@{
+    ViewBag.Title = "Prepare Check";
+    ViewBag.DisableNavigation = true;
+}
+@Scripts.Render("~/bundles/jquery")
+<script type="text/javascript">
+    $("document").ready(function () {
+        $("#CheckNumber").focus();
+    });
+</script>
+@Html.Partial("_ModelErrors")
+<div class="panel panel-default">       
+    <div class="panel-heading">
+        <h3 class="panel-title">Prepare Check</h3>
+    </div>
+    <div class="panel-body">
+        @Html.EditorForModel()
+    </div>
+</div>
+

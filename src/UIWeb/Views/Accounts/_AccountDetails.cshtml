@@ -1,0 +1,66 @@
+﻿@using Wiz.Gringotts.UIWeb.Models.Accounts
+@model Wiz.Gringotts.UIWeb.Models.Accounts.AccountDetails
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Account Details</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-4">
+                <ul class="list-group">
+                    <li class="list-group-item"><strong>Balance:</strong> @Html.DisplayFor(m => m.Account.Total)</li>
+                    <li class="list-group-item"><strong>Encumbered:</strong> @Html.DisplayFor(m => m.Account.Encumbered)</li>
+                    <li class="list-group-item"><strong>Available:</strong> @Html.DisplayFor(m => m.Account.Available)</li>
+                </ul>
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="comments">@Model.Account.Comments</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div>
+                            @if (Model.CreatedBy != null)
+                            {
+                                <strong>Created:</strong>
+                                <a href="mailto:@Model.CreatedBy.EmailAddress">@Model.CreatedBy.LastName, @Model.CreatedBy.FirstName</a>
+                                @Model.Account.Created.ToShortDateString()
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div>
+                            @if (Model.CreatedBy != null)
+                            {
+                                <strong>Updated:</strong>
+                                <a href="mailto:@Model.UpdatedBy.EmailAddress">@Model.UpdatedBy.LastName, @Model.UpdatedBy.FirstName</a>
+                                @Model.Account.Updated.ToShortDateString()
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="pull-right">
+                    <a class="btn btn-default" id="edit" href="@Url.Action("Edit", new {id = Model.Account.Id})"><span class="fa fa-pencil"></span> <u>E</u>dit</a>
+                    <a class="btn btn-default" id="receipt" href="@Url.Action("Create", "Receipts", new {id = Model.Account.Id})"><span class="fa fa-plus"></span> Recei<u>p</u>t</a>
+                    <a class="btn btn-default" id="expense" href="@Url.Action("Create", "Expenses", new {id = Model.Account.Id})"><span class="fa fa-minus"></span> E<u>x</u>pense</a>
+
+                    @if (!(Model.Account is ClientAccount))
+                    {
+                        <a class="btn btn-danger" href="@Url.Action("Toggle", new {id = Model.Account.Id})"><span class="fa fa-warning"></span> @(Model.Account.IsActive ? "Deactivate" : "Activate")</a>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

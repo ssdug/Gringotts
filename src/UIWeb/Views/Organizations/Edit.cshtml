@@ -1,0 +1,22 @@
+﻿@using NExtensions
+@model Wiz.Gringotts.UIWeb.Models.Organizations.OrganizationEditorForm
+
+@{
+    ViewBag.Title = "Edit {0}".FormatWith(Model.Name);
+}
+
+@Html.Partial("_ModelErrors")
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Edit Organization</h3>
+    </div>
+    <div class="panel-body">
+        @Html.EditorForModel()
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/Modules/organization.editor.js")
+}

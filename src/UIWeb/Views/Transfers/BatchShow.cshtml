@@ -1,0 +1,96 @@
+﻿@using Wiz.Gringotts.UIWeb.Models.Accounts
+@using NExtensions
+@model Wiz.Gringotts.UIWeb.Models.Transactions.BatchTransferDetails
+
+@{
+    ViewBag.Title = "Batch Transfer - {0}".FormatWith(Model.Batch.BatchReferenceNumber);
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Details for @Model.Batch.BatchReferenceNumber</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-2"><strong>Type:</strong> Transfer </div>
+            <div class="col-md-2"><strong>Expected:</strong>@string.Format("{0:C}", Model.Batch.ExpectedAmount)</div>
+            <div class="col-md-2"><strong>Total:</strong>@string.Format("{0:C}", Model.Batch.Transactions.Sum(t => t.Amount))</div>
+            <div class="col-md-3"><strong>Effective:</strong>@Model.Batch.Effective</div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div>
+                    @if (Model.CreatedBy != null)
+                    {
+                        <strong>Created:</strong>
+                        <a href="mailto:@Model.CreatedBy.EmailAddress">@Model.CreatedBy.LastName, @Model.CreatedBy.FirstName</a>
+                        @Model.Batch.Created.ToShortDateString()
+                    }
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div>
+                    @if (Model.UpdatedBy != null)
+                    {
+                        <strong>Updated:</strong>
+                        <a href="mailto:@Model.UpdatedBy.EmailAddress">@Model.UpdatedBy.LastName, @Model.UpdatedBy.FirstName</a>
+                        @Model.Batch.Updated.ToShortDateString()
+                    }
+                </div>
+            </div>
+        </div>
+
+        <hr />
+        <table id="batch-items" class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="col-md-2">Reference</th>
+                    @if (Model.Batch.Transactions.Any(t => t.Account is ClientAccount))
+                    {
+                        <th class="col-md-2">Client</th>
+                    }
+                    <th class="col-md-2">Account</th>
+                    <th class="col-md-2">Amount</th>
+                    <th class="col-md-2">Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Transactions.Any())
+                {
+                    <tr>
+                        <td colspan="7">
+                            <div class="alert alert-info" role="alert">
+                                <strong>Heads up!</strong> No batch items.
+                            </div>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    for (int i = 0; i < Model.Transactions.Length; i++)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(m => m.Transactions[i].BatchReferenceNumber)</td>
+                            @if (Model.Transactions[i].Account is ClientAccount)
+                            {
+                                <td>
+                                    @{
+                                        var account = Model.Transactions[i].Account as ClientAccount;
+                                        var client = account.Residency.Client;
+
+                                    }
+                                    @client.DisplayName
+                                </td>
+                            }
+                            <td>@Html.DisplayFor(m => m.Transactions[i].Account.Name)</td>
+                            <td>@Html.DisplayFor(m => m.Transactions[i].Amount)</td>
+                            <td>@Html.DisplayFor(m => m.Transactions[i].Comments)</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="panel-footer">
+        
+    </div>
+</div>

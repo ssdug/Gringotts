@@ -1,0 +1,106 @@
+﻿@model Wiz.Gringotts.UIWeb.Models.Checks.CheckDetails
+@using Wiz.Gringotts.UIWeb.Infrastructure.Extensions;
+@{
+    ViewBag.Title = "Print Check";
+    Layout = null;
+
+}
+<html>
+<head>
+    <meta charset="utf-8" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+                <table border="0" style="width:100%;table-layout:fixed; font-size:xx-large; height:500px">
+                    <thead>
+                        <tr>
+                            <th style="width:100px"></th>
+                            <th style="width:580px"></th>
+                            <th style="width:350px"></th>
+                            <th style="width:250px"></th>    
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="height:50px">
+                            <td />
+                            <td colspan="2" align="center">
+                                @if (ViewBag.ViewOnly)
+                                {
+                                    <b>COPY ONLY. THIS IS NOT NEGOTIABLE.</b>
+                                }
+                            </td>
+                            <td />
+                        </tr>
+                        <tr style="height:235px">
+                            <td />
+                            <td colspan="2" align="right" valign="top">
+                                Date @Html.DisplayFor(model => model.PrintedDate)
+                            </td>
+                            <td />
+                        </tr>
+                        <tr style="height:50px">
+                            <td />
+                            <td style="word-wrap:break-word; font-size:xx-large" colspan="2" valign="top">@Model.Amount.ToString().ToCurrencyText()</td>
+                            <td style="font-size:xx-large"align="right" valign="top">
+                                @if (ViewBag.ViewOnly)
+                                {
+                                    <b>$</b>    <strike>@Html.DisplayFor(model => model.Amount)</strike> <b>VOID</b>
+                                }
+                                else
+                                {
+                                    <b>$</b> @Html.DisplayFor(model => model.Amount)
+
+                                }
+                            </td>
+                        </tr> 
+                        <tr style="height:100px;font-size:xx-large">
+                            <td> </td>
+                            <td align="left" style="word-wrap:break-word" valign="top">
+                                @Html.DisplayFor(model => model.PaidTo)
+                            </td>
+                            <td />
+                            <td />
+                        </tr>
+                        <tr style="height:60px;font-size:x-large;word-wrap:break-word">
+                            <td valign="bottom" colspan="2">Memo: @Html.DisplayFor(model => model.Memo)</td>
+                            <td />
+                            <td />
+                        </tr>
+                    </tbody>
+                </table>
+                <br /> <br /><br /><br /><br /><br /><br /><br /><br />
+
+                      
+    <br/>
+
+        <table style="width:100%;table-layout:fixed; font-size:x-large">
+            <thead>
+                <tr>
+                    <th style="word-wrap:break-word;width:150px"  align="left">Batch Ref NR</th>
+                    <th style="word-wrap:break-word;width:1100px"  align="left">Memo</th>
+                    <th style="word-wrap:break-word;width:150px"  align="left">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Expenses.Any())
+            {
+                for (int i = 0; i < Model.Expenses.Count(); i++)
+                {
+                        <tr>
+                            <td style="word-wrap:break-word">@Model.Expenses[i].BatchReferenceNumber</td>
+                            <td style="word-wrap:break-word">@Model.Expenses[i].Memo</td>
+                            <td style="word-wrap:break-word">@Model.Expenses[i].Amount.ToString("C")</td>
+
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    </body>
+</html>
+

@@ -1,0 +1,154 @@
+﻿@using Roles = Wiz.Gringotts.UIWeb.Infrastructure.Security.ApplicationRoles
+@using Wiz.Gringotts.UIWeb.Models.Transactions
+@using PagedList.Mvc
+@model Wiz.Gringotts.UIWeb.Models.Accounts.AccountDetails
+<div class="panel panel-default">
+    <div class="panel-heading">
+        @if (string.IsNullOrWhiteSpace(Model.Pager.Search))
+        {
+            <span>@Model.Items.TotalItemCount Transactions</span>
+        }
+        else
+        {
+            <span>
+                <a id="clear" class="btn btn-xs btn-danger" href="@Url.Action("Show")#tab-transactions"><span class="fa fa-trash-o"></span> <u>C</u>lear</a>
+                @Model.Items.TotalItemCount Search Results For
+                "@Html.ActionLink(Model.Pager.Search, "Show", new {isactive = Model.Pager.IsActive.ToString().ToLower(), search = Model.Pager.Search})"
+            </span>
+        }
+
+        @Html.Partial("_TransactionSearch", Model.Pager as TransactionsSearchPager)
+
+    </div>
+
+    <table id="transactions-table" class="table table-condensed table-responsive table-striped table-hover">
+        <thead>
+            <tr>
+                <th class="col-md-1">Number</th>
+                <th class="col-md-2">Reference</th>
+                <th class="col-md-2">Type</th>
+                <th class="col-md-2">Info</th>
+                <th class="col-md-1">Debit</th>
+                <th class="col-md-1">Credit</th>
+                <th class="col-md-2">Effective</th>
+                <th class="col-md-1">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        @if (Model.Items.Any())
+        {
+            //reverse order so that newest item is on the bottom
+            for (var i = Model.Items.Count - 1; i >= 0; i--)
+            {
+
+                if (Model.Items[i] is Receipt)
+                 {
+                     var receipt = (Receipt) Model.Items[i];
+                     <tr class="@(receipt.Effective.ToLocalTime() < DateTime.Now.ToLocalTime() ? "success": "")">
+                         <td>@receipt.ReceiptNumber</td>
+                         <td>@receipt.BatchReferenceNumber</td>
+                         <td>@receipt.ReceiptType.Name - @(receipt.Effective.ToLocalTime() > DateTime.Now.ToLocalTime() ? "Pending" : "") Receipt</td>
+                         <td><strong>From</strong> - @receipt.ReceivedFrom</td>
+                         <td></td>
+                         <td>@Html.DisplayFor(m => m.Items[i].Amount)</td>
+                         <td>@receipt.Effective.ToLocalTime()</td>
+                         <td>
+                             <div class="dropdown">
+                                 <button class="btn btn-xs btn-default dropdown-toggle" type="button" id="actions-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                     Actions
+                                     <span class="caret"></span>
+                                 </button>
+                                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="actions-menu">
+
+                                     @if (receipt.TransactionBatchId.HasValue && receipt.Batch is ReceiptBatch)
+                                     {
+                                         <li><a id="view-batch" href="@Url.Action("BatchShow", "Receipts", new {id = receipt.TransactionBatchId})"><span class=""></span> View Batch</a></li>
+                                     }
+                                     else if (receipt.TransactionBatchId.HasValue && receipt.Batch is TransferBatch)
+                                     {
+                                         <li><a id="view-batch" href="@Url.Action("BatchShow", "Transfers", new {id = receipt.TransactionBatchId})"><span class=""></span> View Batch</a></li>
+
+                                     }
+                                     else
+                                     {
+                                         if (User.IsInRole(Roles.Developer))
+                                         {
+                                             <li><a class="void-receipt" data-id="@receipt.Id" href="@Url.Action("Void", "Receipts", new {id = receipt.Id})"><span class="fa fa-ban"></span> Void</a></li>
+                                         }
+                                         <li><a class="print-receipt" href="@Url.Action("PrintReceipt", "Print", new {id = receipt.Id})"><span class="fa fa-print"></span> Receipt</a></li>
+                                     }
+                                 </ul>
+                             </div>
+                         </td>
+                     </tr>
+                 }
+
+                if (Model.Items[i] is Expense)
+                 {
+                     var expense = (Expense) Model.Items[i];
+                     <tr class="@(expense.Effective.ToLocalTime() < DateTime.Now.ToLocalTime() ? "danger": "")">
+                         <td></td>
+                         <td>@expense.BatchReferenceNumber</td>
+                         <td>@expense.ExpenseType.Name - @(expense.Effective.ToLocalTime() > DateTime.Now.ToLocalTime() ? "Pending" : "") Expense</td>
+                         <td><strong>To</strong> - @expense.Payee.Name</td>
+                         <td>(@Html.DisplayFor(m => m.Items[i].Amount))</td>
+                         <td></td>
+                         <td>@expense.Effective.ToLocalTime()</td>
+                         <td>
+                             <div class="dropdown">
+                                 <button class="btn btn-xs btn-default dropdown-toggle" type="button" id="actions-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                     Actions
+                                     <span class="caret"></span>
+                                 </button>
+                                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="actions-menu">
+                                     @if (expense.TransactionBatchId.HasValue && expense.Batch is ExpenseBatch)
+                                     {
+                                         <li><a id="view-batch" class="" href="@Url.Action("BatchShow", "Expenses", new {id = expense.TransactionBatchId})"><span class=""></span> View Batch</a></li>
+                                     }
+                                     else if (expense.TransactionBatchId.HasValue && expense.Batch is TransferBatch)
+                                     {
+                                        <li><a id="view-batch" class="" href="@Url.Action("BatchShow", "Transfers", new {id = expense.TransactionBatchId})"><span class=""></span> View Batch</a></li>
+                                     }
+                                     else
+                                     {
+                                         if (User.IsInRole(Roles.Developer))
+                                         {
+                                            <li><a class="void-receipt" data-id="@expense.Id" href="@Url.Action("Void", "Expenses", new {id = expense.Id})"><span class="fa fa-ban"></span> Void</a></li>
+                                         }
+                                        <li><a class="print-check" href="@Url.Action("Print", "Checks", new {id = expense.Id})"><span class="fa fa-print"></span> Check</a></li>
+                                     }
+                                 </ul>
+                             </div>
+                         </td>
+                     </tr>
+                 }
+            }
+        }
+        </tbody>
+    </table>
+
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="pull-right">
+                    <a class="btn btn-default" id="receipt" href="@Url.Action("Create", "Receipts", new {id = Model.Account.Id})"><span class="fa fa-plus"></span> Recei<u>p</u>t</a>
+                    <a class="btn btn-default" id="expense" href="@Url.Action("Create", "Expenses", new {id = Model.Account.Id})"><span class="fa fa-minus"></span> E<u>x</u>pense</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        @Html.PagedListPager(Model.Items, page => Url.Action("Show", new {page}) + "&" + Model.Pager.ToString() + "#tab-transactions",
+            new PagedListRenderOptions {Display = PagedListDisplayMode.IfNeeded, MaximumPageNumbersToDisplay = 5})
+    </div>
+    <div class="col-md-6">
+
+    </div>
+</div>
+
+<script id="void-receipt-confirm-tmpl" type="text/template">
+    @Html.Partial("_VoidReceiptForm", Model.VoidExpenseEditorForm)
+</script>

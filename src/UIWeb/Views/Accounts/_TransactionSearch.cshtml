@@ -1,0 +1,47 @@
+﻿@model Wiz.Gringotts.UIWeb.Models.Transactions.TransactionsSearchPager
+
+@using (Html.BeginForm("Show", "Accounts", FormMethod.Get, new { id = "transaction-search", role = "form", @class = "pull-right  form-inline" }))
+{
+
+    <div class="form-group">
+        <label class="sr-only" for="search">Transaction</label>
+        <div class="input-group">
+            <div class="input-group-addon"><span class="fa fa-exchange"></span></div>
+            <input class="form-control input-sm" type="text" id="search" name="search" placeholder="Search Transactions (alt-s)"
+                   data-val="true" data-val-regex="Invalid Search" data-val-regex-pattern="^[a-zA-Z0-9\.\s-]+$" value="@Model.Search"/>
+            <div class="input-group-btn">
+                <button type="button" id="advanced-search" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right advanced-search" aria-labelledby="advanced-search">
+                    <li>
+                        @Html.ValidationMessageFor(m => m.FromDate)
+                    </li>
+                    <li>
+                        <label for="FromDate">From</label>
+                        <div class="input-group form-group  pull-right">
+                            <span id="fromdate-addon" class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                            <input class="form-control input-sm" type="text" id="FromDate" name="FromDate" data-val="true" data-val-date="From Date must be a date."
+                                   placeholder="mm/dd/yyyy" aria-describedby="fromdate-addon" value="@Model.FromDateDisplay"/>
+                        </div>
+
+                    </li>
+                    <li>@Html.ValidationMessageFor(m => m.ToDate)</li>
+                    <li>
+                        <label for="ToDate">To</label>
+                        <div class="input-group  pull-right">
+                            <span id="todate-addon" class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                            <input class="form-control input-sm" type="text" id="ToDate" name="ToDate" data-val="true" data-val-date="To Date must be a date."
+                                   placeholder="mm/dd/yyyy" aria-describedby="todate-addon" value="@Model.ToDateDisplay"/>
+                        </div>
+
+                    </li>
+                    <li>
+                        <button type="submit" class="btn btn-sm btn-primary pull-right"><span class="fa fa-search"></span></button>
+                    </li>
+                </ul>
+                <button type="submit" class="btn btn-sm btn-primary"><span class="fa fa-search"></span></button>
+            </div>
+        </div>
+    </div>
+}

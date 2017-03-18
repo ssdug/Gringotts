@@ -1,0 +1,165 @@
+﻿@model Wiz.Gringotts.UIWeb.Models.Payees.PayeeEditorForm
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "payeeEditor", id = "payeeEditor" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("return_url")
+
+    <div class="form-horizontal">
+        <fieldset>
+            <legend>Details</legend>
+            @Html.HiddenFor(model => model.PayeeId)
+            @for (var i = 0; i < Model.AvailableTypes.Count; i++)
+            {
+                @Html.HiddenFor(m => m.AvailableTypes[i].Id)
+                @Html.HiddenFor(m => m.AvailableTypes[i].Name)
+            }
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="Name"><u>N</u>ame</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2" for="Phone"><u>P</u>hone</label>
+                <div class="col-md-10">
+                    <div class="input-group">
+                        <div class="input-group-addon"><span class="fa fa-phone"></span></div>
+                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", placeholder = "Example, (360) 555-1212 x42" } })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Address</legend>
+            <div class="form-group">
+                <label class="control-label col-md-2" for="AddressLine1">Line <u>1</u></label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.AddressLine1, new { htmlAttributes = new { @class = "form-control", placeholder = "Address Line 1" } })
+                    @Html.ValidationMessageFor(model => model.AddressLine1, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2" for="AddressLine2">Line <u>2</u></label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.AddressLine2, new { htmlAttributes = new { @class = "form-control", placeholder = "Address Line 2, Optional" } })
+                    @Html.ValidationMessageFor(model => model.AddressLine2, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="City">Ci<u>t</u>y</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label col-md-3" for="State"><u>S</u>tate</label>
+                        <div class="col-md-7">
+                            @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control", maxlength = "2" } })
+                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-6" for="PostalCode">P<u>o</u>stal Code</label>
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.PostalCode, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.PostalCode, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Payee Types</legend>
+            <div id="payeetypes">
+                @for (var i = 0; i < Model.AvailableTypes.Count; i++)
+                {
+                    @Html.HiddenFor(model => model.AvailableTypes[i].Id)
+                    @Html.HiddenFor(model => model.AvailableTypes[i].Name)
+                }
+                @if (Model.SelectedTypes.Any())
+                {
+                    for (var i = 0; i < Model.SelectedTypes.Count; i++)
+                    {
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    @Html.Hidden("SelectedTypes.Index", i)
+                                    @Html.LabelFor(m => m.SelectedTypes[i].Id, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(m => m.SelectedTypes[i].Id,
+                                            new SelectList(Model.AvailableTypes, "Id", "Name", Model.SelectedTypes[i].Id), new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.SelectedTypes[i].Id, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <a class="btn btn-sm btn-danger remove"><span class="fa fa-trash-o"></span>&nbsp;Remove</a>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <a class="btn btn-default" id="add" href="#"><span class="fa fa-plus"></span> <u>A</u>dd</a>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-primary" id="save"><span class="fa fa-save"></span> <u>S</u>ave</button>
+                    <button type="submit" class="btn btn-default" id="continue" data-url="@Request.Url.PathAndQuery"><span class="fa fa-save"></span> Save & Continue</button>
+                    <button type="button" class="btn btn-default" id="cancel"><span class="fa fa-trash"></span> <u>C</u>ancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script id="payeeTypeTmpl" type="text/template">
+    <div class="row">
+        <div class="col-md-10">
+            <div class="form-group">
+                <input type="hidden" name="SelectedTypes.Index" value="{{index}}" />
+                <label class="control-label col-md-2" for="SelectedTypes_{{index}}__TypeId">Payee Type</label>
+                <div class="col-md-10">
+                    <select class="form-control" id="SelectedTypes_{{index}}__Id" name="SelectedTypes[{{index}}].Id"
+                            data-val="true" data-val-number="The field System must be a number" data-val-required="Payee Type is Required">
+                        <option value='' disabled selected style='display:none;'>Select One</option>
+                        @foreach (var item in Model.AvailableTypes)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                    <span class="text-danger field-validation-valid" data-valmsg-for="SelectedTypes[{{index}}].Id" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <a class="btn btn-sm btn-danger remove"><span class="fa fa-trash-o"></span>&nbsp;Remove</a>
+        </div>
+    </div>
+</script>

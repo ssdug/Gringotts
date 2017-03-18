@@ -1,0 +1,22 @@
+﻿@model DateTime?
+@{
+    object attributes;
+    IDictionary<string, object> htmlAttributes;
+    var format = Request.UserAgent != null && Request.UserAgent.Contains("Chrome")
+        ? "{0:yyyy-MM-dd}" : "{0:d}";
+
+
+    if (ViewData.TryGetValue("htmlAttributes", out attributes))
+    {
+        htmlAttributes = attributes as IDictionary<string, object>
+            ?? HtmlHelper.AnonymousObjectToHtmlAttributes(attributes);
+    }
+    else
+    {
+        htmlAttributes = new RouteValueDictionary();
+    }
+
+    htmlAttributes.Add("type", "date");
+
+    @Html.TextBox("", Model, format, htmlAttributes)
+}

@@ -1,0 +1,177 @@
+﻿@using NExtensions
+@model Wiz.Gringotts.UIWeb.Models.Organizations.OrganizationDetails
+
+@{
+    ViewBag.Title = "Organizations";
+}
+
+<div class="row">
+    <h3 class="sub-header">@Model.Organization.Name</h3>
+</div>
+<div role="tabpanel">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#organization-detail" aria-controls="organization-detail" role="tab" data-toggle="tab"><u>D</u>etails</a></li>
+        <li role="presentation"><a href="#users" aria-controls="users" role="tab" data-toggle="tab"><u>U</u>sers</a></li>
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="organization-detail">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">@Model.Organization.Name Details</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <ul class="list-group">
+                                @if (Model.Organization.Parent != null)
+                                {
+                                    var displayName = "{0} ({1})".FormatWith(Model.Organization.Parent.Name, Model.Organization.Parent.Abbreviation);
+                                    <li class="list-group-item"><strong>Parent:</strong> @Html.ActionLink(displayName, "Index", new {id = Model.Organization.Parent.Id})</li>
+                                }
+                                <li class="list-group-item"><strong>Name:</strong> @Model.Organization.Name</li>
+                                <li class="list-group-item"><strong>Address:</strong> @Model.Organization.AddressLine1, @Model.Organization.City, @Model.Organization.State, @Model.Organization.PostalCode</li>
+                                <li class="list-group-item"><strong>Phone:</strong> @Model.Organization.Phone</li>
+                                <li class="list-group-item"><strong>Abbreviation:</strong> @Model.Organization.Abbreviation</li>
+                                @if (Model.FiscalContact != null)
+                                {
+                                    <li class="list-group-item"><strong>Fiscal Contact:</strong> <a href="mailto:@Model.FiscalContact.EmailAddress">@Model.FiscalContact.LastName, @Model.FiscalContact.FirstName @Model.FiscalContact.PhoneNumber </a></li>
+                                }
+                                @if (Model.ITContact != null)
+                                {
+                                    <li class="list-group-item"><strong>IT Contact:</strong> <a href="mailto:@Model.ITContact.EmailAddress">@Model.ITContact.LastName, @Model.ITContact.FirstName @Model.ITContact.PhoneNumber </a></li>
+                                }
+                                <li class="list-group-item"><strong>AD Group:</strong> <br /> @Model.Organization.GroupName</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3">
+                            <ul class="list-group">
+                                <li class="list-group-item"><span class="fa fa-check-square-o"></span> <strong>Features</strong></li>
+                                @foreach (var feature in Model.Organization.Features)
+                                {
+                                    <li class="list-group-item" data-toggle="tooltip" title="@feature.Description">@feature.Name Enabled</li>
+                                }
+                                @if (!Model.Organization.Features.Any())
+                                {
+                                    <li class="list-group-item list-group-item-warning"><span class="fa fa-warning"></span> No Features</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="pull-right">
+                                <a class="btn btn-default" id="edit" href="@Url.Action("Edit", new {id = Model.Organization.Id})"><span class="fa fa-pencil"></span> <u>E</u>dit</a>
+                                <button type="button" class="btn btn-danger" id="disable"><span class="fa fa-warning"></span> Disable</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+                <div class="row">
+                <div class="col-md-12">
+                    <table id="child-organizations" class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th class="col-md-2">Abbreviation</th>
+                            <th class="col-md-3">Name</th>
+                            <th>Phone</th>
+                            <th>Fiscal Contact</th>
+                            <th>IT Contact</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Organization.Children.Any())
+                            {
+                                foreach (var child in Model.Organization.Children)
+                                {
+                                    <tr>
+                                        <td>@child.Abbreviation</td>
+                                        <td>@child.Name</td>
+                                        <td>@child.Phone</td>
+                                        <td>@child.FiscalContactSamAccountName</td>
+                                        <td>@child.ITConactSamAccountName</td>
+                                        <td>
+                                            <div class="pull-right">
+                                                <a class="btn btn-xs btn-primary" href="@Url.Action("Index", new {id = child.Id})">Select</a>
+                                                <a class="btn btn-xs btn-default" href="@Url.Action("Edit", new {id = child.Id})">Edit</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                    @if (!Model.Organization.Children.Any())
+                    {
+                        <div class="alert alert-info">
+                            @Model.Organization.Name does not have any child organizations.
+                        </div>
+                    }
+                </div>
+                </div>  
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <a class="btn btn-default" id="add" href="@Url.Action("Create", new {id = Model.Organization.Id})"><span class="fa fa-plus"></span> <u>A</u>dd</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="users">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">@Model.Organization.Name Users</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table id="organization-users" class="table table-striped table-hover">
+                                <thead>
+                                <tr>
+                                    <th class="col-md-2">Last Name</th>
+                                    <th>First Name</th>
+                                    <th>User Name</th>
+                                    <th>Email Address</th>
+                                    <th>Phone</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @if (Model.Users.Any())
+                                {
+                                    foreach (var user in Model.Users)
+                                    {
+                                        <tr>
+                                            <td>@user.LastName</td>
+                                            <td>@user.FirstName</td>
+                                            <td><a href="@Url.RouteUrl("Default", new { controller="Root", action="WhoAmI", username=user.UserName })">@user.UserName</a></td>
+                                            <td>@user.EmailAddress</td>
+                                            <td>@user.PhoneNumber</td>
+                                        </tr>
+                                    }
+                                }
+                                </tbody>
+                            </table>
+                            @if (!Model.Users.Any())
+                            {
+                                <div class="alert alert-warning">
+                                    @Model.Organization.Name does not have any users.
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/Modules/organization.navigation.js")
+}

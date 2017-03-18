@@ -1,0 +1,28 @@
+﻿@model Wiz.Gringotts.UIWeb.Models.Organizations.OrganizationTenantList
+
+@{
+    ViewBag.Title = "Select an Organization";
+}
+
+<div class="row">
+    <h3 class="sub-header">Available Organizations</h3>
+</div>
+<div class="row">
+    <div class="alert alert-info" role="alert">
+        <p>
+            The resource you are trying to access requires an organization context. You belong to more than one organization.
+            Please select the organization you would like to use to view this resource. You may always change your selection, by
+            choosing the Select Organization menu option under the Settings menu.
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-offset-2 col-md-8">
+        <ul class="list-group">
+            @foreach (var organization in Model.TenantOrganizations)
+            {
+                <li class="list-group-item"><a href="@Url.RouteUrl("Select_Tenant_Route", new {controller = "Organizations", action = "Select", tenantKey = organization.Abbreviation, returnUrl = Model.ReturnUrl})">@organization.Name</a></li>
+            }
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,94 @@
+﻿@using Wiz.Gringotts.UIWeb.Models.Features
+@using PagedList.Mvc
+@model Wiz.Gringotts.UIWeb.Models.ExpenseCategories.ExpenseCategorySearchResult
+
+@{
+    ViewBag.Title = "Expense Categories";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h3 class="sub-header">
+            Search For Expense Categories
+
+            @using (Html.BeginForm("Index", "ExpenseCategory", FormMethod.Get, new {id = "expense-category-search", role = "form", @class = "form-inline pull-right"}))
+            {
+                <label class="sr-only" for="isactive">Is Active</label>
+                @Html.CheckBox("isactive", Model.Pager.IsActive,
+                    new {@class = "form-control input-sm", title = "Show Acti<u>v</u>e Expense Categories", data_html = true, data_toggle = "tooltip", data_placement = "left"})
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <label class="sr-only" for="search">Expense Category</label>
+                        <div class="input-group-addon"><span class="fa fa-list"></span></div>
+                        <input class="form-control input-sm" type="text" id="search" name="search" placeholder="alt-s to Search"
+                               data-val="true" data-val-regex="Invalid Search" data-val-regex-pattern="^[a-zA-Z0-9\s-]+$"
+                               data-val-required="The search is required."/>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-sm btn-primary"><span class="fa fa-search"></span></button>
+            }
+        </h3>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    @if (string.IsNullOrWhiteSpace(Model.Pager.Search))
+    {
+        <div class="panel-heading">@Model.Items.TotalItemCount @(Model.Pager.IsActive ? "Active" : "Inactive") Expense Categories</div>
+    }
+    else
+    {
+        <div class="panel-heading">
+            @Model.Items.TotalItemCount Expense Categories Search Results For
+            "@Html.ActionLink(Model.Pager.Search, "Index", new { isactive = Model.Pager.IsActive.ToString().ToLower(), search = Model.Pager.Search })"
+            <a id="clear" class="btn btn-xs btn-danger pull-right" href="@Url.Action("Index")"><span class="fa fa-trash-o"></span> <u>C</u>lear</a>
+        </div>
+    }
+
+    <table id="expense-categories" class="table table-responsive table-striped table-hover">
+        <thead>
+            <tr>
+                <th class="col-md-10">Name</th>
+                <th class="col-md-2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Items.Any())
+            {
+                foreach (var category in Model.Items)
+                {
+                    <tr>
+                        <td>@category.Name</td>
+                        <td>
+                            <div class="pull-right">
+                                <a class="btn btn-xs btn-primary" href="@Url.Action("Show", new {id = category.Id})">Select</a>
+                                <a class="btn btn-xs btn-default" href="@Url.Action("Edit", new {id = category.Id})">Edit</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        @Html.PagedListPager(Model.Items, page => Url.Action("Index", new { page }),
+                new PagedListRenderOptions { Display = PagedListDisplayMode.IfNeeded, MaximumPageNumbersToDisplay = 5 })
+    </div>
+    <div class="col-md-6">
+        <div class="pull-right">
+            @if (Model.Pager.IsActive && ViewBag.Features.IsEnabled(Feature.Payees)) // only show add button if we are viewing active results
+            {
+                <a class="btn btn-default" id="add" href="@Url.Action("Create")"><span class="fa fa-plus"></span> <u>A</u>dd</a>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/Modules/expense.category.search.js")
+}

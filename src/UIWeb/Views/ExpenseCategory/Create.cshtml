@@ -1,0 +1,20 @@
+﻿@model Wiz.Gringotts.UIWeb.Models.ExpenseCategories.ExpenseCategoryEditorForm
+
+@{
+    ViewBag.Title = "Add New Expense Category";
+}
+
+@Html.Partial("_ModelErrors")
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Add New Expense Category</h3>
+    </div>
+    <div class="panel-body">
+        @Html.EditorForModel()
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/Scripts/Modules/expense.category.editor.js")
+}

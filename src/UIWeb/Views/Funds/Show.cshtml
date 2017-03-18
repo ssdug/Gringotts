@@ -1,0 +1,79 @@
+﻿@using Wiz.Gringotts.UIWeb.Models.Funds
+@using Roles = Wiz.Gringotts.UIWeb.Infrastructure.Security.ApplicationRoles
+@model Wiz.Gringotts.UIWeb.Models.Funds.FundDetails
+
+
+@{
+    ViewBag.Title = "Funds";
+}
+
+<div role="tabpanel">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#details" aria-controls="details" role="tab" data-toggle="tab"><span class=" fa fa-suitcase"></span> <u>D</u>etails</a></li>
+        @if (Model.Fund is SubsidiaryFund)
+        {
+            <li role="presentation"><a href="#subsidiary-accounts" aria-controls="subsidiary-accounts" role="tab" data-toggle="tab"><span class=" fa fa-suitcase"></span> <u>S</u>ubsidiary Accounts</a></li>
+        }
+        @if (Model.Fund is ClientFund)
+        {
+            <li role="presentation"><a href="#client-accounts" aria-controls="client-accounts" role="tab" data-toggle="tab"><span class="fa fa-suitcase"></span> C<u>l</u>ient Accounts</a></li>
+        }
+            <li role="presentation"><a href="#batches" aria-controls="batches" role="tab" data-toggle="tab"><span class="fa fa-suitcase"></span> <u>B</u>atches</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="details" class="tab-pane fade in active" role="tabpanel">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Fund Details</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-group">
+                                <li class="list-group-item"><strong>Code:</strong> @Model.Fund.Code</li>
+                                <li class="list-group-item"><strong>Name:</strong> @Model.Fund.Name</li>
+                                <li class="list-group-item"><strong>Account Type:</strong> @Model.Fund.FundType.Name</li>
+                                <li class="list-group-item"><strong>Bank Account:</strong> @Model.Fund.BankNumber</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-group">
+                                <li class="list-group-item"><strong>Balance:</strong> @Html.DisplayFor(m => m.Fund.Total)</li>
+                                <li class="list-group-item"><strong>Encumbered:</strong> @Html.DisplayFor(m => m.Fund.Encumbered)</li>
+                                <li class="list-group-item"><strong>Available:</strong> @Html.DisplayFor(m => m.Fund.Available)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="pull-right">
+                                <a class="btn btn-default" id="transfer" href="@Url.Action("Fund","Transfers", new {id = Model.Fund.Id})"><span class="fa fa-exchange"></span> Transfer</a>
+                                <a class="btn btn-default" id="edit" href="@Url.Action("Edit", "Funds", new {id = Model.Fund.Id})"><span class="fa fa-pencil"></span> <u>E</u>dit</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (Model.Fund is SubsidiaryFund)
+        {
+            <div id="subsidiary-accounts" class="tab-pane fade in">
+                @Html.Partial("_SubsidiaryAccounts", Model)
+            </div>
+        }
+        @if (Model.Fund is ClientFund)
+        {
+            <div id="client-accounts" class="tab-pane fade in">
+                @Html.Partial("_ClientSubsidiaryAccounts", Model)
+            </div>
+        }
+        <div id="batches" class="tab-pane fade in">
+            @Html.Partial("_Batches", Model)
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/Modules/fund.detail.js")
+}

@@ -1,0 +1,40 @@
+﻿@model Wiz.Gringotts.UIWeb.Models.Transactions.VoidExpenseEditorForm
+
+@using (Html.BeginForm("Void", "Expenses", FormMethod.Post, new {name = "voidExpenseEditor", id = "voidExpenseEditor"}))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("return_url")
+    <div class="form-horizontal">
+        <fieldset>
+            @Html.HiddenFor(model => model.AccountId)
+
+            @for (var i = 0; i < Model.AvailableTypes.Length; i++)
+            {
+                @Html.HiddenFor(m => m.AvailableTypes[i].Id)
+                @Html.HiddenFor(m => m.AvailableTypes[i].Name)
+            }
+
+            @if (Model.TransactionId.HasValue)
+            {
+                @Html.HiddenFor(model => model.TransactionId)
+            }
+            else
+            {
+                <input id="TransactionId" name="TransactionId" type="hidden" value="{{id}}">
+            }
+
+                <div class="form-group">
+                    <label class="control-label" for="VoidTypeId">Reason</label>
+                    @Html.DropDownListFor(m => m.VoidTypeId,
+                    new SelectList(Model.AvailableTypes, "Id", "Name", Model.VoidTypeId), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.VoidTypeId, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="Comments">Comments</label>
+                    @Html.TextAreaFor(model => model.Comments, new { @class="form-control" })
+                    @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                </div>
+        </fieldset>
+    </div>
+
+}

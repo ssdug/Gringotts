@@ -1,0 +1,20 @@
+﻿@model Wiz.Gringotts.UIWeb.Models.Restitution.RestitutionOrderEditorForm
+
+@{
+    ViewBag.Title = "Add New Restitution Order";
+}
+
+@Html.Partial("_ModelErrors")
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Add New Restitution Order</h3>
+    </div>
+    <div class="panel-body">
+        @Html.EditorForModel()
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/Scripts/Modules/restitution.editor.js")
+}

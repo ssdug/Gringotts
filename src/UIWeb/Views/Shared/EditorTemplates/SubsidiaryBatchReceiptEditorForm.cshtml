@@ -1,0 +1,261 @@
+﻿@using Wiz.Gringotts.UIWeb.Infrastructure.Extensions
+@using Wiz.Gringotts.UIWeb.Models.Transactions
+@model Wiz.Gringotts.UIWeb.Models.Transactions.SubsidiaryBatchReceiptEditorForm
+    
+@using (Html.BeginForm(null, null, FormMethod.Post, new {name = "batchReceiptEditor", id = "batchReceiptEditor"}))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("return_url")
+    @Html.HiddenFor(model => model.ConcreteModelType)
+    @Html.HiddenFor(model => model.FundId)
+
+    for (var i = 0; i < Model.AvailableTypes.Count; i++)
+    {
+        @Html.HiddenFor(m => m.AvailableTypes[i].Id)
+        @Html.HiddenFor(m => m.AvailableTypes[i].Name)
+    }
+    <div>
+        @* ReSharper disable once Mvc.PartialViewNotResolved *@
+        @Html.Partial("_BatchReceiptEditorHeaderForm", Model)
+
+        <fieldset>
+            <legend>
+                Add Batch Item
+            </legend>
+            <div id="batch-line-item-editor"></div>
+            <div class="form-group col-xs-12 col-md-12">
+                <button type="button" id="add-batch-item" class="btn btn-default pull-right"><span class="fa fa-plus"></span> <u>A</u>dd</button>
+            </div>
+        </fieldset>
+    </div>
+    <table id="batch-items" class="table table-condensed table-responsive table-hover">
+        <thead>
+        <tr>
+            <th class="col-md-2">Account</th>
+            <th class="col-md-1">Amount</th>
+            <th class="col-md-2">Source</th>
+            <th class="col-md-2">Received From</th>
+            <th class="col-md-2">Receipt Number</th>
+            <th class="col-md-2">Comments</th>
+            <th class="col-md-1">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Transactions.Any())
+            {
+                <tr>
+                    <td colspan="7">
+                        <div class="alert alert-info" role="alert">
+                            <strong>Heads up!</strong> No batch items.
+                        </div>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                for (var i = 0; i < Model.Transactions.Count; i++)
+                {
+                    <tr class="batch-item  @(ViewData.ModelState.HasModelErrors<SubsidiaryBatchReceiptEditorForm>(m => m.Transactions[i]) ? "danger": null )">
+                        <td>
+                            @if (ViewData.ModelState.HasModelErrors<SubsidiaryBatchReceiptEditorForm>(m => m.Transactions[i]))
+                            {
+                                <span class="fa fa-exclamation-circle" data-toggle="popover" data-placement="right" data-title="Errors"></span>
+                                <div class="popover-content" style="display: none">
+                                    @Html.ValidationMessageFor(m => m.Transactions[i].ReferenceNumber)
+                                    @Html.ValidationMessageFor(m => m.Transactions[i].AccountId)
+                                    @Html.ValidationMessageFor(m => m.Transactions[i].AccountName)
+                                    @Html.ValidationMessageFor(m => m.Transactions[i].Amount)
+                                    @Html.ValidationMessageFor(m => m.Transactions[i].ReceiptSourceId)
+                                    @Html.ValidationMessageFor(m => m.Transactions[i].ReceiptSourceName)
+                                    @Html.ValidationMessageFor(m => m.Transactions[i].ReceivedFrom)
+                                    @Html.ValidationMessageFor(m => m.Transactions[i].ReceivedFor)
+                                    @Html.ValidationMessageFor(m => m.Transactions[i].Comments)
+                                </div>
+                            }
+
+                            <input type="hidden" id="Transactions_Index" name="Transactions.Index" value="@i">
+                            @Html.HiddenFor(m => m.Transactions[i].Id)
+                            @Html.HiddenFor(m => m.Transactions[i].ReferenceNumber)
+
+                            @Html.DisplayFor(m => m.Transactions[i].AccountName)
+                            @Html.HiddenFor(m => m.Transactions[i].AccountId)
+                            @Html.HiddenFor(m => m.Transactions[i].AccountName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => m.Transactions[i].Amount)
+                            @*
+                                NOTE: we are using editor here specifically to get around a formatting bug
+                                    see http://stackoverflow.com/a/9987915/303
+                            *@
+                            @Html.EditorFor(m => m.Transactions[i].Amount, new { htmlAttributes = new { @class = "hidden item-amount" } })
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => m.Transactions[i].ReceiptSourceName)
+                            @Html.HiddenFor(m => m.Transactions[i].ReceiptSourceId)
+                            @Html.HiddenFor(m => m.Transactions[i].ReceiptSourceName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => m.Transactions[i].ReceivedFrom)
+                            @Html.HiddenFor(m => m.Transactions[i].ReceivedFrom)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => m.Transactions[i].ReceiptNumber)
+                            @Html.HiddenFor(m => m.Transactions[i].ReceiptNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => m.Transactions[i].Comments)
+                            @Html.HiddenFor(m => m.Transactions[i].Comments)
+                        </td>
+                        <td>
+                            <a class="btn btn-xs btn-default edit"><span class="fa fa-edit"></span> Edit</a>
+                            <a class="btn btn-xs btn-danger remove"><span class="fa fa-trash-o"></span> Remove</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <div class="form-group">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <button type="submit" formnovalidate class="btn btn-primary" id="save"><span class="fa fa-save"></span> <u>S</u>ave</button>
+                <button type="submit" class="btn btn-default" id="continue" data-url="@Request.Url.PathAndQuery"><span class="fa fa-save"></span> Save & Continue</button>
+                <button type="button" class="btn btn-default" id="cancel"><span class="fa fa-trash"></span> <u>C</u>ancel</button>
+            </div>
+        </div>
+    </div>
+}
+
+<script id="itemEditorTmpl" type="text/template">
+    <div class="row">
+        <input id="Id" name="Index" type="hidden" value="{{Index}}" />
+        <input id="Id" name="Id" type="hidden" value="{{Id}}" />
+        <div class="col-xs-3 col-md-3" id="receiptSourceEditor" data-remote-url="@Url.Action("Index", "ReceiptSource", new {fields = "id,name", search = "%QUERY"})">
+            <div class="form-group has-feedback">
+                <label class="control-label" for="ReceiptSourceName"><u>S</u>ource</label>
+                <input class="form-control text-box single-line first-input"
+                       data-val="true"
+                       data-val-account="Invalid Selection"
+                       data-val-required=""
+                       placeholder="Select Source"
+                       id="ReceiptSourceName" name="ReceiptSourceName" type="text" value="{{ReceiptSourceName}}">
+                <i class="form-control-feedback text-muted glyphicon glyphicon-cog spin hidden"></i>
+                <span class="field-validation-valid text-danger" data-valmsg-for="ReceiptSourceId" data-valmsg-replace="true"></span>
+                <span class="field-validation-valid text-danger" data-valmsg-for="ReceiptSourceName" data-valmsg-replace="true"></span>
+                <input id="ReceiptSourceId" name="ReceiptSourceId" type="hidden"
+                       data-val="true"
+                       data-val-number="Receipt Source is invalid."
+                       data-val-required="Receipt Source is invalid."
+                       value="{{ReceiptSourceId}}" />
+            </div>
+        </div>
+        <div class="col-xs-3 col-md-3" id="subsidiaryAccountEditor" data-remote-url="@Url.Action("Show", "Funds", new {id = Model.FundId, fields = "id,name,available", search = "%QUERY"})">
+            <div class="form-group has-feedback">
+                <label class="control-label" for="AccountName">Accou<u>n</u>t</label>
+                <input class="form-control text-box single-line"
+                       data-val="true"
+                       data-val-account="Invalid Selection"
+                       data-val-required="The Account field is required."
+                       placeholder="Select Account"
+                       id="AccountName" name="AccountName" type="text" value="{{AccountName}}">
+                <i class="form-control-feedback text-muted glyphicon glyphicon-cog spin hidden"></i>
+                <span class="field-validation-valid text-danger" data-valmsg-for="AccountId" data-valmsg-replace="true"></span>
+                <span class="field-validation-valid text-danger" data-valmsg-for="AccountName" data-valmsg-replace="true"></span>
+                <input id="AccountId" name="AccountId"
+                       data-val="true"
+                       data-val-number="The field AccountId must be a number."
+                       data-val-required="The AccountId field is required."
+                       type="hidden" value="{{AccountId}}" />
+            </div>
+        </div>
+        <div class="form-group col-xs-3 col-md-3">
+            <label class="control-label" for="Amount">Am<u>o</u>unt</label>
+            <div class="input-group">
+                <span id="amount-addon" class="input-group-addon"><span class="fa fa-dollar"></span></span>
+                <input aria-describedby="amount-addon" class="form-control text-box single-line" id="Amount" name="Amount" type="text"
+                       data-val="true"
+                       data-val-regex="Enter a valid money value. 2 Decimals only allowed"
+                       data-val-regex-pattern="(?=.)^\$?(([1-9][0-9]{0,2}(,[0-9]{3})*)|[0-9]+)?(\.[0-9]{1,2})?$"
+                       data-val-required="The Amount field is required."
+                       value="{{Amount}}" />
+            </div>
+            <span class="field-validation-valid text-danger" data-valmsg-for="Amount" data-valmsg-replace="true"></span>
+        </div>
+        <div class="form-group col-xs-3 col-md-3">
+            <label class="control-label" for="Available">Available</label>
+            <div class="input-group">
+                <span id="amount-addon" class="input-group-addon"><span class="fa fa-dollar"></span></span>
+                <input aria-describedby="amount-addon" class="form-control text-box single-line" disabled="disabled" id="Available" name="Available" type="text" value="" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-xs-6 col-md-6">
+            <label class="control-label" for="ReceiptNumber"><u>R</u>eceipt Number</label>
+            <input class="form-control text-box single-line" id="ReceiptNumber" name="ReceiptNumber" type="text"
+                   value="{{ReceiptNumber}}" />
+            <span class="field-validation-valid text-danger" data-valmsg-for="ReceiptNumber" data-valmsg-replace="true"></span>
+        </div>
+        <div class="form-group col-xs-6 col-md-6">
+            <label class="control-label" for="ReceivedFrom">Received <u>F</u>rom</label>
+            <input class="form-control text-box single-line" id="ReceivedFrom" name="ReceivedFrom" type="text"
+                   data-val="true" 
+                   data-val-required="The Received From field is required."
+                   value="{{ReceivedFrom}}" />
+            <span class="field-validation-valid text-danger" data-valmsg-for="ReceivedFrom" data-valmsg-replace="true"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-xs-12 col-md-12">
+            <label class="control-label" for="Comments"><u>C</u>omments</label>
+            <input class="form-control text-box single-line" id="Comments" name="Comments" type="text"
+                   value="{{Comments}}" />
+            <span class="field-validation-valid text-danger" data-valmsg-for="Comments" data-valmsg-replace="true"></span>
+        </div>
+    </div>
+</script>
+
+<script id="transactionTmpl" type="text/template">
+    <tr class="batch-item">
+        <td>
+            <input type="hidden" id="Transactions_Index" name="Transactions.Index" value="{{Index}}">
+            {{AccountName}}
+            <input type="hidden" id="Transactions_{{Index}}__AccountId" name="Transactions[{{Index}}].AccountId"
+                   value="{{AccountId}}">
+            <input type="hidden" id="Transactions_{{Index}}__AccountName" name="Transactions[{{Index}}].AccountName"
+                   value="{{AccountName}}">
+        </td>
+        <td>
+            {{Amount}}
+            <input type="hidden" class="item-amount" id="Transactions_{{Index}}__Amount" name="Transactions[{{Index}}].Amount"
+                   value="{{Amount}}">
+        </td>
+        <td>
+            {{ReceiptSourceName}}
+            <input type="hidden" id="Transactions_{{Index}}__ReceiptSourceId" name="Transactions[{{Index}}].ReceiptSourceId"
+                   value="{{ReceiptSourceId}}">
+            <input type="hidden" id="Transactions_{{Index}}__ReceiptSourceName" name="Transactions[{{Index}}].ReceiptSourceName"
+                   value="{{ReceiptSourceName}}">
+        </td>
+        <td>
+            {{ReceivedFrom}}
+            <input type="hidden" id="Transactions_{{Index}}__ReceivedFrom" name="Transactions[{{Index}}].ReceivedFrom"
+                   value="{{ReceivedFrom}}">
+        </td>
+        <td>
+            {{ReceiptNumber}}
+            <input type="hidden" id="Transactions_{{Index}}__ReceiptNumber" name="Transactions[{{Index}}].ReceiptNumber"
+                   value="{{ReceiptNumber}}">
+        </td>
+        <td>
+            {{Comments}}
+            <input type="hidden" id="Transactions_{{Index}}__Comments" name="Transactions[{{Index}}].Comments"
+                   value="{{Comments}}">
+        </td>
+        <td>
+            <a class="btn btn-xs btn-default edit"><span class="fa fa-edit"></span> Edit</a>
+            <a class="btn btn-xs btn-danger remove"><span class="fa fa-trash-o"></span> Remove</a>
+        </td>
+    </tr>
+</script>

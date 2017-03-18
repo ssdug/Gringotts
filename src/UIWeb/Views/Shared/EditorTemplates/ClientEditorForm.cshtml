@@ -1,0 +1,368 @@
+﻿@using Wiz.Gringotts.UIWeb.Models.Features
+@using NExtensions
+@model Wiz.Gringotts.UIWeb.Models.Clients.ClientEditorForm
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new {name = "clientEditor", id = "clientEditor", enctype = "multipart/form-data"}))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("return_url")
+
+    <fieldset>
+        <legend>Details</legend>
+        @Html.HiddenFor(model => model.ClientId)
+        @for (var i = 0; i < Model.IdentifierTypes.Count; i++)
+        {
+            @Html.HiddenFor(m => m.IdentifierTypes[i].Id)
+            @Html.HiddenFor(m => m.IdentifierTypes[i].Name)
+        }
+
+        <div class="row">
+            <div class="col-md-4">
+                <div id="crop-image" class="form-group">
+                    <label class="control-label">Client Image</label>
+                    <div>
+                        @if (Model.ImageId.HasValue)
+                        {
+                            <img src="@Url.Action("Index", "Files", new {id = Model.ImageId})" class="img-responsive img-thumbnail center-block" />
+                        }
+                        else
+                        {
+                            <img src="~/Content/Images/no-profile.jpg" class="img-responsive img-thumbnail center-block" />
+                        }
+                    </div>
+                    @Html.HiddenFor(model => model.ImageId)
+                    @Html.HiddenFor(model => model.ImageX)
+                    @Html.HiddenFor(model => model.ImageY)
+                    @Html.HiddenFor(model => model.ImageWidth)
+                    @Html.HiddenFor(model => model.ImageHeight)
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span class="text-danger field-validation-valid" data-valmsg-for="image" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <label class="btn btn-default" for="image" id="select">
+                                <input class="sr-only" id="image" name="image" type="file" accept=".jpg" data-val="true" data-val-filesize="File must be less than 1MB" />
+                                <span class="fa fa-picture-o"></span> <u>S</u>elect
+                            </label>
+                            <button type="button" class="btn btn-danger" id="remove"><span class="fa fa-exclamation-triangle"></span> <u>R</u>emove</button>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <label class="checkbox-inline">
+                    <h4 class="list-group-item-heading">
+                        Client <u>P</u>roperty
+                        @Html.CheckBoxFor(model => model.HasClientProperty, new { @class = "toggle pull-right", data_size = "mini" })
+                    </h4>
+                    <span class="list-group-item-text">Indicates this client has property stored on site.</span>
+                </label>
+                <hr />
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label class="control-label" for="FirstName"><u>F</u>irst Name</label>
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="MiddleName"><u>M</u>iddle Name</label>
+                    @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="LastName"><u>L</u>ast Name</label>
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group has-feedback" id="livingUnitEditor" data-remote-url="@Url.Action("Index", "LivingUnit", new {fields = "id,name", search = "%QUERY"})">
+                    <label class="control-label" for="LivingUnit">Living <u>U</u>nit</label>
+                    @Html.HiddenFor(model => model.LivingUnitId)
+                    <input class="form-control text-box single-line" placeholder="Select Living Unit"
+                           id="LivinUnitName" name="LivingUnitName" type="text" value="@Model.LivingUnitName">
+                    <i class="form-control-feedback text-muted glyphicon glyphicon-cog spin hidden"></i>
+                    @Html.ValidationMessageFor(model => model.LivingUnitId, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.LivingUnitName, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="BankAccount"><u>B</u>ank Account</label>
+                    @Html.EditorFor(model => model.BankAccount, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.BankAccount, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="Comments"><u>C</u>omments</label>
+                    <textarea class="form-control" rows="5" id="Comments" name="Comments">@Model.Comments</textarea>
+                    @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    if (ViewBag.Features.IsEnabled(Feature.Payees))
+    {
+        <fieldset>
+            <legend>Payees</legend>
+            <div id="payees" class="row">
+                <div class="col-md-6">
+                    <div id="attorneys" data-collection-name="Attorneys" data-label-name="Attorney" data-remote-url="@Url.Action("Index", "Payees", new {type = "attorney", fields = "id,name,displayaddress", search = "%QUERY"})">
+                        @if (Model.Attorneys.Any(a => !a.Add))
+                        {
+                            for (var i = 0; i < Model.Attorneys.Count; i++)
+                            {
+                                if (Model.Attorneys[i].Add)
+                                {
+                                    continue;
+                                }
+
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            @Html.HiddenFor(m => m.Attorneys[i].Id)
+                                            @Html.HiddenFor(m => m.Attorneys[i].Name)
+                                            @Html.HiddenFor(m => m.Attorneys[i].Add)
+                                            @Html.Hidden("Attorneys.Index", i)
+                                            <label class="control-label col-md-4" for="@{ "Attorneys_{0}__Id".FormatWith(i); }">Attorney</label>
+                                            <div class="col-md-8">
+                                                <p class="form-control-static">@Html.DisplayFor(m => m.Attorneys[i].Name)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <a class="btn btn-sm btn-danger remove"><span class="fa fa-trash-o"></span> Remove</a>
+                                    </div>
+                                </div>
+        }
+    }
+                        @if (Model.Attorneys.Any(g => g.Add))
+                        {
+                            for (var i = 0; i < Model.Attorneys.Count; i++)
+                            {
+                                if (!Model.Attorneys[i].Add)
+                                {
+                                    continue;
+                                }
+
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <div class="form-group has-feedback">
+                                            @Html.HiddenFor(m => m.Attorneys[i].Id)
+                                            @Html.HiddenFor(m => m.Attorneys[i].Name)
+                                            @Html.Hidden("Attorneys.Index", i)
+                                            <label class="control-label col-md-4" for="@{ "Attorneys_{0}__Id".FormatWith(i); }">Attorney</label>
+                                            <div class="col-md-8">
+                                                @Html.EditorFor(model => model.Attorneys[i].Name, new { htmlAttributes = new { @class = "form-control" } })
+                                                <i class="form-control-feedback text-muted glyphicon glyphicon-cog spin hidden"></i>
+                                                @Html.ValidationMessageFor(model => model.Attorneys[i].Name, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <a class="btn btn-sm btn-danger remove"><span class="fa fa-trash-o"></span> Remove</a>
+                                    </div>
+                                </div>
+        }
+    }
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="pull-right">
+                                    <a class="btn btn-default" id="add-attorney" href="#"><span class="fa fa-plus"></span> Add Attorne<u>y</u></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div id="guardians" data-collection-name="Guardians" data-label-name="Guardian" data-remote-url="@Url.Action("Index", "Payees", new {type = "guardian", fields = "id,name,displayaddress", search = "%QUERY"})">
+                        @if (Model.Guardians.Any(g => !g.Add))
+                        {
+                            for (var i = 0; i < Model.Guardians.Count; i++)
+                            {
+                                if (Model.Guardians[i].Add)
+                                {
+                                    continue;
+                                }
+
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            @Html.HiddenFor(m => m.Guardians[i].Id)
+                                            @Html.HiddenFor(m => m.Guardians[i].Name)
+                                            @Html.HiddenFor(m => m.Guardians[i].Add)
+                                            @Html.Hidden("Guardians.Index", i)
+                                            <label class="control-label col-md-4" for="@{ "Guardians_{0}__Id".FormatWith(i); }">Guardian</label>
+                                            <div class="col-md-8">
+                                                <p class="form-control-static">@Html.DisplayFor(m => m.Guardians[i].Name)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <a class="btn btn-sm btn-danger remove"><span class="fa fa-trash-o"></span> Remove</a>
+                                    </div>
+                                </div>
+        }
+    }
+                        @if (Model.Guardians.Any(g => g.Add))
+                        {
+                            for (var i = 0; i < Model.Guardians.Count; i++)
+                            {
+                                if (!Model.Guardians[i].Add)
+                                {
+                                    continue;
+                                }
+
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <div class="form-group has-feedback">
+                                            @Html.HiddenFor(m => m.Guardians[i].Id)
+                                            @Html.HiddenFor(m => m.Guardians[i].Name)
+                                            @Html.Hidden("Guardians.Index", i)
+                                            <label class="control-label col-md-4" for="@{ "Guardians_{0}__Id".FormatWith(i); }">Guardian</label>
+                                            <div class="col-md-8">
+                                                @Html.EditorFor(model => model.Guardians[i].Name, new { htmlAttributes = new { @class = "form-control" } })
+                                                <i class="form-control-feedback text-muted glyphicon glyphicon-cog spin hidden"></i>
+                                                @Html.ValidationMessageFor(model => model.Guardians[i].Name, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <a class="btn btn-sm btn-danger remove"><span class="fa fa-trash-o"></span> Remove</a>
+                                    </div>
+                                </div>
+        }
+    }
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="pull-right">
+                                    <a class="btn btn-default" id="add-guardian" href="#"><span class="fa fa-plus"></span> Add <u>G</u>uardian</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+        <script id="payeeTmpl" type="text/template">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="form-group">
+                        <input type="hidden" id="{{collectionName}}_{{index}}__Id" name="{{collectionName}}[{{index}}].Id" value="" />
+                        <input type="hidden" name="{{collectionName}}.Index" value="{{index}}" />
+                        <label class="control-label col-md-4" for="{{collectionName}}_{{index}}__Name">{{labelName}}</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control text-box single-line typeahead" id="{{collectionName}}_{{index}}__Name" name="{{collectionName}}[{{index}}].Name"
+                                   data-val="true" data-val-required="{{labelName}} is Required"
+                                   data-val-payee="Invalid Selection"
+                                   placeholder="Select an {{labelName}}"
+                                   value="">
+                            <span class="text-danger field-validation-valid" data-valmsg-for="{{collectionName}}[{{index}}].Name" data-valmsg-replace="true"></span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <a class="btn btn-sm btn-danger remove"><span class="fa fa-trash-o"></span> Remove</a>
+                </div>
+            </div>
+        </script>
+    }
+
+
+    <fieldset>
+        <legend>Identifiers</legend>
+        <div id="identifiers">
+            @for (var i = 0; i < Model.IdentifierTypes.Count; i++)
+            {
+                @Html.HiddenFor(model => model.IdentifierTypes[i].Id)
+                @Html.HiddenFor(model => model.IdentifierTypes[i].Name)
+            }
+            @if (Model.Identifiers.Any())
+            {
+                for (var i = 0; i < Model.Identifiers.Count; i++)
+                {
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.HiddenFor(m => m.Identifiers[i].Id)
+                                @Html.Hidden("Identifiers.Index", i)
+                                @Html.LabelFor(m => m.Identifiers[i].TypeId, new {@class = "control-label col-md-4"})
+                                <div class="col-md-8">
+                                    @Html.DropDownListFor(m => m.Identifiers[i].TypeId,
+                                        new SelectList(Model.IdentifierTypes, "Id", "Name", Model.Identifiers[i].TypeId), new {@class = "form-control"})
+                                    @Html.ValidationMessageFor(model => model.Identifiers[i].TypeId, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Identifiers[i].Value, new {@class = "control-label col-md-4"})
+                                <div class="col-md-8">
+                                    @Html.EditorFor(m => m.Identifiers[i].Value, new {htmlAttributes = new {@class = "form-control"}})
+                                    @Html.ValidationMessageFor(model => model.Identifiers[i].Value, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <a class="btn btn-sm btn-danger remove"><span class="fa fa-trash-o"></span>&nbsp;Remove</a>
+                        </div>
+                    </div>
+                }
+            }
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="pull-left">
+                        <a class="btn btn-default" id="add" href="#"><span class="fa fa-plus"></span> <u>A</u>dd</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <script id="identifierTmpl" type="text/template">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input type="hidden" name="Identifiers.Index" value="{{index}}" />
+                    <label class="control-label col-md-4" for="Identifiers_{{index}}__TypeId">System</label>
+                    <div class="col-md-8">
+                        <select class="form-control" id="Identifiers_{{index}}__TypeId" name="Identifiers[{{index}}].TypeId"
+                                data-val="true" data-val-number="The field System must be a number" data-val-required="System is Required">
+                            <option value='' disabled selected style='display:none;'>Select One</option>
+                            @foreach (var item in Model.IdentifierTypes)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </select>
+                        <span class="text-danger field-validation-valid" data-valmsg-for="Identifiers[{{index}}].TypeId" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="Identifiers_{{index}}__Value">System Id</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control text-box single-line" id="Identifiers_{{index}}__Value" name="Identifiers[{{index}}].Value"
+                                data-val="true" data-val-required="System Id is Required"
+                                value="">
+                        <span class="field-validation-valid text-danger" data-valmsg-for="Identifiers[{{index}}].Value" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <a class="btn btn-sm btn-danger remove"><span class="fa fa-trash-o"></span>&nbsp;Remove</a>
+            </div>
+        </div>
+    </script>
+
+    <hr/>
+    <div class="form-group">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <button type="submit" class="btn btn-primary" id="save"><span class="fa fa-save"></span> <u>S</u>ave</button>
+                <button type="submit" class="btn btn-default" id="continue" data-url="@Request.Url.PathAndQuery"><span class="fa fa-save"></span> Save & Continue</button>
+                <button type="button" class="btn btn-default" id="cancel"><span class="fa fa-trash"></span> <u>C</u>ancel</button>
+            </div>
+        </div>
+    </div>
+}

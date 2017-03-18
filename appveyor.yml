@@ -1,0 +1,80 @@
+# Reference: https://www.appveyor.com/docs/appveyor-yml/
+
+#---------------------------------#
+#      general configuration      #
+#---------------------------------#
+
+# version format
+version: 1.0.{build}
+
+#---------------------------------#
+#    environment configuration    #
+#---------------------------------#
+environment:
+  APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+
+# enable service required for build/tests
+services:
+  - mssql2016           # start SQL Server 2016 Express
+
+pull_requests:
+  do_not_increment_build_number: true
+
+# enable patching of SolutionInfo.* files
+assembly_info:
+  patch: true
+  file: '**\SolutionInfo.*'
+  assembly_version: "2.2.{build}"
+  assembly_file_version: "{version}"
+  assembly_informational_version: "{version}"
+
+#---------------------------------#
+#       build configuration       #
+#---------------------------------#
+
+# build platform, i.e. x86, x64, Any CPU. This setting is optional.
+platform: Any CPU
+
+# build Configuration, i.e. Debug, Release, etc.
+configuration:
+- Debug
+- Release
+
+before_build:
+  - nuget restore
+
+build:
+  parallel: true                  # enable MSBuild parallel builds
+  verbosity: minimal              # MSBuild verbosity level
+  project: Gringotts.sln          # path to Visual Studio solution or project
+
+#---------------------------------#
+#       tests configuration       #
+#---------------------------------#
+
+# scripts to run before tests
+before_test:
+- ps: >-
+    $name = "GringottsTest"
+
+    $instace = "(local)\SQL2016"
+
+    $connection_string = "Server=$instance; Database=$name; Trusted_connection=true"
+
+
+    if(Test-Path $env:APPVEYOR_BUILD_FOLDER) {
+        Get-ChildItem $env:APPVEYOR_BUILD_FOLDER -r -include *Tests.dll.config |
+        % {
+            $config = (Get-Content $_.Fullname) -as [xml]
+            $config.SelectSingleNode('//connectionStrings/add[@name="DefaultConnection"]').connectionString = $connection_string
+            $config.Save($_.FullName)
+        }
+    }
+
+test:
+  assemblies:
+    - Wiz.Gringotts.WebUI.Tests.dll
+
+  categories:
+    except:
+    - ActiveDirectory

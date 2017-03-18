@@ -1,0 +1,55 @@
+﻿@model Wiz.Gringotts.UIWeb.Models.Funds.FundEditorForm
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "fundEditor", id = "fundEditor" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <fieldset>
+            <legend>Details</legend>
+            @Html.HiddenFor(model => model.FundId)
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="Name"><u>N</u>ame</label>
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.Fund.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="BankNumber"><u>B</u>ank Number</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.BankNumber, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.BankNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="Comments"><u>C</u>omments</label>
+                        <div class="col-md-10">
+                            <textarea class="form-control" rows="5" id="Comments" name="Comments">@Model.Comments</textarea>
+                            @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-primary" id="save"><span class="fa fa-save"></span> <u>S</u>ave</button>
+                    <button type="button" class="btn btn-default" id="cancel"><span class="fa fa-trash"></span> <u>C</u>ancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

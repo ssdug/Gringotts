@@ -1,0 +1,61 @@
+﻿@using Roles = Wiz.Gringotts.UIWeb.Infrastructure.Security.ApplicationRoles
+
+<!-- BEGIN HEADER -->
+@if (ViewBag.DisableNavigation == null)
+{
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="@Url.Action("Index", "Root", new {area = ""})"><span class="fa fa-dollar"></span>  Gringotts</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="@Url.Action("Index", "Root", new {area = ""})"><span class="fa fa-dashboard"></span>  Dashboard</a></li>
+                    <li><a href="@Url.RouteUrl("Default", new {controller = "Clients", action = string.Empty, id = string.Empty})"><span class="fa fa-group"></span>  Clients</a></li>
+                    <li><a href="@Url.RouteUrl("Default", new {controller = "Funds", action = string.Empty, id = string.Empty})"><span class="fa fa-suitcase"></span>  Funds</a></li>
+                    <li><a href="@Url.RouteUrl("Default", new {controller = "Payees", action = string.Empty, id = string.Empty})"><span class="fa fa-truck"></span>  Payees</a></li>
+                    
+                    @*@if (User.IsInRole(Roles.Developer))*@
+                    @*{*@
+                        <li>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="fa fa-wrench"></span> Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                @if (Context.Request.Cookies["glimpsePolicy"] != null && Context.Request.Cookies["glimpsePolicy"].Value == "On")
+                                {
+                                    <li><a href="javascript:(function(){document.cookie='glimpsePolicy=;path=/;expires=Sat, 01 Jan 2050 12:00:00 GMT;';window.location.reload();})();"><span class="fa fa-toggle-off"></span> Disable Glimpse</a></li>
+                                }
+                                else
+                                {
+                                    <li><a href="javascript:(function(){document.cookie='glimpsePolicy=On;path=/;expires=Sat, 01 Jan 2050 12:00:00 GMT;';window.location.reload();})();"><span class="fa fa-toggle-on"></span> Enable Glimpse</a></li>
+                                }
+                                <li><a href="http://getbootstrap.com/" target="_blank"><span class="fa fa-bookmark"></span> Bootstrap</a></li>
+                                <li><a href="http://nakupanda.github.io/bootstrap3-dialog/" target="_blank"><span class="fa fa-bookmark"></span> Bootstrap Dialog</a></li>
+                                <li><a href="http://fortawesome.github.io/Font-Awesome/icons/" target="_blank"><span class="fa fa-bookmark"></span> Font Awesome</a></li>
+                                <li><a href="http://api.jquery.com/" target="_blank"><span class="fa fa-bookmark"></span> jQuery</a></li>
+                                <li><a href="http://datatables.net/" target="_blank"><span class="fa fa-bookmark"></span> DataTables</a></li>
+                            </ul>
+                        </li>
+                    @*}*@
+                    <li>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="fa fa-gear"></span> Settings <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="@Url.RouteUrl("Default", new {controller = "Organizations", action = string.Empty, id = string.Empty})"><span class="fa fa-building-o"></span> Organizations</a></li>
+                            @* TODO: this link does not include querystring, we should prolly fix that *@
+                            <li><a href="@Url.RouteUrl("Default", new {controller = "Organizations", action = "Select", ReturnUrl = Context.Request.Path})"><span class="fa fa-building-o"></span> Select Organization</a></li>
+                            <li><a href="@Url.RouteUrl("Default", new {controller = "ExpenseCategory", action = "Index"})"><span class="fa fa-list"></span> Expense Categories</a></li>
+                            <li><a href="@Url.RouteUrl("Default", new {controller = "ReceiptSource", action = "Index"})"><span class="fa fa-list"></span> Receipt Sources</a></li>
+                            <li><a href="@Url.RouteUrl("Default", new {controller = "Root", action = "WhoAmI"})"><span class="fa fa-user"></span> Who Am I?</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#"><span class="fa fa-question"></span> Help</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+}

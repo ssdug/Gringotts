@@ -1,0 +1,20 @@
+﻿@model Wiz.Gringotts.UIWeb.Models.Accounts.AccountEditorForm
+
+@{
+    ViewBag.Title = "Add New Account";
+}
+
+@Html.Partial("_ModelErrors")
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Add New Account</h3>
+    </div>
+    <div class="panel-body">
+        @Html.EditorForModel();
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/Scripts/Modules/account.editor.js")
+}

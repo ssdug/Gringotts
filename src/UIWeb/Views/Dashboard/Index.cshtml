@@ -1,0 +1,31 @@
+﻿@using NExtensions
+@model Wiz.Gringotts.UIWeb.Models.Dashboard.DashboardResult
+
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+@if (Model.Widgets.Any())
+{
+    <div class="row">
+        @foreach (var widget in Model.Widgets.OrderBy(w => w.Order))
+        {
+            @Html.Partial("_{0}".FormatWith(widget.ViewName), widget)
+        }
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Beep Boop</h3>
+                </div>
+                <div class="panel-body">
+                    <img class="fill" src="~/Content/Images/dashboard.gif"/>
+                </div>
+            </div>
+        </div>
+    </div>
+}

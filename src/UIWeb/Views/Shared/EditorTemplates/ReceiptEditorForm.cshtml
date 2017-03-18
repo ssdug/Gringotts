@@ -1,0 +1,137 @@
+﻿@model Wiz.Gringotts.UIWeb.Models.Transactions.ReceiptEditorForm
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "receiptEditor", id = "receiptEditor" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("return_url")
+    <div class="form-horizontal">
+        <fieldset>
+            <legend>Details</legend>
+            @Html.HiddenFor(model => model.AccountId)
+            @Html.HiddenFor(model => model.ParentFundId)
+            @Html.HiddenFor(model => model.IsClientAccount)
+
+            @for (var i = 0; i < Model.AvailableTypes.Length; i++)
+            {
+                @Html.HiddenFor(m => m.AvailableTypes[i].Id)
+                @Html.HiddenFor(m => m.AvailableTypes[i].Name)
+            }
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="Amount"><u>A</u>mount</label>
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <span id="amount-addon" class="input-group-addon">$</span>
+                                @Html.EditorFor(model => model.Amount, new {htmlAttributes = new {@class = "form-control", aria_describedby = "amount-addon"}})
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Amount, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="EffectiveDate"><u>E</u>ffective Date</label>
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <span id="amount-addon" class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                @Html.EditorFor(model => model.EffectiveDate, new { htmlAttributes = new { @class = "form-control", aria_describedby = "amount-addon" } })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.EffectiveDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="ReceiptTypeId">Receipt <u>T</u>ype</label>
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.ReceiptTypeId,
+                                new SelectList(Model.AvailableTypes.OrderByDescending(t => t.IsDefault), "Id", "Name", Model.ReceiptTypeId), new {@class = "form-control"})
+                            @Html.ValidationMessageFor(model => model.ReceiptTypeId, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="receiptSourceEditor" data-remote-url="@Url.Action("Index", "ReceiptSource", new {fields = "id,name", search = "%QUERY"})">
+                <div class="col-md-12">
+                    <div class="form-group has-feedback">
+                        <label class="control-label col-md-2" for="ReceiptSourceName">Receipt Source</label>
+                        <div class="col-md-10">
+                            @Html.HiddenFor(model => model.ReceiptSourceId)
+                            <input class="form-control text-box single-line"
+                                   placeholder="Select Source"
+                                   data-val="true"
+                                   data-val-category="Invalid Selection"
+                                   data-val-required="The Receipt Source field is required."
+                                   id="ReceiptSourceName" name="ReceiptSourceName" type="text" value="@Model.ReceiptSourceName">
+                            <i class="form-control-feedback text-muted glyphicon glyphicon-cog spin hidden"></i>
+                            @Html.ValidationMessageFor(model => model.ReceiptSourceId, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.ReceiptSourceName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="ReceivedFrom">Received <u>F</u>rom</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.ReceivedFrom, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ReceivedFrom, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="ReceivedFor">Received Fo<u>r</u></label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.ReceivedFor, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ReceivedFor, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="ReceiptNumber">Receipt <u>N</u>umber</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.ReceiptNumber, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.ReceiptNumber, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="Comments"><u>C</u>omments</label>
+                        <div class="col-md-10">
+                            <textarea class="form-control" rows="5" id="Comments" name="Comments">@Model.Comments</textarea>
+                            @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-primary" id="save"><span class="fa fa-save"></span> <u>S</u>ave</button>
+                    <button type="submit" class="btn btn-default" id="continue" data-url="@Request.Url.PathAndQuery"><span class="fa fa-save"></span> Save & Continue</button>
+                    <button type="button" class="btn btn-default" id="cancel"><span class="fa fa-trash"></span> <u>C</u>ancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

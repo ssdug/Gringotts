@@ -1,0 +1,886 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A38B1817-0C47-418E-87DA-D052198955D1}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Wiz.Gringotts.UIWeb</RootNamespace>
+    <AssemblyName>Wiz.Gringotts.UIWeb</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>true</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Extras.NLog, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.Extras.NLog.1.3.0\lib\net45\Autofac.Extras.NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc, Version=3.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.Mvc5.3.3.4\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.Ado">
+      <HintPath>..\..\packages\Glimpse.Ado.1.7.3\lib\net45\Glimpse.Ado.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.AspNet">
+      <HintPath>..\..\packages\Glimpse.AspNet.1.9.2\lib\net45\Glimpse.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.Autofac">
+      <HintPath>..\..\packages\Glimpse.Autofac.0.2.4\lib\net40\Glimpse.Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.Core">
+      <HintPath>..\..\packages\Glimpse.1.8.6\lib\net45\Glimpse.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.EF6">
+      <HintPath>..\..\packages\Glimpse.EF6.1.6.5\lib\net45\Glimpse.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.Mvc5">
+      <HintPath>..\..\packages\Glimpse.Mvc5.1.5.3\lib\net45\Glimpse.Mvc5.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.NLog, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Glimpse.NLog.1.7.0\lib\net45\Glimpse.NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ImageResizer, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ImageResizer.4.0.4\lib\net45\ImageResizer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MediatR, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MediatR.2.0.2\lib\net45\MediatR.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.SqlServer.Types.11.0.2\lib\net20\Microsoft.SqlServer.Types.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Mvc, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.Futures.5.0.0\lib\net40\Microsoft.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MvcValidationExtensions, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MvcValidationExtensions.1.1.3.0\lib\net45\MvcValidationExtensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NExtensions, Version=1.0.33.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NExtensions.1.0.33.0\lib\net45\NExtensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NLog.4.2.3\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList">
+      <HintPath>..\..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc">
+      <HintPath>..\..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Rotativa.1.6.4\lib\net40\Rotativa.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.DirectoryServices.AccountManagement">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\ContainerConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Binders\DecimalModelBinder.cs" />
+    <Compile Include="Binders\PolymorphicModelBinder.cs" />
+    <Compile Include="Controllers\AccountsController.cs" />
+    <Compile Include="Controllers\ChecksController.cs" />
+    <Compile Include="Controllers\ClientsController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\ExpenseCategoryController.cs" />
+    <Compile Include="Controllers\ImportsController.cs" />
+    <Compile Include="Controllers\LivingUnitController.cs" />
+    <Compile Include="Controllers\PrintController.cs" />
+    <Compile Include="Controllers\ReceiptsController.cs" />
+    <Compile Include="Controllers\ExpensesController.cs" />
+    <Compile Include="Controllers\FilesController.cs" />
+    <Compile Include="Controllers\FundsController.cs" />
+    <Compile Include="Controllers\OrganizationsController.cs" />
+    <Compile Include="Controllers\PayeesController.cs" />
+    <Compile Include="Controllers\ReceiptSourceController.cs" />
+    <Compile Include="Controllers\RestitutionController.cs" />
+    <Compile Include="Controllers\TransfersController.cs" />
+    <Compile Include="Controllers\ValidationController.cs" />
+    <Compile Include="Data\Conventions\ForeignKeyNamingConvention.cs" />
+    <Compile Include="Data\Conventions\PrimaryKeyNamingConvention.cs" />
+    <Compile Include="Data\DataModule.cs" />
+    <Compile Include="Data\Interceptors\InterceptingApplicationDbContext.cs" />
+    <Compile Include="Data\Interceptors\AuditChangeInterceptor.cs" />
+    <Compile Include="Data\Interceptors\IInterceptor.cs" />
+    <Compile Include="Data\Interceptors\InterceptionContext.cs" />
+    <Compile Include="Data\Interceptors\TenantOrganizationInterceptor.cs" />
+    <Compile Include="Data\Lookup`T.cs" />
+    <Compile Include="Data\Migrations\201510082000484_InitialState.cs" />
+    <Compile Include="Data\Migrations\201510082000484_InitialState.designer.cs">
+      <DependentUpon>201510082000484_InitialState.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Migrations\201510152028035_AddExpenseCategories.cs" />
+    <Compile Include="Data\Migrations\201510152028035_AddExpenseCategories.Designer.cs">
+      <DependentUpon>201510152028035_AddExpenseCategories.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Migrations\201510161811171_AddActiveToExpenseCategory.cs" />
+    <Compile Include="Data\Migrations\201510161811171_AddActiveToExpenseCategory.Designer.cs">
+      <DependentUpon>201510161811171_AddActiveToExpenseCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Migrations\201510201947104_AddTransactionBatches.cs" />
+    <Compile Include="Data\Migrations\201510201947104_AddTransactionBatches.Designer.cs">
+      <DependentUpon>201510201947104_AddTransactionBatches.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Migrations\201510282200263_AddCommentsToTransaction.cs" />
+    <Compile Include="Data\Migrations\201510282200263_AddCommentsToTransaction.Designer.cs">
+      <DependentUpon>201510282200263_AddCommentsToTransaction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Migrations\201511011746349_UpdateTransactionPK.cs" />
+    <Compile Include="Data\Migrations\201511011746349_UpdateTransactionPK.Designer.cs">
+      <DependentUpon>201511011746349_UpdateTransactionPK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Migrations\201511022148520_AddReceiptSource.cs" />
+    <Compile Include="Data\Migrations\201511022148520_AddReceiptSource.Designer.cs">
+      <DependentUpon>201511022148520_AddReceiptSource.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Migrations\201511041914384_AddChecks.cs" />
+    <Compile Include="Data\Migrations\201511041914384_AddChecks.Designer.cs">
+      <DependentUpon>201511041914384_AddChecks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Migrations\201511172046029_AddTransBatchAndMemoToCheck.cs" />
+    <Compile Include="Data\Migrations\201511172046029_AddTransBatchAndMemoToCheck.Designer.cs">
+      <DependentUpon>201511172046029_AddTransBatchAndMemoToCheck.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Migrations\201512152031053_AddParentChildrenToBatch.cs" />
+    <Compile Include="Data\Migrations\201512152031053_AddParentChildrenToBatch.Designer.cs">
+      <DependentUpon>201512152031053_AddParentChildrenToBatch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Migrations\201512311813520_AddUserSelectableFlagToPayee.cs" />
+    <Compile Include="Data\Migrations\201512311813520_AddUserSelectableFlagToPayee.Designer.cs">
+      <DependentUpon>201512311813520_AddUserSelectableFlagToPayee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Migrations\201601052103167_AddDisplayNameToClient.cs" />
+    <Compile Include="Data\Migrations\201601052103167_AddDisplayNameToClient.Designer.cs">
+      <DependentUpon>201601052103167_AddDisplayNameToClient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Overrides\CheckConfiguration.cs" />
+    <Compile Include="Data\Overrides\ResidencyConfiguration.cs" />
+    <Compile Include="Data\IUnitOfWork.cs" />
+    <Compile Include="Data\Migrations\SeedData.cs" />
+    <Compile Include="Data\Overrides\AccountConfiguration.cs" />
+    <Compile Include="Data\Overrides\FundConfiguration.cs" />
+    <Compile Include="Data\Overrides\OrganizationConfiguration.cs" />
+    <Compile Include="Data\Overrides\TransactionConfiguration.cs" />
+    <Compile Include="Data\Overrides\TransactionSubTypeConfiguration.cs" />
+    <Compile Include="Data\SeedDataInitializer.cs" />
+    <Compile Include="Filters\Features.cs" />
+    <Compile Include="Filters\NavigationContext.cs" />
+    <Compile Include="Filters\Negotiate.cs" />
+    <Compile Include="Filters\NonTenant.cs" />
+    <Compile Include="Filters\Authorize.cs" />
+    <Compile Include="Filters\ReturnUrl.cs" />
+    <Compile Include="Filters\Tenant.cs" />
+    <Compile Include="Filters\Transaction.cs" />
+    <Compile Include="HttpForbiddenResult.cs" />
+    <Compile Include="IEnvironmentMonitor.cs" />
+    <Compile Include="Infrastructure\ActiveDirectory\ILdapProvider.cs" />
+    <Compile Include="Infrastructure\ActiveDirectory\IUserRepository.cs" />
+    <Compile Include="Infrastructure\Commands\CommandValidator.cs" />
+    <Compile Include="Infrastructure\Commands\FailureResult.cs" />
+    <Compile Include="Infrastructure\Commands\ICommandResult.cs" />
+    <Compile Include="Infrastructure\Commands\SuccessResult.cs" />
+    <Compile Include="Infrastructure\Extensions\ControllerExtensions.cs" />
+    <Compile Include="Infrastructure\Extensions\ExpressionExtensions.cs" />
+    <Compile Include="Infrastructure\Extensions\IEnumerableExtensions.cs" />
+    <Compile Include="Infrastructure\Extensions\ModelStateExtensions.cs" />
+    <Compile Include="Infrastructure\Extensions\OrganizationExtensions.cs" />
+    <Compile Include="Infrastructure\Extensions\PagedListExtensions.cs" />
+    <Compile Include="Infrastructure\Extensions\PrincipalExtensions.cs" />
+    <Compile Include="Infrastructure\Extensions\StreamExtensions.cs" />
+    <Compile Include="Infrastructure\Extensions\StringExtensions.cs" />
+    <Compile Include="Infrastructure\Extensions\UrlHelperExtensions.cs" />
+    <Compile Include="Infrastructure\InfrastructureModule.cs" />
+    <Compile Include="Infrastructure\LinkBuilder.cs" />
+    <Compile Include="Infrastructure\Mediation\IDisable.cs" />
+    <Compile Include="Infrastructure\Multitenancy\ITenantKeyManager.cs" />
+    <Compile Include="Infrastructure\Multitenancy\ITenantOrganizationProvider.cs" />
+    <Compile Include="Infrastructure\Multitenancy\ITenantUrlHelper.cs" />
+    <Compile Include="Infrastructure\Security\DefaultPermissionSets.cs" />
+    <Compile Include="Infrastructure\Security\IPrincipalProvider.cs" />
+    <Compile Include="Infrastructure\Security\Permissions.cs" />
+    <Compile Include="Infrastructure\Security\ApplicationRoles.cs" />
+    <Compile Include="Models\Accounts\CommandAddOrEditAccount.cs" />
+    <Compile Include="Models\Accounts\CommandToggleAccountIsActive.cs" />
+    <Compile Include="Models\Accounts\_EditorForms.cs" />
+    <Compile Include="Models\Checks\CommandAddOrEditCheck.cs" />
+    <Compile Include="Models\Checks\QueryCheckDetails.cs" />
+    <Compile Include="Models\Checks\QueryCheckEditorForm.cs" />
+    <Compile Include="Models\Checks\Search.cs" />
+    <Compile Include="Models\Checks\_EditorForms.cs" />
+    <Compile Include="Models\Clients\Searcher.cs" />
+    <Compile Include="Models\Clients\_EditorForms.cs" />
+    <Compile Include="Models\Dashboard\QueryDashboard.cs" />
+    <Compile Include="Models\Dashboard\_ViewModels.cs" />
+    <Compile Include="Models\ExpenseCategories\_EditorForms.cs" />
+    <Compile Include="Models\ExpenseCategories\Searcher.cs" />
+    <Compile Include="Models\Funds\_EditorForms.cs" />
+    <Compile Include="Models\Funds\Searcher.cs" />
+    <Compile Include="Models\IAmLookupItem.cs" />
+    <Compile Include="Models\Imports\CommandPayRollImport.cs" />
+    <Compile Include="Models\Imports\_EditorForms.cs" />
+    <Compile Include="Models\ISearch`T.cs" />
+    <Compile Include="Models\Accounts\NotificationClientActivatedOrDeactivated.cs" />
+    <Compile Include="Models\Accounts\NotificationRestitutionOrderAddedOrUpdated.cs" />
+    <Compile Include="Models\Accounts\QueryAccountEditorForm.cs" />
+    <Compile Include="Models\Accounts\NotificationClientAddedOrUpdated.cs" />
+    <Compile Include="Models\Accounts\QueryAccountDetails.cs" />
+    <Compile Include="Models\Accounts\Searcher.cs" />
+    <Compile Include="Models\Accounts\_DataModels.cs" />
+    <Compile Include="Models\Checks\_DataModels.cs" />
+    <Compile Include="Models\Checks\_ViewModels.cs" />
+    <Compile Include="Models\Clients\NotificationClientActivationToggled.cs" />
+    <Compile Include="Models\Clients\NotificationClientAddedOrUpdated.cs" />
+    <Compile Include="Models\ExpenseCategories\CommandAddOrEditExpenseCategory.cs" />
+    <Compile Include="Models\ExpenseCategories\CommandToggleExpenseCategoryIsActive.cs" />
+    <Compile Include="Models\ExpenseCategories\QueryExpenseCategoryEditorForm.cs" />
+    <Compile Include="Models\ExpenseCategories\QueryExpenseCategoryDetails.cs" />
+    <Compile Include="Models\ExpenseCategories\_DataModels.cs" />
+    <Compile Include="Models\ExpenseCategories\_ViewModels.cs" />
+    <Compile Include="Models\Features\IFeatureService.cs" />
+    <Compile Include="Models\Funds\CommandAddOrEditFund.cs" />
+    <Compile Include="Models\Funds\QueryFundDetails.cs" />
+    <Compile Include="Models\Funds\QueryFundEditorForm.cs" />
+    <Compile Include="Models\Funds\QueryFundSearch.cs" />
+    <Compile Include="Models\Accounts\_ViewModels.cs" />
+    <Compile Include="Models\Clients\CommandAddOrEditClient.cs" />
+    <Compile Include="Models\Clients\QueryClientDetails.cs" />
+    <Compile Include="Models\Clients\QueryClientEditorForm.cs" />
+    <Compile Include="Models\Clients\QueryClientSearch.cs" />
+    <Compile Include="Models\Clients\_DataModels.cs" />
+    <Compile Include="Models\Clients\CommandToggleClientIsActive.cs" />
+    <Compile Include="Models\Clients\_ViewModels.cs" />
+    <Compile Include="Models\Features\FeatureChecker.cs" />
+    <Compile Include="Models\Features\NotificationFeatureDisabled.cs" />
+    <Compile Include="Models\Features\NotificationFeatureEnabled.cs" />
+    <Compile Include="Models\Features\_DataModels.cs" />
+    <Compile Include="Models\Files\_DataModels.cs" />
+    <Compile Include="Models\Funds\_ViewModels.cs" />
+    <Compile Include="Models\Funds\_DataModels.cs" />
+    <Compile Include="Models\IAmAuditable.cs" />
+    <Compile Include="Models\IBelongToOrganization.cs" />
+    <Compile Include="Models\ICanBeActive.cs" />
+    <Compile Include="Models\InputRegEx.cs" />
+    <Compile Include="Models\LivingUnits\QueryLivingUnit.cs" />
+    <Compile Include="Models\LivingUnits\Searcher.cs" />
+    <Compile Include="Models\LivingUnits\_ViewModels.cs" />
+    <Compile Include="Models\LivingUnits\_DataModels.cs" />
+    <Compile Include="Models\ModelsModule.cs" />
+    <Compile Include="Models\Organizations\CommandAddOrEditOrganization.cs" />
+    <Compile Include="Models\Organizations\CommandSelectTenantOrganization.cs" />
+    <Compile Include="Infrastructure\ActiveDirectory\CommandValidateActiveDirectoryGroup.cs" />
+    <Compile Include="Infrastructure\ActiveDirectory\CommandValidateActiveDirectoryUser.cs" />
+    <Compile Include="Models\Organizations\_EditorForms.cs" />
+    <Compile Include="Models\Organizations\QueryOrganizationDetails.cs" />
+    <Compile Include="Models\Organizations\Searcher.cs" />
+    <Compile Include="Models\Organizations\_DataModels.cs" />
+    <Compile Include="Models\Organizations\QueryOrganizationEditorForm.cs" />
+    <Compile Include="Models\Organizations\QuerySelectTenantOrganization.cs" />
+    <Compile Include="Models\Organizations\_ViewModels.cs" />
+    <Compile Include="Models\Payees\CommandAddOrEditPayee.cs" />
+    <Compile Include="Models\Payees\CommandTogglePayeeIsActive.cs" />
+    <Compile Include="Models\Payees\_EditorForms.cs" />
+    <Compile Include="Models\Payees\Searcher.cs" />
+    <Compile Include="Models\Payees\_DataModels.cs" />
+    <Compile Include="Models\Payees\SearchPager.cs" />
+    <Compile Include="Models\Payees\QueryPayeeDetails.cs" />
+    <Compile Include="Models\Payees\QueryPayeeEditorForm.cs" />
+    <Compile Include="Models\Payees\QueryPayeeSearch.cs" />
+    <Compile Include="Models\Payees\_ViewModels.cs" />
+    <Compile Include="Models\ReceiptSources\CommandAddOrEditReceiptSource.cs" />
+    <Compile Include="Models\ReceiptSources\CommandToggleReceiptSourceIsActive.cs" />
+    <Compile Include="Models\ReceiptSources\QueryReceiptSourceDetails.cs" />
+    <Compile Include="Models\ReceiptSources\QueryReceiptSourceEditorForm.cs" />
+    <Compile Include="Models\ReceiptSources\QueryReceiptSourceSearch.cs" />
+    <Compile Include="Models\ReceiptSources\Searcher.cs" />
+    <Compile Include="Models\ReceiptSources\_ViewModels.cs" />
+    <Compile Include="Models\ReceiptSources\_EditorForms.cs" />
+    <Compile Include="Models\ReceiptSources\_DataModels.cs" />
+    <Compile Include="Models\Restitution\CommandAddOrEditRestitutionOrder.cs" />
+    <Compile Include="Models\Restitution\_EditorForms.cs" />
+    <Compile Include="Models\Restitution\NotificationReceiptAdded.cs" />
+    <Compile Include="Models\Restitution\QueryRestitutionEditorForm.cs" />
+    <Compile Include="Models\Restitution\NotificationRestitutionOrderAddedOrUpdated.cs" />
+    <Compile Include="Models\Restitution\QueryRestitutionOrderDetails.cs" />
+    <Compile Include="Models\Restitution\Searcher.cs" />
+    <Compile Include="Models\Restitution\_ViewModels.cs" />
+    <Compile Include="Models\Restitution\_DataModels.cs" />
+    <Compile Include="Models\SearchPager.cs" />
+    <Compile Include="Models\Transactions\CommandAddOrEditBatchReceipt.cs" />
+    <Compile Include="Models\Transactions\CommandAddOrEditExpense.cs" />
+    <Compile Include="Models\Transactions\CommandCommitBatch.cs" />
+    <Compile Include="Models\Transactions\CommandVoidExpense.cs" />
+    <Compile Include="Models\Transactions\CommandVoidReciept.cs" />
+    <Compile Include="Models\Transactions\QueryBatchExpenseDetails.cs" />
+    <Compile Include="Models\Transactions\QueryBatchReceiptDetails.cs" />
+    <Compile Include="Models\Transactions\QueryBatchReceiptEditorForm.cs" />
+    <Compile Include="Models\Transactions\QueryBatchTransferDetails.cs" />
+    <Compile Include="Models\Transactions\QueryReceiptDetails.cs" />
+    <Compile Include="Models\Transactions\QueryTrasferAmountEditorForm.cs" />
+    <Compile Include="Models\Transactions\_EditorForms.cs" />
+    <Compile Include="Models\Transactions\_Updaters.cs" />
+    <Compile Include="Models\Transactions\_Builders.cs" />
+    <Compile Include="Models\Transactions\CommandAddOrEditBatchExpense.cs" />
+    <Compile Include="Models\Transactions\QueryBatchExpenseEditorForm.cs" />
+    <Compile Include="Models\Transactions\CommandAddOrEditReceipt.cs" />
+    <Compile Include="Models\ExpenseCategories\QueryExpenseCategorySearch.cs" />
+    <Compile Include="Models\Transactions\NotificationReceiptAdded.cs" />
+    <Compile Include="Models\Transactions\QueryExpenseEditorForm.cs" />
+    <Compile Include="Models\Transactions\QueryReceiptEditorForm.cs" />
+    <Compile Include="Models\Transactions\Searcher.cs" />
+    <Compile Include="Models\Transactions\SearchPager.cs" />
+    <Compile Include="Models\Transactions\CommandTransferAmount.cs" />
+    <Compile Include="Models\Transactions\_DataModels.cs" />
+    <Compile Include="Models\Transactions\_ViewModels.cs" />
+    <Compile Include="Models\ILookup`T.cs" />
+    <Compile Include="MvcModule.cs" />
+    <Compile Include="Controllers\RootController.cs" />
+    <Compile Include="Data\ApplicationDbContext.cs" />
+    <Compile Include="Infrastructure\Diagnostics\GlimpseSecurityPolicy.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\IApplicationConfiguration.cs" />
+    <Compile Include="Data\Migrations\Configuration.cs" />
+    <Compile Include="Models\Users\_ViewModels.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Infrastructure\Mediation\IAsyncPostHandler.cs" />
+    <Compile Include="Infrastructure\Mediation\IAsyncPreHandler.cs" />
+    <Compile Include="Infrastructure\Mediation\MediatorModule.cs" />
+    <Compile Include="Infrastructure\Mediation\AsyncMediatorPipeline.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\backup_restore.sql">
+      <Link>Data\backup_restore.sql</Link>
+    </Content>
+    <Content Include="..\deployment.sql">
+      <Link>Data\deployment.sql</Link>
+    </Content>
+    <Content Include="..\droptables.sql">
+      <Link>Data\droptables.sql</Link>
+    </Content>
+    <Content Include="Content\bootstrap-accessibility.css" />
+    <Content Include="Content\bootstrap-dialog.css" />
+    <Content Include="Content\bootstrap-switch\bootstrap2\bootstrap-switch.css" />
+    <Content Include="Content\bootstrap-switch\bootstrap2\bootstrap-switch.min.css" />
+    <Content Include="Content\bootstrap-switch\bootstrap3\bootstrap-switch.css" />
+    <Content Include="Content\bootstrap-switch\bootstrap3\bootstrap-switch.min.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\cropper.css" />
+    <Content Include="Content\cropper.min.css" />
+    <Content Include="Content\dataTables.bootstrap.css" />
+    <Content Include="Content\dataTables.fontAwesome.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\Images\CheckVoid.png" />
+    <Content Include="Content\Images\dashboard.gif" />
+    <Content Include="Content\Images\no-profile.jpg" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="App_Browsers\qt.browser" />
+    <Content Include="Content\bootstrap-dialog.less" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\site.css" />
+    <Content Include="Content\typeaheadjs.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
+    <Content Include="Scripts\bootstrap-accessibility.js" />
+    <Content Include="Scripts\bootstrap-accessibility.min.js">
+      <DependentUpon>bootstrap-accessibility.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\bootstrap-dialog.js" />
+    <Content Include="Scripts\bootstrap-switch.js" />
+    <Content Include="Scripts\bootstrap-switch.min.js">
+      <DependentUpon>bootstrap-switch.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js">
+      <DependentUpon>bootstrap.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\cropper.js" />
+    <Content Include="Scripts\cropper.min.js">
+      <DependentUpon>cropper.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\dataTables.bootstrap.js" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Scripts\dataTables.bootstrap.min.js">
+      <DependentUpon>dataTables.bootstrap.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery-2.2.0.js" />
+    <Content Include="Scripts\jquery-2.2.0.min.js">
+      <DependentUpon>jquery-2.2.0.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery-2.2.0.min.map">
+      <DependentUpon>jquery-2.2.0.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery.dataTables.js" />
+    <Content Include="Scripts\jquery.dataTables.min.js">
+      <DependentUpon>jquery.dataTables.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery.globalize\cultures\globalize.culture.en-US.js" />
+    <Content Include="Scripts\jquery.globalize\cultures\globalize.cultures.js" />
+    <Content Include="Scripts\jquery.globalize\globalize.js" />
+    <Content Include="Scripts\jquery.hotkeys-0.8.js" />
+    <Content Include="Data\readme.md" />
+    <None Include="Scripts\jquery-2.2.0-vsdoc.js">
+      <DependentUpon>jquery-2.2.0.js</DependentUpon>
+    </None>
+    <Content Include="Scripts\jquery.serializeToJSON.js" />
+    <Content Include="Scripts\jquery.serializeToJSON.min.js">
+      <DependentUpon>jquery.serializeToJSON.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery.validate.globalize.js" />
+    <Content Include="Scripts\jquery.validate.globalize.min.js">
+      <DependentUpon>jquery.validate.globalize.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery.validate.globalize.min.js.map">
+      <DependentUpon>jquery.validate.globalize.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js">
+      <DependentUpon>jquery.validate.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery.validate.unobtrusive.bootstrap.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.bootstrap.min.js">
+      <DependentUpon>jquery.validate.unobtrusive.bootstrap.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery.validate.unobtrusive.bootstrap.min.js.map">
+      <DependentUpon>jquery.validate.unobtrusive.bootstrap.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js">
+      <DependentUpon>jquery.validate.unobtrusive.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\lodash.core.js" />
+    <Content Include="Scripts\lodash.core.min.js">
+      <DependentUpon>lodash.core.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\lodash.js" />
+    <Content Include="Scripts\lodash.min.js">
+      <DependentUpon>lodash.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\Modules\account.detail.js" />
+    <Content Include="Scripts\Modules\account.editor.js" />
+    <Content Include="Scripts\Modules\batch.expense.editor.js" />
+    <Content Include="Scripts\Modules\batch.receipt.editor.js" />
+    <Content Include="Scripts\Modules\batch.transaction.editor.js" />
+    <Content Include="Scripts\Modules\client.detail.js" />
+    <Content Include="Scripts\Modules\client.editor.js" />
+    <Content Include="Scripts\Modules\client.search.js" />
+    <Content Include="Scripts\Modules\expense.category.detail.js" />
+    <Content Include="Scripts\Modules\expense.category.editor.js" />
+    <Content Include="Scripts\Modules\expense.category.search.js" />
+    <Content Include="Scripts\Modules\receipt.editor.js" />
+    <Content Include="Scripts\Modules\expense.editor.js" />
+    <Content Include="Scripts\Modules\fund.detail.js" />
+    <Content Include="Scripts\Modules\global.navigation.js" />
+    <Content Include="Scripts\Modules\organization.navigation.js" />
+    <Content Include="Scripts\Modules\organization.editor.js" />
+    <Content Include="Scripts\Modules\payee.detail.js" />
+    <Content Include="Scripts\Modules\payee.editor.js" />
+    <Content Include="Scripts\Modules\payee.search.js" />
+    <Content Include="Scripts\Modules\receipt.source.detail.js" />
+    <Content Include="Scripts\Modules\receipt.source.editor.js" />
+    <Content Include="Scripts\Modules\receipt.source.search.js" />
+    <Content Include="Scripts\Modules\restitution.details.js" />
+    <Content Include="Scripts\Modules\restitution.editor.js" />
+    <Content Include="Scripts\Modules\transfer.editor.js" />
+    <Content Include="Scripts\mustache.js" />
+    <Content Include="Scripts\mvcvalidationextensions.unobtrusive.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.matchmedia.addListener.js" />
+    <Content Include="Scripts\respond.matchmedia.addListener.min.js">
+      <DependentUpon>respond.matchmedia.addListener.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\typeahead.bundle.js" />
+    <Content Include="Views\ReceiptSource\Create.cshtml" />
+    <Content Include="Views\ReceiptSource\Edit.cshtml" />
+    <Content Include="Views\ReceiptSource\Index.cshtml" />
+    <Content Include="Views\ReceiptSource\Show.cshtml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Root\Index.cshtml" />
+    <Content Include="Views\Shared\_Header.cshtml" />
+    <Content Include="Views\Shared\_Footer.cshtml" />
+    <Content Include="Views\Root\WhoAmI.cshtml" />
+    <Content Include="Views\Shared\AccessDenied.cshtml" />
+    <Content Include="Views\Organizations\Create.cshtml" />
+    <Content Include="Views\Organizations\Index.cshtml" />
+    <Content Include="Views\Organizations\Edit.cshtml" />
+    <Content Include="Views\Organizations\Select.cshtml" />
+    <Content Include="Views\Clients\Index.cshtml" />
+    <Content Include="Views\Clients\Create.cshtml" />
+    <Content Include="Views\Clients\Edit.cshtml" />
+    <Content Include="Views\Clients\Show.cshtml" />
+    <Content Include="Views\Payees\Index.cshtml" />
+    <Content Include="Views\Payees\Create.cshtml" />
+    <Content Include="Views\Payees\Edit.cshtml" />
+    <Content Include="Views\Payees\Show.cshtml" />
+    <Content Include="Views\Shared\_TenantBreadcrumb.cshtml" />
+    <Content Include="Views\Funds\Index.cshtml" />
+    <Content Include="Views\Funds\Show.cshtml" />
+    <Content Include="Views\Funds\_SubsidiaryAccounts.cshtml" />
+    <Content Include="Views\Funds\_ClientSubsidiaryAccounts.cshtml" />
+    <Content Include="Views\Accounts\Show.cshtml" />
+    <Content Include="Views\Accounts\_ClientAccountDetails.cshtml" />
+    <Content Include="Views\Accounts\_AccountDetails.cshtml" />
+    <Content Include="Views\Accounts\Create.cshtml" />
+    <Content Include="Views\Accounts\Edit.cshtml" />
+    <Content Include="Views\Funds\Edit.cshtml" />
+    <Content Include="Views\Receipts\Create.cshtml" />
+    <Content Include="Views\Accounts\_Transactions.cshtml" />
+    <Content Include="Views\Accounts\_TransactionSearch.cshtml" />
+    <Content Include="Views\Expenses\Create.cshtml" />
+    <Content Include="Views\Clients\_Restitution.cshtml" />
+    <Content Include="Views\Restitution\Create.cshtml" />
+    <Content Include="Views\Restitution\_RestitutionOrderEditor.cshtml" />
+    <Content Include="Views\Shared\_ModelErrors.cshtml" />
+    <Content Include="Views\Restitution\Edit.cshtml" />
+    <Content Include="Views\Restitution\Show.cshtml" />
+    <Content Include="Views\Restitution\_Transactions.cshtml" />
+    <Content Include="Views\Restitution\_TransactionSearch.cshtml" />
+    <Content Include="Views\Validation\LdapGroup.cshtml" />
+    <Content Include="Views\Validation\LdapUser.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AccountEditorForm.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ExpenseEditorForm.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\FundEditorForm.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\OrganizationEditorForm.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\PayeeEditorForm.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ReceiptEditorForm.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\RestitutionOrderEditorForm.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ClientEditorForm.cshtml" />
+    <Content Include="Views\LivingUnit\Index.cshtml" />
+    <Content Include="Views\Print\PrintReceipt.cshtml" />
+    <Content Include="Views\Checks\Print.cshtml" />
+    <Content Include="Views\Checks\PrintPDF.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Dashboard\_FundsWidget.cshtml" />
+    <Content Include="Views\Dashboard\_BatchesWidget.cshtml" />
+    <Content Include="Views\ExpenseCategory\Create.cshtml" />
+    <Content Include="Views\ExpenseCategory\Edit.cshtml" />
+    <Content Include="Views\ExpenseCategory\Index.cshtml" />
+    <Content Include="Views\ExpenseCategory\Show.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ExpenseCategoryEditorForm.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
+    <Content Include="Views\Expenses\BatchCreate.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\SubsidiaryBatchExpenseEditorForm.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ClientBatchExpenseEditorForm.cshtml" />
+    <Content Include="Views\Expenses\_BatchExpenseEditorHeaderForm.cshtml" />
+    <Content Include="Views\Expenses\BatchEdit.cshtml" />
+    <Content Include="Views\Funds\_Batches.cshtml" />
+    <Content Include="Views\Expenses\BatchShow.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\CheckEditorForm.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ReceiptSourceEditorForm.cshtml" />
+    <Content Include="Views\Receipts\BatchCreate.cshtml" />
+    <Content Include="Views\Receipts\BatchEdit.cshtml" />
+    <Content Include="Views\Receipts\BatchShow.cshtml" />
+    <Content Include="Views\Receipts\_BatchReceiptEditorHeaderForm.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ClientBatchReceiptEditorForm.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\SubsidiaryBatchReceiptEditorForm.cshtml" />
+    <Content Include="Views\Receipts\BatchPrint.cshtml" />
+    <Content Include="Views\Dashboard\_PayRollImportWidget.cshtml" />
+    <Content Include="Views\Imports\Create.cshtml" />
+    <Content Include="Views\Transfers\Create.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\TrasferAmountEditorForm.cshtml" />
+    <Content Include="Views\Transfers\BatchShow.cshtml" />
+    <None Include="Scripts\jquery.validate-vsdoc.js">
+      <DependentUpon>jquery.validate.js</DependentUpon>
+    </None>
+    <Content Include="Views\Accounts\_VoidReceiptForm.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\VoidExpenseEditorForm.cshtml" />
+    <Content Include="Views\Expenses\Void.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Dev.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Prod.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.QA.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Test.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\Migrations\201510082000484_InitialState.resx">
+      <DependentUpon>201510082000484_InitialState.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Migrations\201510152028035_AddExpenseCategories.resx">
+      <DependentUpon>201510152028035_AddExpenseCategories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Migrations\201510161811171_AddActiveToExpenseCategory.resx">
+      <DependentUpon>201510161811171_AddActiveToExpenseCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Migrations\201510201947104_AddTransactionBatches.resx">
+      <DependentUpon>201510201947104_AddTransactionBatches.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Migrations\201510282200263_AddCommentsToTransaction.resx">
+      <DependentUpon>201510282200263_AddCommentsToTransaction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Migrations\201511011746349_UpdateTransactionPK.resx">
+      <DependentUpon>201511011746349_UpdateTransactionPK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Migrations\201511022148520_AddReceiptSource.resx">
+      <DependentUpon>201511022148520_AddReceiptSource.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Migrations\201511041914384_AddChecks.resx">
+      <DependentUpon>201511041914384_AddChecks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Migrations\201511172046029_AddTransBatchAndMemoToCheck.resx">
+      <DependentUpon>201511172046029_AddTransBatchAndMemoToCheck.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Migrations\201512152031053_AddParentChildrenToBatch.resx">
+      <DependentUpon>201512152031053_AddParentChildrenToBatch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Migrations\201512311813520_AddUserSelectableFlagToPayee.resx">
+      <DependentUpon>201512311813520_AddUserSelectableFlagToPayee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Migrations\201601052103167_AddDisplayNameToClient.resx">
+      <DependentUpon>201601052103167_AddDisplayNameToClient.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Dev|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'QA|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Prod|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\packages\MSBuild.Microsoft.VisualStudio.Web.targets.14.0.0\tools\VSToolsPath\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>42032</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48995/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+  <Target Name="AfterBuild" DependsOnTargets="TransformWebConfig" Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+  </Target>
+  <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\Web\Microsoft.Web.Publishing.Tasks.dll" />
+  <Target Name="TransformWebConfig">
+    <TransformXml Source="Web.config" Transform="Web.Dev.config" Destination="$(WebProjectOutputDir)\Web.config.Dev" StackTrace="true" />
+    <TransformXml Source="Web.config" Transform="Web.QA.config" Destination="$(WebProjectOutputDir)\Web.config.QA" StackTrace="true" />
+    <TransformXml Source="Web.config" Transform="Web.Test.config" Destination="$(WebProjectOutputDir)\Web.config.Test" StackTrace="true" />
+    <TransformXml Source="Web.config" Transform="Web.Prod.config" Destination="$(WebProjectOutputDir)\Web.config.Prod" StackTrace="true" />
+  </Target>
+</Project>

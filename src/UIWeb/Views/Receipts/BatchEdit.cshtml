@@ -1,0 +1,21 @@
+﻿@model Wiz.Gringotts.UIWeb.Models.Transactions.BatchReceiptEditorForm
+    
+@{
+    ViewBag.Title = "Edit Batch Receipt";
+}
+
+@Html.Partial("_ModelErrors")
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Edit Batch Receipt</h3>
+    </div>
+    <div class="panel-body">
+        @Html.EditorForModel()
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/Scripts/Modules/batch.transaction.editor.js")
+    @Scripts.Render("~/Scripts/Modules/batch.receipt.editor.js")
+}

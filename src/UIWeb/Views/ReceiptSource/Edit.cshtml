@@ -1,0 +1,20 @@
+﻿@model Wiz.Gringotts.UIWeb.Models.ReceiptSources.ReceiptSourceEditorForm
+
+@{
+    ViewBag.Title = "Edit Receipt Source";
+}
+
+@Html.Partial("_ModelErrors")
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Edit Receipt Source</h3>
+    </div>
+    <div class="panel-body">
+        @Html.EditorForModel()
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/Scripts/Modules/receipt.source.editor.js")
+}

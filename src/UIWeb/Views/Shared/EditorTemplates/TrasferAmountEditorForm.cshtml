@@ -1,0 +1,100 @@
+﻿@model Wiz.Gringotts.UIWeb.Models.Transactions.TrasferAmountEditorForm
+
+@using (Html.BeginForm("Create","Transfers", FormMethod.Post, new {name="transferAmountEditor", id= "transferAmountEditor" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("return_url")
+    <div class="form-horizontal">
+        <fieldset>
+            <legend>Details</legend>
+            @Html.HiddenFor(m => m.FundId)
+            @Html.HiddenFor(m => m.ClientId)
+            @Html.HiddenFor(m => m.PayeeId)
+
+            @{
+                var url = Model.ClientId.HasValue ?
+                    Url.Action("Show", "Clients", new { id = Model.ClientId.Value, fields = "accounts,id,name,available", search = "%QUERY" }) :
+                    Url.Action("Show", "Funds", new { id = Model.FundId.Value, fields = "id,name,available", search = "%QUERY" });
+            }
+
+            <div class="row" id="fromAccountEditor" data-remote-url="@url">
+                <div class="col-md-12">
+                    <div class="form-group has-feedback">
+                        <label class="control-label col-md-2" for="FromAccountName">From Account</label>
+                        <div class="col-md-10">
+                            @Html.HiddenFor(m => m.FromAccountId)
+                            <input class="form-control text-box single-line"
+                                   placeholder="Select From Account"
+                                   data-val="true"
+                                   data-val-payee="Invalid Selection"
+                                   data-val-required="The From Account field is required."
+                                   id="FromAccountName" name="FromAccountName" type="text" value="@Model.FromAccountName">
+                            <i class="form-control-feedback text-muted glyphicon glyphicon-cog spin hidden"></i>
+                            @Html.ValidationMessageFor(model => model.FromAccountId, "", new {@class = "text-danger"})
+                            @Html.ValidationMessageFor(model => model.FromAccountName, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="Available">Available</label>
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <span id="amount-addon" class="input-group-addon"><span class="fa fa-dollar"></span></span>
+                                <input aria-describedby="amount-addon" class="form-control text-box single-line" disabled="disabled" id="Available" name="Available" type="text" value="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" id="toAccountEditor" data-remote-url="@url">
+                <div class="col-md-12">
+                    <div class="form-group has-feedback">
+                        <label class="control-label col-md-2" for="ToAccountName">To Account</label>
+                        <div class="col-md-10">
+                            @Html.HiddenFor(m => m.ToAccountId)
+                            <input class="form-control text-box single-line"
+                                   placeholder="Select To Account"
+                                   data-val="true"
+                                   data-val-payee="Invalid Selection"
+                                   data-val-required="The To Account field is required."
+                                   id="ToAccountName" name="ToAccountName" type="text" value="@Model.ToAccountName">
+                            <i class="form-control-feedback text-muted glyphicon glyphicon-cog spin hidden"></i>
+                            @Html.ValidationMessageFor(model => model.ToAccountId, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.FromAccountName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="Amount"><u>A</u>mount</label>
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <span id="amount-addon" class="input-group-addon"><span class="fa fa-dollar"></span></span>
+                                @Html.EditorFor(model => model.Amount, new {htmlAttributes = new {@class = "form-control", aria_describedby = "amount-addon"}})
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Amount, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-primary" id="save"><span class="fa fa-save"></span> <u>S</u>ave</button>
+                    <button type="submit" class="btn btn-default" id="continue" data-url="@Request.Url.PathAndQuery"><span class="fa fa-save"></span> Save & Continue</button>
+                    <button type="button" class="btn btn-default" id="cancel"><span class="fa fa-trash"></span> <u>C</u>ancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

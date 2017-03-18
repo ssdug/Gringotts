@@ -1,0 +1,32 @@
+﻿@using Wiz.Gringotts.UIWeb.Infrastructure.Extensions
+@using Wiz.Gringotts.UIWeb.Models.Organizations
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <meta name="description" content="Gringotts Management" />
+</head>
+    <body class="">
+        @Html.Partial("_Header")
+        <div class="container-fluid main">
+            @if (ViewBag.TenantBreadcrumbs == null)
+            {
+                <h1 class="page-header">@ViewBag.Title</h1>
+            }
+            else
+            {
+                @Html.Partial("_TenantBreadcrumb", ViewBag.TenantBreadcrumbs as TenantBreadcrumb)
+            }
+            @RenderBody()
+        </div>
+        @Html.Partial("_Footer")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/jqueryval")
+        @RenderSection("scripts", required: false)
+    </body>
+</html>

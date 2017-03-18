@@ -1,0 +1,202 @@
+﻿@using NExtensions
+@model Wiz.Gringotts.UIWeb.Models.Organizations.OrganizationEditorForm
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "organizationEditor", id = "organizationEditor" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("return_url")
+
+    <div class="form-horizontal">
+        <fieldset>
+            <legend>Details</legend>
+            @Html.HiddenFor(model => model.ParentOrganizationId)
+            @Html.HiddenFor(model => model.ParentOrganizationAbbreviation)
+            @Html.HiddenFor(model => model.ParentOrganizationName)
+            @Html.HiddenFor(model => model.OrganizationId)
+
+            @if (Model.ParentOrganizationId.HasValue)
+            {
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Parent</label>
+                    <div class="col-md-10"><p>(@Model.ParentOrganizationAbbreviation) @Model.ParentOrganizationName</p></div>
+                </div>
+            }
+
+            <div class="form-group">
+                <label class="control-label col-md-2" for="GroupName">AD <u>G</u>roup</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.GroupName, new { htmlAttributes = new { @class = "form-control", placeholder = "Active Directory Group containing this organization's users" } })
+                    @Html.ValidationMessageFor(model => model.GroupName, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.AllowApplicationGroups)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2" for="Name"><u>N</u>ame</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Display Name for the Organization" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2" for="Abbreviation">A<u>b</u>breviation</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Abbreviation, new { htmlAttributes = new { @class = "form-control", placeholder = "Short Name for the Organization" } })
+                    @Html.ValidationMessageFor(model => model.Abbreviation, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2" for="Phone"><u>P</u>hone</label>
+                <div class="col-md-10">
+                    <div class="input-group">
+                        <div class="input-group-addon"><span class="fa fa-phone"></span></div>
+                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", placeholder = "Example, (360) 555-1212 x42" } })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="FiscalContactSamAccountName"><u>F</u>iscal Contact</label>
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <div class="input-group-addon"><span class="fa fa-user"></span></div>
+                                @Html.EditorFor(model => model.FiscalContactSamAccountName, new { htmlAttributes = new { @class = "form-control", placeholder = "User Name Only" } })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.FiscalContactSamAccountName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="ITConactSamAccountName"><u>I</u>T Contact</label>
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <div class="input-group-addon"><span class="fa fa-user"></span></div>
+                                @Html.EditorFor(model => model.ITConactSamAccountName, new { htmlAttributes = new { @class = "form-control", placeholder = "User Name Only" } })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.ITConactSamAccountName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </fieldset>
+
+        <fieldset>
+            <legend>Address</legend>
+            <div class="form-group">
+                <label class="control-label col-md-2" for="AddressLine1">Line <u>1</u></label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.AddressLine1, new { htmlAttributes = new { @class = "form-control", placeholder = "Address Line 1" } })
+                    @Html.ValidationMessageFor(model => model.AddressLine1, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2" for="AddressLine2">Line <u>2</u></label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.AddressLine2, new { htmlAttributes = new { @class = "form-control", placeholder = "Address Line 2, Optional" } })
+                    @Html.ValidationMessageFor(model => model.AddressLine2, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="City">Ci<u>t</u>y</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label col-md-3" for="State"><u>S</u>tate</label>
+                        <div class="col-md-7">
+                            @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control", maxlength = "2" } })
+                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-6" for="PostalCode">P<u>o</u>stal Code</label>
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.PostalCode, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.PostalCode, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Features</legend>
+            @for (int i = 0; i < Model.AvailableFeatures.Count; i++)
+            {
+                @Html.HiddenFor(model => model.AvailableFeatures[i].Id)
+                @Html.HiddenFor(model => model.AvailableFeatures[i].Name)
+                @Html.HiddenFor(model => model.AvailableFeatures[i].Description)
+            }
+            <div class="row">
+                @{ var index = 0; }
+                @if (Model.AvailableFeatures.Any())
+                {
+                    <div class="col-md-6">
+                        <ul class="list-group">
+                            @foreach (var feature in Model.AvailableFeatures.Take(Model.AvailableFeatures.Count() / 2))
+                            {
+                                <li class="list-group-item">
+                                    <label class="checkbox-inline">
+                                        <h4 class="list-group-item-heading">
+                                            @Html.CheckBox("EnabledFeatures[{0}]".FormatWith(index), Model.EnabledFeatures.Contains(feature.Id.ToString()), new { @class = "toggle", value = feature.Id, data_size = "mini" })
+                                            @feature.Name
+                                        </h4>
+                                        <span class="list-group-item-text">@feature.Description</span>
+
+                                    </label>
+                                </li>
+                                { index++; }
+                            }
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="list-group">
+                            @foreach (var feature in Model.AvailableFeatures.Skip(Model.AvailableFeatures.Count() / 2))
+                            {
+                                <li class="list-group-item">
+                                    <label class="checkbox-inline">
+                                        <h4 class="list-group-item-heading">
+                                            @Html.CheckBox("EnabledFeatures[{0}]".FormatWith(index), Model.EnabledFeatures.Contains(feature.Id.ToString()), new { @class = "toggle", value = feature.Id, data_size = "mini" })
+                                            @feature.Name
+                                        </h4>
+                                        <span class="list-group-item-text">@feature.Description</span>
+
+                                    </label>
+                                </li>
+                                { index++; }
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+        </fieldset>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-primary" id="save"><span class="fa fa-save"></span> <u>S</u>ave</button>
+                    <button type="submit" class="btn btn-default" id="continue" data-url="@Request.Url.PathAndQuery"><span class="fa fa-save"></span> Save & Continue</button>
+                    <button type="button" class="btn btn-default" id="cancel"><span class="fa fa-trash"></span> <u>C</u>ancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+                    }

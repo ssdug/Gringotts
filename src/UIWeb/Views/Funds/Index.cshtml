@@ -1,0 +1,88 @@
+﻿@using Wiz.Gringotts.UIWeb.Models.Features
+@using Wiz.Gringotts.UIWeb.Models.Funds
+@using Roles = Wiz.Gringotts.UIWeb.Infrastructure.Security.ApplicationRoles
+@model Wiz.Gringotts.UIWeb.Models.Funds.FundsSearchResult
+
+@{
+    ViewBag.Title = "Funds";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h3 class="sub-header">
+            Funds
+        </h3>
+    </div>
+</div>
+
+@if (!ViewBag.Features.IsEnabled(Feature.Funds))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-warning">
+                The Funds Feature is currently disabled for @ViewBag.Organization.Name.
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">@Model.Items.TotalItemCount @(Model.Pager.IsActive ? "Active" : "Inactive") Funds</div>
+
+
+        <table id="funds" class="table table-responsive table-striped table-hover">
+            <thead>
+            <tr>
+                <th class="col-md-1">Code</th>
+                <th class="col-md-2">Name</th>
+                <th class="col-md-2">Bank Account</th>
+                <th class="col-md-2">Balance</th>
+                <th class="col-md-2">Encumbered</th>
+                <th class="col-md-1">Available</th>
+                <th class="col-md-2 text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (Model.Items.Any())
+            {
+                for (var i = 0; i < Model.Items.Count; i++)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(m => m.Items[i].Code)</td>
+                        <td>@Html.DisplayFor(m => m.Items[i].Name)</td>
+                        <td>@Html.DisplayFor(m => m.Items[i].BankNumber)</td>
+                        <td>@Html.DisplayFor(m => m.Items[i].Total)</td>
+                        <td>@Html.DisplayFor(m => m.Items[i].Encumbered)</td>
+                        <td>@Html.DisplayFor(m => m.Items[i].Available)</td>
+
+                        <td>
+                            <div class="text-center">
+                                <a class="btn btn-xs btn-primary" href="@Url.Action("Show", "Funds", new {id = Model.Items[i].Id})">Select</a>
+                                <a class="btn btn-xs btn-default" href="@Url.Action("Edit", "Funds", new {id = Model.Items[i].Id})">Edit</a>
+                                @if (Model.Items[i] is SubsidiaryFund)
+                                {
+                                    <a class="btn btn-xs btn-default" href="@Url.Action("Fund","Transfers", new {id = Model.Items[i].Id})">Transfer</a>
+                                }
+                                <div class="btn-group">
+                                    <a class="btn btn-xs btn-default" href="@Url.Action("BatchCreate", "Expenses", new {id = Model.Items[i].Id})">Batch</a>
+                                    <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="caret"></span>
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li><a href="@Url.Action("BatchCreate", "Expenses", new {id = Model.Items[i].Id})">Expenses</a></li>
+                                        <li><a href="@Url.Action("BatchCreate", "Receipts", new {id = Model.Items[i].Id})">Receipts</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </td>
+
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+    </div>
+}

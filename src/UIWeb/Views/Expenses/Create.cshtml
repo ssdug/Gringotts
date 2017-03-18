@@ -1,0 +1,20 @@
+﻿@model Wiz.Gringotts.UIWeb.Models.Transactions.ExpenseEditorForm
+
+@{
+    ViewBag.Title = "Add New Expense";
+}
+
+@Html.Partial("_ModelErrors")
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Add New Expense</h3>
+    </div>
+    <div class="panel-body">
+        @Html.EditorForModel()
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/Scripts/Modules/expense.editor.js")
+}

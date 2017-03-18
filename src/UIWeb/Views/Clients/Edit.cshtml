@@ -1,0 +1,21 @@
+﻿@model Wiz.Gringotts.UIWeb.Models.Clients.ClientEditorForm
+
+@{
+    ViewBag.Title = "Edit Client";
+}
+
+@Html.Partial("_ModelErrors")
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Edit Client</h3>
+    </div>
+    <div class="panel-body">
+        @Html.EditorForModel()
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/Scripts/cropper.min.js")
+    @Scripts.Render("~/Scripts/Modules/client.editor.js")
+}

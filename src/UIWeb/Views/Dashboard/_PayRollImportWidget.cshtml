@@ -1,0 +1,26 @@
+﻿@using Roles = Wiz.Gringotts.UIWeb.Infrastructure.Security.ApplicationRoles
+@model Wiz.Gringotts.UIWeb.Models.Dashboard.PayRollImportWidget
+
+@if (User.IsInRole(Roles.Developer))//hiding this so we can deploy
+{
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Model.Title</h3>
+            </div>
+
+            @using (Html.BeginForm("Create", "Imports", FormMethod.Post, new {name = "payrollLoad", id = "payrollLoad", enctype = "multipart/form-data"}))
+            {
+                @Html.AntiForgeryToken()
+                <fieldset>
+                    <div class="row text-center">
+                        <div class="col-md-12 text-center">
+                            <input class="col-md-12 btn btn-default" type="file" id="File" name="File" accept=".csv"/>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-xs" id="save"><span class="fa fa-file-excel-o"></span> <u>I</u>mport File</button>
+                    </div>
+                </fieldset>
+            }
+        </div>
+    </div>
+}

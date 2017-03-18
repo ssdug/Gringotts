@@ -1,0 +1,95 @@
+﻿@using Wiz.Gringotts.UIWeb.Models.Accounts
+@using NExtensions
+@model Wiz.Gringotts.UIWeb.Models.Transactions.BatchReceiptDetails
+@{
+    ViewBag.Title = "Batch Receipt - {0}".FormatWith(Model.Batch.BatchReferenceNumber);
+    Layout = null;
+}
+<html>
+<head>
+    <meta charset="utf-8" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Receipt for @Model.Batch.BatchReferenceNumber</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-2"><strong>Type:</strong> @Model.Batch.ReceiptType.Name</div>
+                <div class="col-md-2"><strong>Expected:</strong>@string.Format("{0:C}", Model.Batch.ExpectedAmount)</div>
+                <div class="col-md-2"><strong>Total:</strong>@string.Format("{0:C}", Model.Batch.Transactions.Sum(t => t.Amount))</div>
+                <div class="col-md-3"><strong>Effective:</strong>@Model.Batch.Effective</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div>
+                        @if (Model.CreatedBy != null)
+                        {
+                            <strong>Created:</strong>
+                            <a href="mailto:@Model.CreatedBy.EmailAddress">@Model.CreatedBy.LastName, @Model.CreatedBy.FirstName</a>
+                        }
+                    </div>
+                </div>
+               
+            </div>
+
+            <hr />
+            <table id="batch-items" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th align="left">Reference</th>
+                        @if (Model.Batch.Transactions.Any(t => t.Account is ClientAccount))
+                        {
+                            <th  align="left">Client</th>
+                        }
+                        <th align="left">Account</th>
+                        <th align="left">Amount</th>
+                        <th align="left">Source</th>
+                        <th align="left">Comment</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                        @for (int i = 0; i < Model.Transactions.Length; i++)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(m => m.Transactions[i].BatchReferenceNumber)</td>
+                                @if (Model.Transactions[i].Account is ClientAccount)
+                                {
+                                    <td>
+                                        @{
+                                            var account = Model.Transactions[i].Account as ClientAccount;
+                                            var client = account.Residency.Client;
+
+                                        }
+                                        @client.DisplayName
+                                    </td>
+                                            }
+                                <td>@Html.DisplayFor(m => m.Transactions[i].Account.Name)</td>
+                                <td>@Html.DisplayFor(m => m.Transactions[i].Amount)</td>
+                                <td>@Html.DisplayFor(m => m.Transactions[i].ReceiptSource.Name)</td>
+                                <td>@Html.DisplayFor(m => m.Transactions[i].Comments)</td>
+                            </tr>
+                                                }
+                                            
+                </tbody>
+            </table>
+
+        </div>
+        <br /><br /><br />
+        <br />------------------------------------------------------------------------------------------------------------------------<br />
+        Signature
+        <br /><br /><br />
+        <br />------------------------------------------------------------------------------------------------------------------------<br />
+        Signature
+        <br /><br /><br />
+        <br />------------------------------------------------------------------------------------------------------------------------<br />
+        Signature
+    </div>
+
+</body>
+</html>

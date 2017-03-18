@@ -1,0 +1,94 @@
+﻿@using Wiz.Gringotts.UIWeb.Models.Transactions
+@using PagedList.Mvc
+@model Wiz.Gringotts.UIWeb.Models.Restitution.RestitutionOrderDetails
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        @if (string.IsNullOrWhiteSpace(Model.Pager.Search))
+        {
+            <span>@Model.Items.TotalItemCount Payments</span>
+        }
+        else
+        {
+            <span>
+                <a id="clear" class="btn btn-xs btn-danger" href="@Url.Action("Show")#tab-transactions"><span class="fa fa-trash-o"></span> <u>C</u>lear</a>
+                @Model.Items.TotalItemCount Search Results For
+                "@Html.ActionLink(Model.Pager.Search, "Show", new { isactive = Model.Pager.IsActive.ToString().ToLower(), search = Model.Pager.Search })"
+            </span>
+        }
+
+        @Html.Partial("_TransactionSearch", Model.Pager as TransactionsSearchPager)
+
+    </div>
+
+    <table id="transactions-table" class="table table-condensed table-responsive table-striped table-hover">
+        <thead>
+            <tr>
+                <th class="col-md-2">Number</th>
+                <th class="col-md-2">Type</th>
+                <th class="col-md-2">Info</th>
+                <th class="col-md-1">Debit</th>
+                <th class="col-md-1">Credit</th>
+                <th class="col-md-2">Date</th>
+                <th class="col-md-2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Items.Any())
+            {
+                for (var i = 0; i < Model.Items.Count; i++)
+                {
+
+                    if (Model.Items[i] is Receipt)
+                    {
+                        var receipt = (Receipt)Model.Items[i];
+                        <tr class="success">
+                            <td>@receipt.ReceiptNumber</td>
+                            <td>@receipt.ReceiptType.Name - Receipt</td>
+                            <td><strong>From</strong> - @receipt.ReceivedFrom</td>
+                            <td></td>
+                            <td>@Html.DisplayFor(m => m.Items[i].Amount)</td>
+                            <td>@receipt.Created.ToLocalTime()</td>
+                            <td></td>
+                        </tr>
+                    }
+
+                    if (Model.Items[i] is Expense)
+                    {
+                        var expense = (Expense)Model.Items[i];
+                        <tr class="danger">
+                            <td></td>
+                            <td>@expense.ExpenseType.Name - Expense</td>
+                            <td><strong>To</strong> - @expense.Payee.Name</td>
+                            <td>(@Html.DisplayFor(m => m.Items[i].Amount))</td>
+                            <td></td>
+                            <td>@expense.Created.ToLocalTime()</td>
+                            <td></td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="pull-right">
+                    @*<a class="btn btn-default" id="receipt" href="@Url.Action("Create", "Receipts", new {id = Model.Account.Id})"><span class="fa fa-plus"></span> Recei<u>p</u>t</a>*@
+                    @*<a class="btn btn-default" id="expense" href="@Url.Action("Create", "Expenses", new {id = Model.Account.Id})"><span class="fa fa-minus"></span> E<u>x</u>pense</a>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        @Html.PagedListPager(Model.Items, page => Url.Action("Show", new { page }) + "&" + Model.Pager.ToString() + "#tab-transactions",
+            new PagedListRenderOptions { Display = PagedListDisplayMode.IfNeeded, MaximumPageNumbersToDisplay = 5 })
+    </div>
+    <div class="col-md-6">
+
+    </div>
+</div>

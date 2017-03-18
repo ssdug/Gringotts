@@ -1,0 +1,115 @@
+﻿@using Wiz.Gringotts.UIWeb.Models.Transactions
+@using NExtensions
+@using PagedList.Mvc
+@model Wiz.Gringotts.UIWeb.Models.Funds.FundDetails
+
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        @if (string.IsNullOrWhiteSpace(Model.Pager.Search))
+        {
+            <span>@Model.Batches.TotalItemCount @(Model.Pager.IsActive ? "Uncommitted" : "Committed") Batches</span>
+        }
+        else
+        {
+            <span>
+                <a id="clear" class="btn btn-xs btn-danger" href="@Url.Action("Show")#tab-batches"><span class="fa fa-trash-o"></span> <u>C</u>lear</a>
+                @Model.Batches.TotalItemCount Search Results For
+                "@Html.ActionLink(Model.Pager.Search, "Show", new {isactive = Model.Pager.IsActive.ToString().ToLower(), search = Model.Pager.Search})"
+            </span>
+        }
+
+        <form action="@Url.Action("Show")#tab-batches" class="form-inline pull-right" id="batch-search" method="get" role="form">
+
+            <label class="sr-only" for="isactive">Is Uncommitted</label>
+            @Html.CheckBox("isactive", Model.Pager.IsActive,
+                new {@class = "form-control input-sm", title = "Show Uncommitted Accounts", data_html = true, data_toggle = "tooltip", data_placement = "left"})
+
+            <div class="form-group">
+                <div class="input-group">
+                    <label class="sr-only" for="search">Batches</label>
+                    <div class="input-group-addon"><span class="fa fa-user"></span></div>
+                    <input class="form-control input-sm" type="text" id="search" name="search" placeholder="alt-s to Search for Batches"
+                           data-val="true" data-val-regex="Invalid Search" data-val-regex-pattern="^[a-zA-Z0-9\s-]+$"
+                           data-val-required="The search is required."/>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-sm btn-primary"><span class="fa fa-search"></span></button>
+        </form>
+    </div>
+
+    <table id="batches-table" class="table table-responsive table-striped table-hover">
+        <thead>
+        <tr>
+            <th class="col-md-2">Reference</th>
+            <th class="col-md-2">Type</th>
+            <th class="col-md-2">Expected</th>
+            <th class="col-md-2">Entered</th>
+            <th class="col-md-2">Effective</th>
+            <th class="col-md-3 text-center">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+            @if (Model.Batches.Any())
+            {
+
+                foreach (var batch in Model.Batches)
+                {
+                    if (batch is ExpenseBatch)
+                    {
+                        var expense = (ExpenseBatch) batch;
+
+                        <tr>
+                            <td>@expense.BatchReferenceNumber</td>
+                            <td>Expense - @expense.ExpenseType.Name</td>
+                            <td>(@expense.ExpectedAmount.ToString("C"))</td>
+                            <td>(@expense.Transactions.Sum(t => t.Amount).ToString("C"))</td>
+                            <td>@expense.Effective.ToLocalTime()</td>
+                            <td>
+                                <div class="text-center">
+                                    <a class="btn btn-xs btn-primary" href="@Url.Action("BatchShow", "Expenses", new {id = expense.Id})">Select</a>
+                                    <a class="btn btn-xs btn-default" href="@Url.Action("BatchEdit", "Expenses", new {id = expense.Id})">Edit</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                    if (batch is ReceiptBatch)
+                    {
+                        var receipt = (ReceiptBatch) batch;
+
+                        <tr>
+                            <td>@receipt.BatchReferenceNumber</td>
+                            <td>Receipt - @receipt.ReceiptType.Name</td>
+                            <td>@receipt.ExpectedAmount.ToString("C")</td>
+                            <td>@receipt.Transactions.Sum(t => t.Amount).ToString("C")</td>
+                            <td>@receipt.Effective.ToLocalTime()</td>
+                            <td>
+                                <div class="text-center">
+                                    <a class="btn btn-xs btn-primary" href="@Url.Action("BatchShow", "Receipts", new {id = receipt.Id})">Select</a>
+                                    <a class="btn btn-xs btn-default" href="@Url.Action("BatchEdit", "Receipts", new {id = receipt.Id})">Edit</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        @Html.PagedListPager(Model.Items, page => Url.Action("Show", new { page }) + "#tab-batches",
+        new PagedListRenderOptions { Display = PagedListDisplayMode.IfNeeded, MaximumPageNumbersToDisplay = 5 })
+    </div>
+    <div class="col-md-6">
+        <div class="pull-right">
+            @if (Model.Pager.IsActive) // only show add button if we are viewing active results
+            {
+                <a class="btn btn-default" id="add" href="@Url.Action("BatchCreate", "Expenses", new { id = Model.Fund.Id })"><span class="fa fa-plus"></span> Add Batch Expense</a>
+                <a class="btn btn-default" id="add" href="@Url.Action("BatchCreate", "Receipts", new { id = Model.Fund.Id })"><span class="fa fa-minus"></span> Add Batch Receipt</a>
+            }
+        </div>
+    </div>
+</div>

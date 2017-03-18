@@ -1,0 +1,85 @@
+﻿
+@model Wiz.Gringotts.UIWeb.Models.Transactions.ReceiptDetails
+@{
+    ViewBag.Title = "GetReceipt";
+    Layout = null;
+}
+
+
+<head>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 5px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+
+<table>
+    <tr>
+        <td>
+            @Html.DisplayFor(model => model.Receipt.Organization.Name) - @Html.DisplayFor(model => model.Receipt.FundId)
+        </td>
+        <td>
+            <B>Reference Number: </B>  @Html.DisplayFor(model => model.Receipt.Id)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>Client/Account Name: </b>@Html.DisplayFor(model => model.Receipt.Account.Name)
+        </td>
+        <td>
+            <b>Received From: </b>  @Html.DisplayFor(model => model.Receipt.ReceivedFrom)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>Receipt Amount: </b>@Html.DisplayFor(model => model.Receipt.Amount)
+        </td>
+        <td>
+            <b>Account Type:  </b>  @Html.DisplayFor(model => model.Receipt.Account.AccountType.Name)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>Receipt Source: </b>@Html.DisplayFor(model => model.Receipt.ReceivedFrom)
+        </td>
+        <td>
+            <b>Receipt Number:  </b>  @Html.DisplayFor(model => model.Receipt.ReceiptNumber)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>Date Received: </b>@Html.DisplayFor(model => model.Receipt.Created)
+        </td>
+        <td>
+            <b>Receipt Type:  </b>  @Html.DisplayFor(model => model.Receipt.ReceiptType.Name)
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <b>Date: </b>@DateTime.Now.ToShortDateString()
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <b>Received By: </b>@Html.DisplayFor(model => model.ReceivedBy)
+        </td>
+    </tr>
+
+</table>
+<br /><br /><br />
+<br />------------------------------------------------------------<br />
+Signature
+<br /><br /><br />
+<br />------------------------------------------------------------<br />
+Signature
+<br /><br /><br />
+<br />------------------------------------------------------------<br />
+Signature

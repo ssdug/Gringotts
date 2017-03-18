@@ -1,0 +1,142 @@
+﻿@using Wiz.Gringotts.UIWeb.Models.Accounts
+@using Wiz.Gringotts.UIWeb.Models.Clients
+@using Wiz.Gringotts.UIWeb.Models.Funds
+@using Wiz.Gringotts.UIWeb.Models.Restitution
+@using Wiz.Gringotts.UIWeb.Models.Transactions
+@using NExtensions
+@model Wiz.Gringotts.UIWeb.Models.Organizations.TenantBreadcrumb
+
+@if (ViewBag.DisableNavigation == null)
+{
+    <ol class="breadcrumb">
+        <li><span class="fa fa-building-o"></span></li>
+        @foreach (var org in Model.ToHeirarchy())
+        {
+            <!-- @org.Abbreviation -->
+            if ((!Model.IsAvailable(org) && !Model.HasAvailableSiblings(org) && !Model.HasAvailableSiblingChildren(org))
+                || (Model.IsAvailable(org) && !Model.HasAvailableSiblings(org) && !Model.HasAvailableSiblingChildren(org)))
+            {
+                <!-- Match 1-->
+                <li class="@(Model.IsCurrentTenant(org) ? "active" : "")">@org.Abbreviation.ToUpper()</li>
+            }
+
+            if (Model.HasAvailableSiblings(org))
+            {
+                <!-- match 2-->
+                <li class="@(Model.IsCurrentTenant(org) ? "active" : "") dropdown">
+                    <a id="@(org.Abbreviation + "Menu")" class="dropdown-toggle" data-toggle="dropdown" href="#">@org.Abbreviation.ToUpper() <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="@(org.Abbreviation + "Menu")">
+                        @foreach (var sibling in Model.GetAvailableSiblings(org))
+                        {
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" href="@Url.RouteUrl("Select_Tenant_Route", new {controller = "Organizations", action = "Select", tenantKey = sibling.Abbreviation, returnUrl = Context.Request.Path})">@sibling.Abbreviation.ToUpper()</a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+
+            if (!Model.HasAvailableSiblings(org) && Model.HasAvailableSiblingChildren(org))
+            {
+                <!-- match 3-->
+                <li class="@(Model.IsCurrentTenant(org) ? "active" : "") dropdown">
+                    <a id="@(org.Abbreviation + "Menu")" class="dropdown-toggle" data-toggle="dropdown" href="#">@org.Abbreviation.ToUpper() <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="@(org.Abbreviation + "Menu")">
+                        @foreach (var child in Model.GetAvailableSiblingChildren(org).Where(c => c.Parent.Id != Model.CurrentTenantOrganization.Parent.Id))
+                        {
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" href="@Url.RouteUrl("Select_Tenant_Route", new {controller = "Organizations", action = "Select", tenantKey = child.Abbreviation, returnUrl = Context.Request.Path})">@child.Parent.Abbreviation.ToUpper() - @child.Abbreviation.ToUpper()</a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+
+            if (Model.IsCurrentTenant(org) && Model.HasAvailableChildren(org))
+            {
+                <!-- Match 4-->
+                <li class="dropdown">
+                    <a id="MoreMenu" class="dropdown-toggle" data-toggle="dropdown" href="#">More<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="MoreMenu">
+                        @foreach (var child in Model.GetAvailableChildren(org))
+                        {
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" href="@Url.RouteUrl("Select_Tenant_Route", new {controller = "Organizations", action = "Select", tenantKey = child.Abbreviation, returnUrl = Context.Request.Path})">@child.Abbreviation.ToUpper()</a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+        }
+
+        @if (ViewBag.OrderContext != null)
+        {
+            var order = ViewBag.OrderContext as Order;
+            <li class="dropdown pull-right">
+                <a class="dropdown-toggle" href="@Url.Action("Show", "Restitution", new {id = order.Id})">@order.OrderNumber <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#"><strong>Balance:</strong> <span class="pull-right">@order.Balance.ToString("C")</span></a></li>
+                    <li><a href="#"><strong>Total:</strong> <span class="pull-right">@order.Total.ToString("C")</span></a></li>
+                </ul>
+            </li>
+
+        }
+
+        @if (ViewBag.TransactionContext != null)
+        {
+            var transaction = ViewBag.TransactionContext as Transaction;
+            <li class="dropdown pull-right">
+                @* TODO: Correct UI for transaction context once we have a place to see it. *@
+                <a class="dropdown-toggle" href="@Url.Action("Show", "Accounts", new {id = transaction.Id})">@transaction.Amount <b class="caret"></b></a>
+            </li>
+        }
+        @if (ViewBag.AccountContext != null)
+        {
+            var account = ViewBag.AccountContext as Account;
+            <li class="dropdown pull-right">
+                <a class="dropdown-toggle" href="@Url.Action("Show", "Accounts", new {id = account.Id})">@account.Name <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#"><strong>Available:</strong> <span class="pull-right">@account.Available.ToString("C")</span></a></li>
+                    <li><a href="#"><strong>Total:</strong> <span class="pull-right">@account.Total.ToString("C")</span></a></li>
+                </ul>
+            </li>
+        }
+        @if (ViewBag.ClientContext != null)
+        {
+            var client = ViewBag.ClientContext as Client;
+            if (client.Identifiers.Any())
+            {
+                <li class="dropdown pull-right">
+                    <a class="dropdown-toggle" href="@Url.Action("Show", "Clients", new {id = client.Id})">@("{0}, {1}".FormatWith(client.LastName, client.FirstName)) <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        @foreach (var item in client.Identifiers)
+                        {
+                            <li><a href="#"><strong>@item.ClientIdentifierType.Name:</strong> <span class="pull-right">@item.Display()</span></a></li>
+                        }
+                        @if (client.ImageId.HasValue)
+                        {
+                            <li><a href="#"><img src="@Url.Action("Index", "Files", new {id = client.ImageId})" class="img-responsive img-thumbnail center-block" alt="@client.DisplayName"/></a></li>
+                        }
+                    </ul>
+                </li>
+            }
+            else
+            {
+                <li class="pull-right">@Html.ActionLink("{0}, {1}".FormatWith(client.LastName, client.FirstName), "Show", new {controller = "Clients", id = client.Id})</li>
+            }
+        }
+
+        @if (ViewBag.FundContext != null)
+        {
+            var fund = ViewBag.FundContext as Fund;
+            <li class="dropdown pull-right">
+                <a class="dropdown-toggle" href="@Url.Action("Show", "Funds", new {id = fund.Id})">@( "{0} {1}".FormatWith(fund.Code, fund.Name)) <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#"><strong>Available:</strong> <span class="pull-right">@fund.Available.ToString("C")</span></a></li>
+                    <li><a href="#"><strong>Total:</strong> <span class="pull-right">@fund.Total.ToString("C")</span></a></li>
+                </ul>
+            </li>
+        }
+    </ol>
+}
+

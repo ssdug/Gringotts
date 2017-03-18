@@ -1,0 +1,20 @@
+﻿@model Wiz.Gringotts.UIWeb.Models.Transactions.TrasferAmountEditorForm
+
+@{
+    ViewBag.Title = "Transfer Funds";
+}
+
+@Html.Partial("_ModelErrors")
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Transfer Funds</h3>
+    </div>
+    <div class="panel-body">
+        @Html.EditorForModel()
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/Scripts/Modules/transfer.editor.js")
+}
