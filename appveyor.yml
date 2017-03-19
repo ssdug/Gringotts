@@ -73,7 +73,7 @@ before_test:
 
 test:
   assemblies:
-    - Wiz.Gringotts.WebUI.Tests.dll
+    - Wiz.Gringotts.UIWeb.Tests.dll
 
   categories:
     except:
