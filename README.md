@@ -67,17 +67,17 @@ Squibs and the [Tom Riddle](http://harrypotter.wikia.com/wiki/Tom_Riddle) Memori
 
 ### Features
 
-- [Accounts](/docs/mockups/account/readme.md?raw=true)
-- [Clients](/docs/mockups/client/readme.md?raw=true)
-- [Organizations](/docs/mockups/organization/readme.md?raw=true)
-- [Vendors](/docs/mockups/vendor/readme.md?raw=true)
-- [Dashboard](/docs/mockups/dashboard/readme.md?raw=true)
+- [Accounts](docs/mockups/account/readme.md)
+- [Clients](docs/mockups/client/readme.md)
+- [Organizations](docs/mockups/organization/readme.md)
+- [Vendors](docs/mockups/vendor/readme.md)
+- [Dashboard](docs/mockups/dashboard/readme.md)
 
 ### Architecture
 
-- [Logging](/docs/logging.md?raw=true)
-- [Data Access](/docs/dataaccess.md?raw=true)
-- [Diagnostics](/docs/diagnostics.md?raw=true)
-- [Multitenancy](/docs/multitenancy.md?raw=true)
-- [Dependency Injection](/docs/dependencyinjection.md?raw=true)
-- [Command/Query Seperation](/docs/commandqueryseperation.md?raw=true)
+- [Logging](docs/logging.md)
+- [Data Access](docs/dataaccess.md)
+- [Diagnostics](docs/diagnostics.md)
+- [Multitenancy](docs/multitenancy.md)
+- [Dependency Injection](docs/dependencyinjection.md)
+- [Command/Query Seperation](docs/commandqueryseperation.md)
