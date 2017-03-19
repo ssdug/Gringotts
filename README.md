@@ -45,22 +45,22 @@ will be fixed in a future version.
 
 ### External Dependencies
 
-1. [Autofac](https://autofac.org/) - Dependency Intection framework used for service and plugin registration
-1. [ImageResizer](https://imageresizing.net/) - Image Manipulation library used to resize profile images
-1. [MediatR](https://github.com/jbogard/MediatR) - Simple Mediator implementation used to process Commands, Queries & Notifications
-1. [NLog](http://nlog-project.org/) - NLog makes it easy to produce and manage high-quality logs for your application
-1. [Glimpse](http://getglimpse.com/) - Providing real time diagnostics & insights
-1. [jQuery](https://jquery.com/) - jQuery is a fast, small, and feature-rich JavaScript library
-1. [lodash](https://lodash.com/) - A modern JavaScript utility library delivering modularity, performance & extras
-1. [mustache.js](https://mustache.github.io/) - Logic-less client side templates
-1. [Bootstrap](http://getbootstrap.com/) - Bootstrap is the most popular HTML, CSS, and JS framework
-1. [FontAwesome](http://fontawesome.io/) - Font Awesome gives you scalable vector icons that can instantly be customized
+- [Autofac](https://autofac.org/) - Dependency Intection framework used for service and plugin registration
+- [ImageResizer](https://imageresizing.net/) - Image Manipulation library used to resize profile images
+- [MediatR](https://github.com/jbogard/MediatR) - Simple Mediator implementation used to process Commands, Queries & Notifications
+- [NLog](http://nlog-project.org/) - NLog makes it easy to produce and manage high-quality logs for your application
+- [Glimpse](http://getglimpse.com/) - Providing real time diagnostics & insights
+- [jQuery](https://jquery.com/) - jQuery is a fast, small, and feature-rich JavaScript library
+- [lodash](https://lodash.com/) - A modern JavaScript utility library delivering modularity, performance & extras
+- [mustache.js](https://mustache.github.io/) - Logic-less client side templates
+- [Bootstrap](http://getbootstrap.com/) - Bootstrap is the most popular HTML, CSS, and JS framework
+- [FontAwesome](http://fontawesome.io/) - Font Awesome gives you scalable vector icons that can instantly be customized
 
 ### Platform Dependencies
 
-1. [ASP.NET MVC](https://www.asp.net/mvc)
-1. [Entity Framework](https://msdn.com/data/ef)
-1. [MS Test](https://www.visualstudio.com/en-us/docs/test/developer-testing/index)
+- [ASP.NET MVC](https://www.asp.net/mvc)
+- [Entity Framework](https://msdn.com/data/ef)
+- [MS Test](https://www.visualstudio.com/en-us/docs/test/developer-testing/index)
 
 ### Features
 
