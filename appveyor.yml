@@ -7,6 +7,12 @@
 # version format
 version: 1.0.{build}
 
+# Skipping commits affecting specific files (GitHub only). More details here: /docs/appveyor-yml
+skip_commits:
+  files:
+    - docs/*
+    - '**/*.md'
+
 #---------------------------------#
 #    environment configuration    #
 #---------------------------------#
