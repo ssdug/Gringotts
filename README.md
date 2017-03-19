@@ -4,10 +4,12 @@
 
 ## TOC
 
- - [Contract for Magical Financial Management](#contract-for-magical-financial-management)
- - [Getting Started](#getting-started)
- - [External Dependencies](#external-dependencies)
- - [Platform Dependencies](#platform-dependencies)
+- [Contract for Magical Financial Management](#contract-for-magical-financial-management)
+- [Getting Started](#getting-started)
+- [External Dependencies](#external-dependencies)
+- [Platform Dependencies](#platform-dependencies)
+- [Features](#features)
+- [Architecture](#architecture)
 
 
 ### Contract for Magical Financial Management
@@ -59,3 +61,13 @@ will be fixed in a future version.
 1. [ASP.NET MVC](https://www.asp.net/mvc)
 1. [Entity Framework](https://msdn.com/data/ef)
 1. [MS Test](https://www.visualstudio.com/en-us/docs/test/developer-testing/index)
+
+### Features
+
+- [Accounts](/docs/mockups/account/readme.md)
+- [Clients](/docs/mockups/client/readme.md)
+- [Organizations](/docs/mockups/organization/readme.md)
+- [Vendors](/docs/mockups/vendor/readme.md)
+- [Dashboard](/docs/mockups/dashboard/readme.md)
+
+### Architecture
