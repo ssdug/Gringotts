@@ -4,7 +4,7 @@
 
 ## TOC
 
-- [Contract for Magical Financial Management](#contract-for-magical-financial-management)
+- [About](#about)
 - [Getting Started](#getting-started)
 - [External Dependencies](#external-dependencies)
 - [Platform Dependencies](#platform-dependencies)
@@ -12,7 +12,7 @@
 - [Architecture](#architecture)
 
 
-### Contract for Magical Financial Management
+### About
 
 The [Ministry of Magic](http://harrypotter.wikia.com/wiki/British_Ministry_of_Magic) hereby agrees to engage [Gringotts Wizarding Bank of England](http://harrypotter.wikia.com/wiki/Gringotts_Wizarding_Bank) for their unapparelled services in managing funds for all of its branches that provide services to the Magical Community.
 

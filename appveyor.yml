@@ -12,6 +12,7 @@ skip_commits:
   files:
     - docs/*
     - '**/*.md'
+    -'*.md'
 
 #---------------------------------#
 #    environment configuration    #
