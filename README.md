@@ -64,10 +64,10 @@ will be fixed in a future version.
 
 ### Features
 
-- [Accounts](/docs/mockups/account/readme.md)
-- [Clients](/docs/mockups/client/readme.md)
-- [Organizations](/docs/mockups/organization/readme.md)
-- [Vendors](/docs/mockups/vendor/readme.md)
-- [Dashboard](/docs/mockups/dashboard/readme.md)
+- [Accounts](/docs/mockups/account/readme.md?raw=true)
+- [Clients](/docs/mockups/client/readme.md?raw=true)
+- [Organizations](/docs/mockups/organization/readme.md?raw=true)
+- [Vendors](/docs/mockups/vendor/readme.md?raw=true)
+- [Dashboard](/docs/mockups/dashboard/readme.md?raw=true)
 
 ### Architecture
