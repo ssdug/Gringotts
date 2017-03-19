@@ -12,22 +12,18 @@
 
 ### Contract for Magical Financial Management
 
-The Ministry of Magic hereby agrees to engage Gringotts Wizarding Bank of England for 
-their unapparelled services in managing funds for all of its branches that provide 
-services to the Magical Community.
+The [Ministry of Magic](http://harrypotter.wikia.com/wiki/British_Ministry_of_Magic) hereby agrees to engage [Gringotts Wizarding Bank of England](http://harrypotter.wikia.com/wiki/Gringotts_Wizarding_Bank) for their unapparelled services in managing funds for all of its branches that provide services to the Magical Community.
 
-The Ministry shall entrust the skilled Goblins of Gringotts to care for the wizarding
-gold for it’s educational institution, Hogwarts School of Witchcraft and Wizardry, to
-see that student accounts are safe and secure. 
+The Ministry shall entrust the skilled Goblins of Gringotts to care for the wizarding gold for it's educational institution, [Hogwarts School of Witchcraft and Wizardry](http://harrypotter.wikia.com/wiki/Hogwarts_School_of_Witchcraft_and_Wizardry), to
+see that student accounts are safe and secure.
 
-In addition, Gringotts will manage the funds used for the running of Azkaban Wizard
-Prison to ensure that individuals who’ve broken magical law are kept safely away from
-the Magical Community and are property cared for during their incarceration. 
+In addition, Gringotts will manage the funds used for the running of [Azkaban Wizard Prison](http://harrypotter.wikia.com/wiki/Azkaban) to ensure that individuals who've broken magical law are kept safely away from
+the Magical Community and are property cared for during their incarceration.
 
 Gringotts shall also manage the gold used for all magical health and welfare serves
-provided by the Ministry including St. Mungo’s Hospital for Magical Maladies and
-Injuries, the Ariana Dumbledore Mental Health Institution, the Argus Flitch Home for
-Squibs and the Tom Riddle Memorial Orphanage. 
+provided by the Ministry including [St. Mungo's Hospital for Magical Maladies and
+Injuries](http://harrypotter.wikia.com/wiki/St_Mungo's_Hospital_for_Magical_Maladies_and_Injuries), the [Ariana Dumbledore](http://harrypotter.wikia.com/wiki/Ariana_Dumbledore) Mental Health Institution, the [Argus Flitch](http://harrypotter.wikia.com/wiki/Argus_Filch) Home for
+Squibs and the [Tom Riddle](http://harrypotter.wikia.com/wiki/Tom_Riddle) Memorial Orphanage.
 
 ### Getting Started
 
