@@ -2,11 +2,11 @@
 
 ## Organization Add or Edit
 
-![Organization Add or Edit](organization-addoredit.png)
+![Organization Add or Edit](Organization-AddOrEdit.png)
 
 ## Organization Navigation
 
-![Organization Navigation](organization-navigation.png)
+![Organization Navigation](Organization-Navigation.png)
 
 ## Organization Select
 

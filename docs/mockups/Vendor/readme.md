@@ -2,7 +2,7 @@
 
 ## Vendor Add or Edit
 
-![Vendor Add or Edit](vendor-addoredit.png)
+![Vendor Add or Edit](Vendor-AddOrEdit.png)
 
 ## Vendor Detail
 
@@ -10,4 +10,4 @@
 
 ## Vendor List
 
-![Vendor List](vendor-list.png)
+![Vendor List](Vendor-List.png)
