@@ -39,17 +39,20 @@ Squibs and the [Tom Riddle](http://harrypotter.wikia.com/wiki/Tom_Riddle) Memori
 1. Run the command `Update-Database`
 1. Hit `F5` to start the web application.
 
-**Note:** This application will run mostly out of the box. It has direct dependencies on Active Directory,
-so some functions will throw an error attempting to validate something in AD. Gringotts assures us this 
-will be fixed in a future version.
+**Note:** This application will run mostly out of the box. It has direct dependencies on Active Directory, so some functions will throw an error attempting to validate something in AD. Gringotts assures us this will be fixed in a future version.
 
 ### External Dependencies
+
+#### .NET
 
 - [Autofac](https://autofac.org/) - Dependency Intection framework used for service and plugin registration
 - [ImageResizer](https://imageresizing.net/) - Image Manipulation library used to resize profile images
 - [MediatR](https://github.com/jbogard/MediatR) - Simple Mediator implementation used to process Commands, Queries & Notifications
 - [NLog](http://nlog-project.org/) - NLog makes it easy to produce and manage high-quality logs for your application
 - [Glimpse](http://getglimpse.com/) - Providing real time diagnostics & insights
+
+#### JavaScript, HTML, CSS
+
 - [jQuery](https://jquery.com/) - jQuery is a fast, small, and feature-rich JavaScript library
 - [lodash](https://lodash.com/) - A modern JavaScript utility library delivering modularity, performance & extras
 - [mustache.js](https://mustache.github.io/) - Logic-less client side templates
@@ -71,3 +74,10 @@ will be fixed in a future version.
 - [Dashboard](/docs/mockups/dashboard/readme.md?raw=true)
 
 ### Architecture
+
+- [Logging](/docs/logging.md?raw=true)
+- [Data Access](/docs/dataaccess.md?raw=true)
+- [Diagnostics](/docs/diagnostics.md?raw=true)
+- [Multitenancy](/docs/multitenancy.md?raw=true)
+- [Dependency Injection](/docs/dependencyinjection.md?raw=true)
+- [Command/Query Seperation](/docs/commandqueryseperation.md?raw=true)
