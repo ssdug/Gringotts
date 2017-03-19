@@ -8,7 +8,7 @@ using Wiz.Gringotts.UIWeb.Models.Clients;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 
-namespace Wiz.Gringotts.UIWeb.Models.Clients
+namespace Wiz.Gringotts.UIWeb.Tests.Models.Clients
 {
     [TestClass]
     public class ClientEditorFormPayeesValidationHandlerTests

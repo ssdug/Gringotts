@@ -10,9 +10,10 @@ using MediatR;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using PagedList;
-using Wiz.Gringotts.UIWeb.Helpers;
+using Wiz.Gringotts.UIWeb.Tests.Helpers;
+using Wiz.Gringotts.UIWeb.Controllers;
 
-namespace Wiz.Gringotts.UIWeb.Controllers
+namespace Wiz.Gringotts.UIWeb.Tests.Controllers
 {
     [TestClass]
     public class ClientsControllerTests

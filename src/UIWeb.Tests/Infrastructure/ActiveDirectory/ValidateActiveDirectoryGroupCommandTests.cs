@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 
-namespace Wiz.Gringotts.UIWeb.Infrastructure.ActiveDirectory
+namespace Wiz.Gringotts.UIWeb.Tests.Infrastructure.ActiveDirectory
 {
     [TestClass]
     public class ValidateActiveDirectoryGroupCommandTests

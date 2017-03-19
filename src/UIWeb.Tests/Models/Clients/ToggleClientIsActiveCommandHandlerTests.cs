@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Autofac.Extras.NLog;
-using Wiz.Gringotts.UIWeb.Helpers;
+using Wiz.Gringotts.UIWeb.Tests.Helpers;
 using Wiz.Gringotts.UIWeb.Data;
 using Wiz.Gringotts.UIWeb.Infrastructure.Commands;
 using Wiz.Gringotts.UIWeb.Infrastructure.Multitenancy;
@@ -12,7 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NExtensions;
 using NSubstitute;
 
-namespace Wiz.Gringotts.UIWeb.Models.Clients
+namespace Wiz.Gringotts.UIWeb.Tests.Models.Clients
 {
     [TestClass]
     public class ToggleClientIsActiveCommandHandlerTests

@@ -2,14 +2,14 @@
 using System.Security.Principal;
 using System.Threading.Tasks;
 using Autofac.Extras.NLog;
-using Wiz.Gringotts.UIWeb.Helpers;
+using Wiz.Gringotts.UIWeb.Tests.Helpers;
 using Wiz.Gringotts.UIWeb.Data.Interceptors;
 using Wiz.Gringotts.UIWeb.Infrastructure.Security;
 using Wiz.Gringotts.UIWeb.Models.Organizations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 
-namespace Wiz.Gringotts.UIWeb.Data.Interceptors
+namespace Wiz.Gringotts.UIWeb.Tests.Data.Interceptors
 {
     [TestClass]
     public class AuditChangeInterceptorTests

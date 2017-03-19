@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Wiz.Gringotts.UIWeb.Helpers
+namespace Wiz.Gringotts.UIWeb.Tests.Helpers
 {
     /// <summary>
     /// Helper class to simplify common reflection tasks.

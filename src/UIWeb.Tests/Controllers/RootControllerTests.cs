@@ -6,7 +6,7 @@ using Wiz.Gringotts.UIWeb.Infrastructure.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 
-namespace Wiz.Gringotts.UIWeb.Controllers
+namespace Wiz.Gringotts.UIWeb.Tests.Controllers
 {
     [TestClass]
     public class RootControllerTests

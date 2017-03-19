@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using Wiz.Gringotts.UIWeb.Helpers;
+using Wiz.Gringotts.UIWeb.Tests.Helpers;
 using Wiz.Gringotts.UIWeb.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Wiz.Gringotts.UIWeb.Data
+namespace Wiz.Gringotts.UIWeb.Tests.Data
 {
     [TestClass]
     public class AccountTypePersistenceTests

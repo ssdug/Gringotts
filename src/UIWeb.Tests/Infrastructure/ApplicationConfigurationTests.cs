@@ -3,7 +3,7 @@ using System.Linq;
 using Wiz.Gringotts.UIWeb.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Wiz.Gringotts.UIWeb.Infrastructure
+namespace Wiz.Gringotts.UIWeb.Tests.Infrastructure
 {
     [TestClass]
     public class ApplicationConfigurationTests

@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Wiz.Gringotts.UIWeb
+namespace Wiz.Gringotts.UIWeb.Tests
 {
     [TestClass]
     public class RealityTests

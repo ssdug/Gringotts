@@ -7,7 +7,7 @@ using Wiz.Gringotts.UIWeb.Filters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 
-namespace Wiz.Gringotts.UIWeb.Filters
+namespace Wiz.Gringotts.UIWeb.Tests.Filters
 {
     [TestClass]
     public class NegotiateTests

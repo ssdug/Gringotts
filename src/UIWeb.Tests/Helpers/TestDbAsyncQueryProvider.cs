@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Wiz.Gringotts.UIWeb.Helpers
+namespace Wiz.Gringotts.UIWeb.Tests.Helpers
 {
     public class TestDbAsyncEnumerable<T> : EnumerableQuery<T>, IDbAsyncEnumerable<T>, IQueryable<T>
     {

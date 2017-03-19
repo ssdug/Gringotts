@@ -6,7 +6,7 @@ using Wiz.Gringotts.UIWeb.Models.Organizations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 
-namespace Wiz.Gringotts.UIWeb.Models.Organizations
+namespace Wiz.Gringotts.UIWeb.Tests.Models.Organizations
 {
     [TestClass]
     public class SelectTenantOrganizationQueryHandlerTests

@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Runtime.CompilerServices;
-using Wiz.Gringotts.UIWeb.Helpers;
+using Wiz.Gringotts.UIWeb.Tests.Helpers;
 using Wiz.Gringotts.UIWeb.Data;
 using Wiz.Gringotts.UIWeb.Models.Accounts;
 using Wiz.Gringotts.UIWeb.Models.Clients;
@@ -8,7 +8,7 @@ using Wiz.Gringotts.UIWeb.Models.Funds;
 using Wiz.Gringotts.UIWeb.Models.Organizations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Wiz.Gringotts.UIWeb.Data
+namespace Wiz.Gringotts.UIWeb.Tests.Data
 {
     [TestClass]
     public class FundPersistenceTests

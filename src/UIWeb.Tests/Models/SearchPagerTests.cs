@@ -1,7 +1,7 @@
 ﻿using Wiz.Gringotts.UIWeb.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Wiz.Gringotts.UIWeb.Models
+namespace Wiz.Gringotts.UIWeb.Tests.Models
 {
     [TestClass]
     public class SearchPagerTests

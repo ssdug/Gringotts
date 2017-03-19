@@ -7,7 +7,7 @@ using Wiz.Gringotts.UIWeb;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 
-namespace Wiz.Gringotts.UIWeb
+namespace Wiz.Gringotts.UIWeb.Tests
 {
     [TestClass]
     public class RouteConfigTests

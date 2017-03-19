@@ -3,12 +3,11 @@ using System.Threading.Tasks;
 using Autofac;
 using Autofac.Core;
 using Autofac.Extras.NLog;
-using Wiz.Gringotts.UIWeb;
 using Wiz.Gringotts.UIWeb.Infrastructure.Mediation;
 using MediatR;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Wiz.Gringotts.UIWeb
+namespace Wiz.Gringotts.UIWeb.Tests.Tests
 {
     [TestClass]
     public class ContainerBuilderTests

@@ -10,7 +10,7 @@ using Wiz.Gringotts.UIWeb.Infrastructure.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 
-namespace Wiz.Gringotts.UIWeb.Filters
+namespace Wiz.Gringotts.UIWeb.Tests.Filters
 {
     [TestClass]
     public class AuthorizeTests

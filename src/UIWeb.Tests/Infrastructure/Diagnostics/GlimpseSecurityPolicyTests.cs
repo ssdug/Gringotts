@@ -8,7 +8,7 @@ using Http.TestLibrary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 
-namespace Wiz.Gringotts.UIWeb.Infrastructure.Diagnostics
+namespace Wiz.Gringotts.UIWeb.Tests.Infrastructure.Diagnostics
 {
     [TestClass]
     public class GlimpseSecurityPolicyTests

@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using Wiz.Gringotts.UIWeb.Helpers;
+using Wiz.Gringotts.UIWeb.Tests.Helpers;
 using Wiz.Gringotts.UIWeb.Data;
 using Wiz.Gringotts.UIWeb.Models.Organizations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Wiz.Gringotts.UIWeb.Data
+namespace Wiz.Gringotts.UIWeb.Tests.Data
 {
     [TestClass]
     public class OrganizationPersistenceTests

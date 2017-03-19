@@ -5,13 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Autofac.Extras.NLog;
-using Wiz.Gringotts.UIWeb.Helpers;
+using Wiz.Gringotts.UIWeb.Tests.Helpers;
 using Wiz.Gringotts.UIWeb.Data;
 using Wiz.Gringotts.UIWeb.Models.Clients;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 
-namespace Wiz.Gringotts.UIWeb.Models.Clients
+namespace Wiz.Gringotts.UIWeb.Tests.Models.Clients
 {
     [TestClass]
     public class ClientEditorFormIdentifierValidationHandlerTests

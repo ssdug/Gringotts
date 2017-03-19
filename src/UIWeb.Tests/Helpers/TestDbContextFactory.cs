@@ -9,7 +9,7 @@ using Wiz.Gringotts.UIWeb.Data.Interceptors;
 using Wiz.Gringotts.UIWeb.Data.Migrations;
 using NExtensions;
 
-namespace Wiz.Gringotts.UIWeb.Helpers
+namespace Wiz.Gringotts.UIWeb.Tests.Helpers
 {
     public class TestConfiguration : Configuration
     {

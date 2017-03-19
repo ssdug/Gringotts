@@ -1,7 +1,7 @@
 ﻿using Wiz.Gringotts.UIWeb.Models.Payees;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Wiz.Gringotts.UIWeb.Models.Payees
+namespace Wiz.Gringotts.UIWeb.Tests.Models.Payees
 {
     [TestClass]
     public class PayeeTests

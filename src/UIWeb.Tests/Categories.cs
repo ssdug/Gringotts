@@ -1,4 +1,4 @@
-﻿namespace Wiz.Gringotts.UIWeb
+﻿namespace Wiz.Gringotts.UIWeb.Tests
 {
     public static class Categories
     {

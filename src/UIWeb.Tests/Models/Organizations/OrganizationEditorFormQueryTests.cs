@@ -3,14 +3,14 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac.Extras.NLog;
-using Wiz.Gringotts.UIWeb.Helpers;
+using Wiz.Gringotts.UIWeb.Tests.Helpers;
 using Wiz.Gringotts.UIWeb.Models;
 using Wiz.Gringotts.UIWeb.Models.Features;
 using Wiz.Gringotts.UIWeb.Models.Organizations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 
-namespace Wiz.Gringotts.UIWeb.Models.Organizations
+namespace Wiz.Gringotts.UIWeb.Tests.Models.Organizations
 {
     [TestClass]
     public class OrganizationEditorFormQueryTests

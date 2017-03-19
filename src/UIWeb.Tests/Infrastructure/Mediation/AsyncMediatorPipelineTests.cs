@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 
-namespace Wiz.Gringotts.UIWeb.Infrastructure.Mediation
+namespace Wiz.Gringotts.UIWeb.Tests.Infrastructure.Mediation
 {
     [TestClass]
     public class AsyncMediatorPipelineTests

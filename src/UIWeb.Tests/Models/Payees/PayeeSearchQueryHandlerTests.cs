@@ -1,14 +1,14 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Autofac.Extras.NLog;
-using Wiz.Gringotts.UIWeb.Helpers;
+using Wiz.Gringotts.UIWeb.Tests.Helpers;
 using Wiz.Gringotts.UIWeb.Models;
 using Wiz.Gringotts.UIWeb.Models.Organizations;
 using Wiz.Gringotts.UIWeb.Models.Payees;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 
-namespace Wiz.Gringotts.UIWeb.Models.Payees
+namespace Wiz.Gringotts.UIWeb.Tests.Models.Payees
 {
     [TestClass]
     public class PayeeSearchQueryHandlerTests

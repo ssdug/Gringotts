@@ -3,7 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Autofac.Extras.NLog;
-using Wiz.Gringotts.UIWeb.Helpers;
+using Wiz.Gringotts.UIWeb.Tests.Helpers;
 using Wiz.Gringotts.UIWeb.Controllers;
 using Wiz.Gringotts.UIWeb.Infrastructure.Commands;
 using Wiz.Gringotts.UIWeb.Models.Payees;
@@ -12,7 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using PagedList;
 
-namespace Wiz.Gringotts.UIWeb.Controllers
+namespace Wiz.Gringotts.UIWeb.Tests.Controllers
 {
     [TestClass]
     public class PayeesControllerTests

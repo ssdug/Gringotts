@@ -1,7 +1,7 @@
 ﻿using Wiz.Gringotts.UIWeb.Models.Users;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Wiz.Gringotts.UIWeb.Models.Users
+namespace Wiz.Gringotts.UIWeb.Tests.Models.Users
 {
     [TestClass]
     public class UserModelTests

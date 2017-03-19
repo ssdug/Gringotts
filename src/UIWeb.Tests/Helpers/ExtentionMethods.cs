@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NSubstitute;
 
-namespace Wiz.Gringotts.UIWeb.Helpers
+namespace Wiz.Gringotts.UIWeb.Tests.Helpers
 {
     public static class ExtentionMethods
     {

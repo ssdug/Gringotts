@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Wiz.Gringotts.UIWeb.Fakes
+namespace Wiz.Gringotts.UIWeb.Tests.Fakes
 {
     internal class TestDbAsyncQueryProvider<TEntity> : IDbAsyncQueryProvider 
     { 
