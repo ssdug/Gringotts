@@ -7,7 +7,7 @@ using Wiz.Gringotts.UIWeb.Infrastructure.Mediation;
 using MediatR;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Wiz.Gringotts.UIWeb.Tests.Tests
+namespace Wiz.Gringotts.UIWeb.Tests
 {
     [TestClass]
     public class ContainerBuilderTests
