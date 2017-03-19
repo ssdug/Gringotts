@@ -41,6 +41,10 @@ Squibs and the Tom Riddle Memorial Orphanage.
 1. Run the command `Update-Database`
 1. Hit `F5` to start the web application.
 
+**Note:** This application will run mostly out of the box. It has direct dependencies on Active Directory,
+so some functions will throw an error attempting to validate something in AD. Gringotts assures us this 
+will be fixed in a future version.
+
 ### External Dependencies
 
 1. [Autofac](https://autofac.org/) - Dependency Intection framework used for service and plugin registration
