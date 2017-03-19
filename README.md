@@ -67,11 +67,11 @@ Squibs and the [Tom Riddle](http://harrypotter.wikia.com/wiki/Tom_Riddle) Memori
 
 ### Features
 
-- [Accounts](docs/mockups/account/readme.md)
-- [Clients](docs/mockups/client/readme.md)
-- [Organizations](docs/mockups/organization/readme.md)
-- [Vendors](docs/mockups/vendor/readme.md)
-- [Dashboard](docs/mockups/dashboard/readme.md)
+- [Accounts](docs/mockups/Account/readme.md)
+- [Clients](docs/mockups/Client/readme.md)
+- [Organizations](docs/mockups/Organization/readme.md)
+- [Vendors](docs/mockups/Vendor/readme.md)
+- [Dashboard](docs/mockups/Dashboard/readme.md)
 
 ### Architecture
 
