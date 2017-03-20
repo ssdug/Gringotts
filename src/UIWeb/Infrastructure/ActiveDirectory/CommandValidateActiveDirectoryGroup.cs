@@ -35,36 +35,36 @@ namespace Wiz.Gringotts.UIWeb.Infrastructure.ActiveDirectory
         }
     }
 
-    public class ValidateActiveDirectoryGroupCommandHandler : IAsyncRequestHandler<ValidateActiveDirectoryGroupCommand, ICommandResult>, IDisable
-    {
-        public ILogger Logger { get; set; }
+    //public class ValidateActiveDirectoryGroupCommandHandler : IAsyncRequestHandler<ValidateActiveDirectoryGroupCommand, ICommandResult>, IDisable
+    //{
+    //    public ILogger Logger { get; set; }
 
-        private readonly ILdapProvider ldapProvider;
+    //    private readonly ILdapProvider ldapProvider;
 
-        public ValidateActiveDirectoryGroupCommandHandler(ILdapProvider ldapProvider)
-        {
-            this.ldapProvider = ldapProvider;
-        }
+    //    public ValidateActiveDirectoryGroupCommandHandler(ILdapProvider ldapProvider)
+    //    {
+    //        this.ldapProvider = ldapProvider;
+    //    }
 
-        public Task<ICommandResult> Handle(ValidateActiveDirectoryGroupCommand message)
-        {
-            Logger.Trace("Handle::{0}", message.GroupName);
+    //    public Task<ICommandResult> Handle(ValidateActiveDirectoryGroupCommand message)
+    //    {
+    //        Logger.Trace("Handle::{0}", message.GroupName);
 
-            return Task.Run<ICommandResult>(() =>
-            {
-                if (!message.AllowApplicationGroups && GroupIsNotAllowed(message.GroupName))
-                    return new FailureResult("Application Role Groups are not allowed as an Organizational Group.");
+    //        return Task.Run<ICommandResult>(() =>
+    //        {
+    //            if (!message.AllowApplicationGroups && GroupIsNotAllowed(message.GroupName))
+    //                return new FailureResult("Application Role Groups are not allowed as an Organizational Group.");
 
-                if (ldapProvider.GroupExists(message.GroupName))
-                    return new SuccessResult(true);
+    //            if (ldapProvider.GroupExists(message.GroupName))
+    //                return new SuccessResult(true);
 
-                return new FailureResult("Group not found in active directory.");
-            });
-        }
+    //            return new FailureResult("Group not found in active directory.");
+    //        });
+    //    }
 
-        private bool GroupIsNotAllowed(string groupName)
-        {
-            return ApplicationRoles.All.Contains(groupName);
-        }
-    }
+    //    private bool GroupIsNotAllowed(string groupName)
+    //    {
+    //        return ApplicationRoles.All.Contains(groupName);
+    //    }
+    //}
 }
