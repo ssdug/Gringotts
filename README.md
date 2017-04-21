@@ -1,4 +1,4 @@
-# Gringotts Financial [![Build status](https://ci.appveyor.com/api/projects/status/r26bfloq6gl2b7r8?svg=true)](https://ci.appveyor.com/project/NotMyself/gringotts)
+# Gringotts Financial [![Build status](https://ci.appveyor.com/api/projects/status/r26bfloq6gl2b7r8?svg=true)](https://ci.appveyor.com/project/NotMyself/gringotts)  [![Join us](https://ssdug-slackin.azurewebsites.net/badge.svg)](https://ssdug-slackin.azurewebsites.net/)
 
 ![Gringotts](/docs/images/gringotts_wide.jpg?raw=true "Gringotts")
 
