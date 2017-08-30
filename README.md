@@ -1,4 +1,4 @@
-# Gringotts Financial [![Build status](https://ci.appveyor.com/api/projects/status/k5vlp5ew6e7nbot7/branch/master?svg=true)](https://ci.appveyor.com/project/ssdugadmin21923/gringotts/branch/master) [![Join us](https://notmyself.run.webtask.io/ssdug-slackin/badge.svg)](https://notmyself.run.webtask.io/ssdug-slackin/)
+# Gringotts Financial [![Build status](https://ci.appveyor.com/api/projects/status/k5vlp5ew6e7nbot7/branch/master?svg=true)](https://ci.appveyor.com/project/ssdugadmin21923/gringotts/branch/master) [![Join us](https://webtasks.iamnotmyself.com/notmyself/ssdug-slackin/badge.svg)](https://webtasks.iamnotmyself.com/notmyself/ssdug-slackin/)
 
 ![Gringotts](/docs/images/gringotts_wide.jpg?raw=true "Gringotts")
 
